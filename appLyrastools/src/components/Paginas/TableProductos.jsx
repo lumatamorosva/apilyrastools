@@ -90,7 +90,7 @@ export default function TableProducts() {
   if (error) return <p>Error: {error.message}</p>;
   return (
     <>
-    <Typography variant="h5" gutterBottom>Listado de Productos 
+    <Typography variant="h5" gutterBottom>Listado de Herramientas
       <Tooltip title="Crear"><IconButton component={Link} to="/producto/crear/" color="success"> <AddIcon/></IconButton> </Tooltip>
     </Typography>
       
