@@ -1,0 +1,147 @@
+import React, { useState } from 'react';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Grid from '@mui/material/Grid2';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import Select from '@mui/material/Select';
+import Box from '@mui/material/Box';
+import PropTypes from 'prop-types';
+import { useCart } from '../../hooks/useCart';
+import TextField from '@mui/material/TextField';
+//Para la ventana emergente
+import CardActionArea from '@mui/material/CardActionArea';
+import Emergente from './Emergente';
+
+
+
+ListCardProductos.propTypes = {
+  data: PropTypes.array,
+  isShopping: PropTypes.bool.isRequired,
+};
+
+export function ListCardProductos({ data, isShopping }) {
+
+  const { addItem } =useCart()
+  //Url para acceder a la imagenes guardadas en el API
+  const BASE_URL = import.meta.env.VITE_BASE_URL + 'uploads';
+  const [open, setOpen] = useState(false);
+  const [productoActivo, setProductoActivo] = useState(null);
+
+  //Funcion para el popup
+  async function abrirPopup(item) {
+    setProductoActivo(item);
+    setOpen(true);
+  }
+  const cerrarPopup = () => {
+    setOpen(false);
+    setProductoActivo(null);
+  };
+  
+  //Para el dropDownOrden
+  const [orden, setOrden] = useState('');
+  const handleChange = (event) => {
+    setOrden(event.target.value); // Actualiza el estado con el valor seleccionado
+  };
+  //Para el dropDownCantidad
+  const [modo, setModo] = useState('');
+  const handleChange1 = (event) => {
+    setModo(event.target.value); // Actualiza el estado con el valor seleccionado
+  };
+
+  return (
+    <>
+    <Grid row size={12}>
+      <Box sx={{display:'flex', borderRadius:1, backgroundColor:(theme) => theme.palette.secondary.main}}>
+        {/* Orden Dropdown */}
+       <FormControl sx={{ m: 1, minWidth: 220 }} size="small">
+        <InputLabel id="ordenDropDown">Orden</InputLabel>
+          <Select labelId="ordenDropDown" id="ordenDropDown" value={orden} label="ordenDropDown" onChange={handleChange}>
+            <MenuItem value={'descendente'}>Mayor a menor</MenuItem>
+            <MenuItem value={'ascendente'}>Menor a mayor</MenuItem>
+          </Select>
+        </FormControl>
+        {/* Modo Dropdown */}
+       <FormControl sx={{ m: 1, minWidth: 220 }} size="small">
+        <InputLabel id="modoDropDown">Artículos</InputLabel>
+          <Select labelId="modoDropDown" id="modoDropDown" value={modo} label="modoDropDown" onChange={handleChange1}>
+            <MenuItem value={'10'}>10</MenuItem>
+            <MenuItem value={'30'}>30</MenuItem>
+            <MenuItem value={'40'}>40</MenuItem>
+          </Select>
+        </FormControl>
+          <Box sx={{alignContent:'center', mr:'1px', ml:'auto'}}>
+            <Stack spacing={2}>
+              <Pagination count={4} shape="rounded" />
+            </Stack>
+        </Box>
+      </Box>
+      
+    </Grid>
+    <Grid sx={{display:'flex', mt:'10px'}}>
+      <Box size={4} sx={{borderRadius:1, backgroundColor:(theme) => theme.palette.secondary.main, p:'15px'}}>Aquí van los filtros</Box>
+        <Grid size={8} container sx={{ p: 2 }} spacing={3}>
+        {/* ()=>{} */}
+        {data &&
+          data.map((item) => (
+            <Grid size={4} key={item.id}>
+              <Card>
+                <CardActionArea onClick={() => item && abrirPopup(item)}>
+                <CardHeader
+                  sx={{
+                    p: 0,
+                    backgroundColor: (theme) => theme.palette.secondary.main,
+                    color: (theme) => theme.palette.common.white,
+                  }}
+                  style={{ textAlign: 'center' }}
+                  title={item.title}
+                  subheader={item.year}
+                />
+                <CardMedia
+                  component="img"  image={`${BASE_URL}/${item?.Imagen}`} alt={item.Imagen}
+                />
+                <CardContent>
+                  <Typography variant="body3" color="text.primary" align="center"> {item.NombreProducto}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <LocalAtmIcon/> Precio: ₡{Number(item.Precio).toLocaleString('en-US')}
+                  </Typography>
+                  {isShopping && (
+                    <Typography variant="h6" align="right" gutterBottom>
+                      &cent;{item.Precio}
+                    </Typography>
+                  )}
+                </CardContent>
+                </CardActionArea>
+                <CardActions
+                  disableSpacing
+                  sx={{
+                    backgroundColor: (theme) => theme.palette.action.focus,
+                    color: (theme) => theme.palette.common.white,
+                  }}
+                >
+                  <IconButton onClick
+                    sx={{ mr: '10%', ml: 'auto' ,border:'0.5px solid', borderRadius:1,width:'40%'}}
+                  ><ShoppingCartIcon />
+                  </IconButton>
+                  <TextField  size='small' style={{width:'50%',maxWidth:'50%', ml: '10%', mr: 'auto'}}></TextField>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+      </Grid>
+    </Grid>
+    
+    <Emergente open={open} onClose={cerrarPopup} item={productoActivo} BASE_URL={BASE_URL} /></>
+  );
+}

@@ -1,0 +1,12 @@
+{
+    "eng":{
+        "ListCardProductos":{
+            "Precio":"Price"
+        }
+    },
+    "esp":{
+        "ListCardProductos":{
+            "Precio":"Precio"
+        }
+    }
+}
