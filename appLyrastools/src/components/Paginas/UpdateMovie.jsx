@@ -14,7 +14,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate, useParams } from 'react-router-dom';
 import GenreService from '../../services/GenreService';
-import ActorService from '../../services/ActorService';
+import ActorService from '../../services/CategoriaService';
 import MovieService from '../../services/ProductoService';
 import { toast } from 'react-hot-toast';
 import { SelectMarca } from './Form/SeleccionarMarca';

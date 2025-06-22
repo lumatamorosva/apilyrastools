@@ -10,9 +10,11 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import MarcaService from '../../services/MarcaService';
+import CategoriaService from '../../services/CategoriaService';
 import { SelectMarca } from './Form/SeleccionarMarca';
+import { SelectCategoria } from './Form/SeleccionarCategorias';
 import { FormHelperText } from '@mui/material';
-import MovieService from '../../services/ProductoService';
+import ProductoService from '../../services/ProductoService';
 import toast from 'react-hot-toast';
 import ImageService from '../../services/ImageService';
 
@@ -21,32 +23,30 @@ export function CreateProducto() {
   let formData=new FormData()
   // Esquema de validación
   const productoSchema = yup.object({
-    Nombre: yup
+    nombre: yup
           .string()
-          .required('El título es requerido')
-          .min(2, "El título debe tener 2 carácteres"),
-    time: yup
-          .string()
-          .required('La duración es requerida'),
-    lang: yup
-          .string()
-          .required('El idioma es requerido'),
-    year: yup
+          .required('El nombre del artículo es requerido'),
+    existencias: yup
           .number()
-          .typeError('Solo acepta números')
-          .required('El año es requerido')
-          .positive('Solo acepta números positivos'),
-    director_id: yup
+          .transform((value, originalValue) => originalValue === '' ? undefined : value)
+          .positive('Deben haber al menos 1')
+          .required('Este campo es requerido'),
+    precio: yup
           .number()
-          .typeError('Seleccione un director')
-          .required('El director es requerido'),
-    genres: yup.array().of(yup.number().required('Seleccione un género')).min(1,'Seleccione un género'),
-    actors: yup.array().of(yup.object().shape({
-      actor_id: yup.number().typeError('El actor es requerido')
-            .required('El actor es requerido'),
-      role: yup.string().required('El rol es requerido')
-    }))
-    
+          .transform((value, originalValue) => originalValue === '' ? undefined : value)
+          .positive('El precio mínimo aceptable es ₡1')
+          .required('El precio es requerido'),
+    descripcion: yup
+          .string()
+          .required('La descripción del artículo es requerida'),
+    marca: yup
+          .number()
+          .typeError('Seleccione una marca de la lista')
+          .required('Seleccione una marca de la lista'),
+    categoria: yup
+          .number()
+          .typeError('Seleccione una categoria de la lista')
+          .required('Seleccione una categoria de la lista')
   });
   const {
     control, //register
@@ -77,7 +77,7 @@ export function CreateProducto() {
     try {
        if(productoSchema.isValid()){
         //Crear pelicula
-        MovieService.createMovie(DataForm)
+        ProductoService.createProducto(DataForm)
         .then((response)=>{
           setError(response.error)
           //Respuesta al usuario
@@ -93,7 +93,6 @@ export function CreateProducto() {
                   duration:4000,
                   position: "top-center"
                 })
-                
               }
             })
             .catch((error) => {
@@ -104,14 +103,14 @@ export function CreateProducto() {
               }
             })
             toast.success(
-              `Pelicula creada #${response.data.id} - ${response.data.title}`,
+              `Producto creado satisfactoriamente #${response.data.id} - ${response.data.title}`,
               {
                 duration: 4000,
                 position:'top-center'
               }
             )
-            //Redirección tabla de peliculas  
-            return navigate('/movie-table')
+            //Redirección tabla de productos  
+            return navigate('/product-table')
             }
         })
         .catch((error) => {
@@ -127,7 +126,7 @@ export function CreateProducto() {
     }
   };
 
-  //Lista de Marcas
+//Lista de Marcas
   const [dataMarca, setDataMarca] = useState({});
   const [loadedMarca, setLoadedMarca] = useState(false);
   useEffect(() => {
@@ -146,8 +145,27 @@ export function CreateProducto() {
         }
       });
   }, []);
+//Lista de Categorias
+  const [dataCategoria, setDataCategoria] = useState({});
+  const [loadedCategoria, setLoadedCategoria] = useState(false);
+  useEffect(() => {
+    CategoriaService.getCategorias()
+      .then((response) => {
+        console.log(response);
+        setDataCategoria(response.data);
+        setLoadedCategoria(true);
+      })
+      .catch((error) => {
+        if (error instanceof SyntaxError) {
+          console.log(error);
+          setError(error);
+          setLoadedMarca(false);
+          throw new Error('Respuesta no válida del servidor');
+        }
+      });
+  }, []);
 
-  /* Gestion de imagen */
+/* Gestion de imagen */
   const [file,setFile]=useState(null)
   const [fileURL, setFileURL]=useState(null)
   function handleChangeImage(e){
@@ -159,7 +177,7 @@ export function CreateProducto() {
     }
   }
   if (error) return <p>Error: {error.message}</p>;
-  //GUI de la página
+//GUI de la página
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
@@ -170,26 +188,32 @@ export function CreateProducto() {
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name='nombre' control={control}
               render={({field})=>( <TextField {...field} id="nombre" label="Nombre" error={Boolean(errors.title)} />)}
-            /></FormControl>
+            /><FormHelperText sx={{color: '#d32f2f'}}> {errors.nombre ? errors.nombre.message : ' '} </FormHelperText>
+            </FormControl>
           </Grid>
           <Grid xs={12} md={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="existencias" control={control}
                 render={({ field }) => ( <TextField {...field} id="existencias" label="Existencias" error={Boolean(errors.year)} /> )}
-            /> </FormControl>
+            /><FormHelperText sx={{color: '#d32f2f'}}> {errors.existencias ? errors.existencias.message : ' '} </FormHelperText>
+             </FormControl>
           </Grid>
           <Grid xs={12} md={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="precio" control={control}
                 render={({ field }) => ( <TextField {...field} id="precio" label="Precio" error={Boolean(errors.time)} /> )}
-            /> </FormControl>
+            /><FormHelperText sx={{color: '#d32f2f'}}> {errors.precio ? errors.precio.message : ' '} </FormHelperText>
+             </FormControl>
           </Grid>
           <Grid size={12}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="descripcion" control={control}
                 render={({ field }) => ( <TextField {...field} id="descripcion" label="Descripción" error={Boolean(errors.lang)} multiline/> )}
-            /> </FormControl>
+            />
+            <FormHelperText sx={{color: '#d32f2f'}}> {errors.descripcion ? errors.descripcion.message : ' '} </FormHelperText>
+             </FormControl>
           </Grid>
+          {/*Desplegable de Marcas*/}
           <Grid size={4} sm={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               {loadedMarca && (
@@ -200,28 +224,27 @@ export function CreateProducto() {
               </FormHelperText>
             </FormControl>
           </Grid>
-
+          {/*Desplegable de Cats*/}
+          <Grid size={4} sm={4}>
+            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+              {loadedCategoria && (
+                <Controller name='categoria' control={control} defaultValue=""
+                  render={({field})=>( <SelectCategoria field={field} data={dataCategoria}/> )} /> )}
+              <FormHelperText sx={{color: '#d32f2f'}}>
+                {errors.categoria ? errors.categoria.message : ' '}
+              </FormHelperText>
+            </FormControl>
+          </Grid>
+          {/*Control de imagen del producto*/}
           <Grid size={12} sm={12}>
               <FormControl variant='standard' fullWidth sx={{m:1}}>
-                <Controller
-                  name='image'
-                  control={control}
-                  render={({field})=>(
-                    <input type='file' {...field} onChange={handleChangeImage} />
-                  )}
-                />
+                <Controller name='image' control={control}
+                  render={({field})=>( <input type='file' {...field} onChange={handleChangeImage} /> )} />
               </FormControl>
               <img src={fileURL} width={300}/>
           </Grid>
           <Grid size={12} sm={12}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="secondary"
-              sx={{ m: 1 }}
-            >
-              Guardar
-            </Button>
+            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }} > Guardar </Button>
           </Grid>
         </Grid>
       </form>

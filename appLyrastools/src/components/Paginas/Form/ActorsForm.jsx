@@ -9,7 +9,6 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import Tooltip from '@mui/material/Tooltip';
-import { SelectActors } from './SelectActors';
 import { Controller } from 'react-hook-form';
 import PropTypes from 'prop-types';
 
@@ -49,7 +48,9 @@ export function ActorsForm({
                 name={`actors.${index}.actor_id`}
                 control={control}
                 render={({ field }) => (
-                  <SelectActors field={field} data={data} />
+                  //SelectActors se cambió para las cats (El 1 para que no diga que está vacío)
+                  //<SelectActors field={field} data={data} />
+                  1
                 )}
               />
             </ListItemText>
