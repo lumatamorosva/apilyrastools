@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import MovieService from '../../services/ProductoService';
-import { ListCardProductos } from './ListCardProductos';
+import { ListCardProductos } from './ListaCardsProductos';
 
 export function ListMovies() {
   //Resultado de consumo del API, respuesta

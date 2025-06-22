@@ -7,13 +7,13 @@ SelectMarca.propTypes = {
   data: PropTypes.array,
   field: PropTypes.object,
 };
-export function SelectMarca({ field, data }) {
+export function SelectMarca({ field, data}) {
   return (
     <>
       <InputLabel id="marca">Marca</InputLabel>
-        <Select {...field} labelId="marca" label="marca" defaultValue="" >
+        <Select {...field} labelId="marca" label="Marca" value={field.value ?? ''}>
           {data && data.map((marca) => (
-            <MenuItem key={marca.idMarca} value={marca.idMarca}>
+            <MenuItem key={marca.idMarca} value={marca.Nombre}>
               {marca.Nombre}
             </MenuItem>
             ))}

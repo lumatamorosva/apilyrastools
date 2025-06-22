@@ -3,20 +3,15 @@ import { useEffect, useState } from 'react';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
-import { useForm, Controller, useFieldArray } from 'react-hook-form';
+import { useForm, Controller} from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import AddIcon from '@mui/icons-material/Add';
-import Tooltip from '@mui/material/Tooltip';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
-import ActorService from '../../services/ActorService';
 import MarcaService from '../../services/MarcaService';
 import { SelectMarca } from './Form/SeleccionarMarca';
 import { FormHelperText } from '@mui/material';
-import { ActorsForm } from './Form/ActorsForm';
 import MovieService from '../../services/ProductoService';
 import toast from 'react-hot-toast';
 import ImageService from '../../services/ImageService';
@@ -25,7 +20,7 @@ export function CreateProducto() {
   const navigate = useNavigate();
   let formData=new FormData()
   // Esquema de validación
-  const movieSchema = yup.object({
+  const productoSchema = yup.object({
     Nombre: yup
           .string()
           .required('El título es requerido')
@@ -60,44 +55,16 @@ export function CreateProducto() {
   } = useForm({
     defaultValues: {
       'nombre':'',
-      'year':'',
-      'lang':'',
-      'time':'',
-      'director_id':'',
-      'genres':[],
-      'actors':[
-        {
-          actor_id:'',
-          role:''
-        }
-      ],
+      'marca':'',
+      'categoria':'',
+      'existencias':'',
+      'precio':'',
+      'descripcion':'',
       image:''
     },
     // Asignación de validaciones
-    resolver: yupResolver(movieSchema),
+    resolver: yupResolver(productoSchema),
   });
-
-  // useFieldArray:
-  // relaciones de muchos a muchos, con más campos además
-  // de las llaves primaras
-  const {fields,append,remove } =useFieldArray({
-    control,
-    name:'actors'
-  })
-  //Agregar un actor
-  const addNewActor=()=>{
-    append({
-      actor_id:'',
-      role:''
-    })
-  }
-  //Eliminar un actor
-  const removeActor=(index)=>{
-    if(fields.length === 1){
-      return
-    }
-    remove(index)
-  }
   //Gestión de errores
   const [error, setError] = useState('');
   // Si ocurre error al realizar el submit
@@ -108,7 +75,7 @@ export function CreateProducto() {
     console.log(DataForm);
     //Llamar al API
     try {
-       if(movieSchema.isValid()){
+       if(productoSchema.isValid()){
         //Crear pelicula
         MovieService.createMovie(DataForm)
         .then((response)=>{
@@ -180,26 +147,6 @@ export function CreateProducto() {
       });
   }, []);
 
-  //Lista de actores
-  const [dataActors, setDataActors] = useState({});
-  const [loadedActors, setLoadedActors] = useState(false);
-  useEffect(() => {
-    ActorService.getActors()
-      .then((response) => {
-        console.log(response);
-        setDataActors(response.data);
-        setLoadedActors(true);
-      })
-      .catch((error) => {
-        if (error instanceof SyntaxError) {
-          console.log(error);
-          setError(error);
-          setLoadedActors(false);
-          throw new Error('Respuesta no válida del servidor');
-        }
-      });
-  }, []);
-
   /* Gestion de imagen */
   const [file,setFile]=useState(null)
   const [fileURL, setFileURL]=useState(null)
@@ -246,44 +193,14 @@ export function CreateProducto() {
           <Grid size={4} sm={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               {loadedMarca && (
-                <Controller name='marca' control={control}
-                  render={({field})=>( <SelectMarca field={field} data={dataMarca} /> )} /> )}
+                <Controller name='marca' control={control} defaultValue=""
+                  render={({field})=>( <SelectMarca field={field} data={dataMarca}/> )} /> )}
               <FormHelperText sx={{color: '#d32f2f'}}>
-                {errors.director_id ? errors.director_id.message : ' '}
+                {errors.marca ? errors.marca.message : ' '}
               </FormHelperText>
             </FormControl>
           </Grid>
 
-          <Grid size={12} sm={6}>
-            <Typography variant="h6" gutterBottom>
-              Actores
-              <Tooltip title="Agregar Actor">
-                <span>
-                  <IconButton color="secondary" onClick={addNewActor}>
-                    <AddIcon />
-                  </IconButton>
-                </span>
-              </Tooltip>
-            </Typography>
-            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              {/* Array de controles de actor */}
-              {loadedActors && 
-                fields.map((field,index)=>(
-                  <div key={index}>
-                    <ActorsForm
-                    name='actors'
-                    data={dataActors}
-                    key={field.id}
-                    index={index}
-                    onRemove={removeActor}
-                    control={control}
-                    disableRemoveButton={fields.length === 1}
-                     />
-                  </div>
-                ))
-              }
-            </FormControl>
-          </Grid>
           <Grid size={12} sm={12}>
               <FormControl variant='standard' fullWidth sx={{m:1}}>
                 <Controller

@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import ProductoService from '../../services/ProductoService';
 import { useEffect } from 'react';
-import { ListCardProductos } from './ListCardProductos';
+import { ListCardProductos } from './ListaCardsProductos';
 
 export function CatalogProductos() {
   //Resultado de consumo del API, respuesta
