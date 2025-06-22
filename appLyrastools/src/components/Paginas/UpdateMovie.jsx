@@ -17,10 +17,10 @@ import GenreService from '../../services/GenreService';
 import ActorService from '../../services/ActorService';
 import MovieService from '../../services/ProductoService';
 import { toast } from 'react-hot-toast';
-import { SelectDirector } from './Form/SelectDirector';
+import { SelectMarca } from './Form/SeleccionarMarca';
 import { SelectGenres } from './Form/SelectGenres';
 import { ActorsForm } from './Form/ActorsForm';
-import DirectorService from '../../services/DirectorService';
+import MarcaService from '../../services/MarcaService';
 
 
 export function UpdateMovie() {
@@ -170,7 +170,7 @@ export function UpdateMovie() {
   const [dataDirector, setDataDirector] = useState({});
   const [loadedDirector, setLoadedDirector] = useState(false);
   useEffect(() => {
-    DirectorService.getDirectores()
+    MarcaService.getMarcas()
       .then((response) => {
         console.log(response);
         setDataDirector(response.data);
@@ -312,7 +312,7 @@ export function UpdateMovie() {
                   name="director_id"
                   control={control}
                   render={({ field }) => (
-                    <SelectDirector
+                    <SelectMarca
                       field={field}
                       data={dataDirector}
                       error={Boolean(errors.director_id)}

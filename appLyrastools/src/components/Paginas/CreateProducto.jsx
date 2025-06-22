@@ -12,23 +12,21 @@ import Tooltip from '@mui/material/Tooltip';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
-import GenreService from '../../services/GenreService';
 import ActorService from '../../services/ActorService';
-import DirectorService from '../../services/DirectorService';
-import { SelectDirector } from './Form/SelectDirector';
+import MarcaService from '../../services/MarcaService';
+import { SelectMarca } from './Form/SeleccionarMarca';
 import { FormHelperText } from '@mui/material';
-import { SelectGenres } from './Form/SelectGenres';
 import { ActorsForm } from './Form/ActorsForm';
 import MovieService from '../../services/ProductoService';
 import toast from 'react-hot-toast';
 import ImageService from '../../services/ImageService';
 
-export function CreateMovie() {
+export function CreateProducto() {
   const navigate = useNavigate();
   let formData=new FormData()
   // Esquema de validación
   const movieSchema = yup.object({
-    title: yup
+    Nombre: yup
           .string()
           .required('El título es requerido')
           .min(2, "El título debe tener 2 carácteres"),
@@ -61,7 +59,7 @@ export function CreateMovie() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      'title':'',
+      'nombre':'',
       'year':'',
       'lang':'',
       'time':'',
@@ -162,45 +160,26 @@ export function CreateMovie() {
     }
   };
 
-  //Lista de Directores
-  const [dataDirector, setDataDirector] = useState({});
-  const [loadedDirector, setLoadedDirector] = useState(false);
+  //Lista de Marcas
+  const [dataMarca, setDataMarca] = useState({});
+  const [loadedMarca, setLoadedMarca] = useState(false);
   useEffect(() => {
-    DirectorService.getDirectores()
+    MarcaService.getMarcas()
       .then((response) => {
         console.log(response);
-        setDataDirector(response.data);
+        setDataMarca(response.data);
+        setLoadedMarca(true);
+      })
+      .catch((error) => {
+        if (error instanceof SyntaxError) {
+          console.log(error);
+          setError(error);
+          setLoadedMarca(false);
+          throw new Error('Respuesta no válida del servidor');
+        }
+      });
+  }, []);
 
-        setLoadedDirector(true);
-      })
-      .catch((error) => {
-        if (error instanceof SyntaxError) {
-          console.log(error);
-          setError(error);
-          setLoadedDirector(false);
-          throw new Error('Respuesta no válida del servidor');
-        }
-      });
-  }, []);
-  //Lista de Generos
-  const [dataGenres, setDataGenres] = useState({});
-  const [loadedGenres, setLoadedGenres] = useState(false);
-  useEffect(() => {
-    GenreService.getGenres()
-      .then((response) => {
-        console.log(response);
-        setDataGenres(response.data);
-        setLoadedGenres(true);
-      })
-      .catch((error) => {
-        if (error instanceof SyntaxError) {
-          console.log(error);
-          setError(error);
-          setLoadedGenres(false);
-          throw new Error('Respuesta no válida del servidor');
-        }
-      });
-  }, []);
   //Lista de actores
   const [dataActors, setDataActors] = useState({});
   const [loadedActors, setLoadedActors] = useState(false);
@@ -233,122 +212,48 @@ export function CreateMovie() {
     }
   }
   if (error) return <p>Error: {error.message}</p>;
+  //GUI de la página
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
         <Grid container spacing={1}>
-          <Grid size={12} sm={12}>
-            <Typography variant="h5" gutterBottom>
-              Crear Pelicula
-            </Typography>
-          </Grid>
-          <Grid size={4} sm={4}>
-            {/* ['filled','outlined','standard']. */}
+          {/*titulo de la pagina*/}
+          <Grid size={12} sm={12}> <Typography variant="h5" gutterBottom> Crear Pelicula </Typography> </Grid>
+          <Grid xs={12} md={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              {/* Controlador y entrada de formulario title */}
-              <Controller name='title' control={control}
-              render={({field})=>(
-                //Caja de texto
-                <TextField 
-                  {...field}
-                  id="title"
-                  label="Título"
-                  error={Boolean(errors.title)}
-                  helperText={errors.title ? errors.title.message : ''}
-                />
-              )}
-               />
-
-            </FormControl>
+              <Controller name='nombre' control={control}
+              render={({field})=>( <TextField {...field} id="nombre" label="Nombre" error={Boolean(errors.title)} />)}
+            /></FormControl>
           </Grid>
-          <Grid size={4} sm={4}>
+          <Grid xs={12} md={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              {/* Controlador y entrada de formulario year */}
-              <Controller
-                name="year"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    id="year"
-                    label="Año"
-                    error={Boolean(errors.year)}
-                    helperText={errors.year ? errors.year.message : ' '}
-                  />
-                )}
-              />
-            </FormControl>
+              <Controller name="existencias" control={control}
+                render={({ field }) => ( <TextField {...field} id="existencias" label="Existencias" error={Boolean(errors.year)} /> )}
+            /> </FormControl>
+          </Grid>
+          <Grid xs={12} md={4}>
+            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+              <Controller name="precio" control={control}
+                render={({ field }) => ( <TextField {...field} id="precio" label="Precio" error={Boolean(errors.time)} /> )}
+            /> </FormControl>
+          </Grid>
+          <Grid size={12}>
+            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+              <Controller name="descripcion" control={control}
+                render={({ field }) => ( <TextField {...field} id="descripcion" label="Descripción" error={Boolean(errors.lang)} multiline/> )}
+            /> </FormControl>
           </Grid>
           <Grid size={4} sm={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              {/* Controlador y entrada de formulario time */}
-              <Controller
-                name="time"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    id="time"
-                    label="Minutos"
-                    error={Boolean(errors.time)}
-                    helperText={errors.time ? errors.time.message : ' '}
-                  />
-                )}
-              />
-            </FormControl>
-          </Grid>
-          <Grid size={4} sm={4}>
-            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              {/* Controlador y entrada de formulario lang */}
-              <Controller
-                name="lang"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    id="lang"
-                    label="Idioma"
-                    error={Boolean(errors.lang)}
-                    helperText={errors.lang ? errors.lang.message : ' '}
-                  />
-                )}
-              />
-            </FormControl>
-          </Grid>
-          <Grid size={4} sm={4}>
-            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              {/* Lista de directores */}
-              {loadedDirector && (
-                <Controller name='director_id' control={control}
-                  render={({field})=>(
-                    <SelectDirector
-                      field={field}
-                      data={dataDirector}
-                     />
-                  )}
-                 />
-              )}
+              {loadedMarca && (
+                <Controller name='marca' control={control}
+                  render={({field})=>( <SelectMarca field={field} data={dataMarca} /> )} /> )}
               <FormHelperText sx={{color: '#d32f2f'}}>
                 {errors.director_id ? errors.director_id.message : ' '}
               </FormHelperText>
             </FormControl>
           </Grid>
-          <Grid size={4} sm={4}>
-            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              {/* Lista de generos */}
-              {loadedGenres && (
-                <Controller name='genres' control={control} 
-                  render={({field})=>(
-                    <SelectGenres field={field} data={dataGenres}
-                    error={Boolean(errors.genres)} />
-                  )}
-                />
-              )}
-              <FormHelperText sx={{color: '#d32f2f'}}>
-                {errors.genres ? errors.genres.message : ' '}
-              </FormHelperText>
-            </FormControl>
-          </Grid>
+
           <Grid size={12} sm={6}>
             <Typography variant="h6" gutterBottom>
               Actores

@@ -172,14 +172,13 @@ const currentDate = format(new Date(), 'dd/MM/yyyy');
       <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
         <Grid container spacing={1}>
           <Grid size={12} sm={12}>
-            <Typography variant="h5" gutterBottom>
-              Crear Alquiler de Peliculas
-            </Typography>
+            <Typography variant="h5" gutterBottom>  Carrito </Typography>
           </Grid>
+          {/*Input de fecha */}
           <Grid size={12} sm={6}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller
-                name="rental_date"
+                name="date"
                 control={control}
                 render={({ field }) => (
                   <TextField
@@ -194,35 +193,8 @@ const currentDate = format(new Date(), 'dd/MM/yyyy');
               />
             </FormControl>
           </Grid>
-          <Grid size={12} sm={6}>
-            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller
-                name="shop_id"
-                control={control}
-                render={({ field }) => (
-                  <>
-                    <input type="hidden" {...field} />
-                  </>
-                )}
-              />
-              <Controller
-                name="shop_name"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Tienda"
-                    slotProps={{
-                      input: {
-                        readOnly: true,
-                      },
-                    }}
-                  />
-                )}
-              />
-            </FormControl>
-          </Grid>
-          <Grid size={12} sm={6}>
+          
+          <Grid size={12}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               {/* Lista de clientes */}
               {loadedUsers && (
@@ -255,23 +227,15 @@ const currentDate = format(new Date(), 'dd/MM/yyyy');
               </FormHelperText>
             </FormControl>
           </Grid>
+          {/*Titulo "Articulos en el carrito*/}
           <Grid size={12} sm={8}>
-            <Typography variant="h5" gutterBottom>
-              Peliculas
-            </Typography>
-            {/* Detalle de Compra */}
+            <Typography variant="h5" gutterBottom> Artículos en el carrito</Typography>
+            {/* Detalles de Artículos cargados*/}
             <Cart />
           </Grid>
-
+              {/*boton submit*/}
           <Grid size={12} sm={12}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="secondary"
-              sx={{ m: 1 }}
-            >
-              Guardar
-            </Button>
+            <Button type="submit" variant="contained" >Proceder con la compra</Button>
           </Grid>
         </Grid>
       </form>

@@ -11,20 +11,17 @@ import { DetailMovie } from "./components/Paginas/DetailMovie";
 import ListRentals from "./components/Rental/ListRentals";
 import DetailRental from "./components/Rental/DetailRental";
 import TableProducts from "./components/Paginas/TableProductos";
-import { CreateMovie } from "./components/Paginas/CreateMovie";
+import { CreateProducto } from "./components/Paginas/CreateProducto";
 import { UpdateMovie } from "./components/Paginas/UpdateMovie";
-
 import { CatalogProductos } from "./components/Paginas/CatalogProductos";
-
 import { MovieUploadImage } from "./components/Paginas/MovieUploadImage";
-import { CreateMovieRental } from "./components/Rental/CreateMovieRental";
+import { CreateMovieRental } from "./components/Rental/PaginaCarritoCheckout";
 import { GraphRetal } from "./components/Rental/GraphRental";
 import UserProvider from "./components/User/UserProvider";
 import { Unauthorized } from "./components/User/Unauthorized";
 import { Login } from "./components/User/Login";
 import { Logout } from "./components/User/Logout";
 import { Signup } from "./components/User/Signup";
-import { Auth } from "./components/User/Auth";
 const rutas=createBrowserRouter(
   [
     {
@@ -52,8 +49,8 @@ const rutas=createBrowserRouter(
               element: <TableProducts />
             },
             {
-              path:'/movie/crear/',
-              element: <CreateMovie />
+              path:'/Paginas/crear/',
+              element: <CreateProducto />
             },
             {
               path:'/movie/update/:id',

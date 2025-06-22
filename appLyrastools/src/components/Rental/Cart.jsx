@@ -48,22 +48,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 function CartItem({ item, removeItem }) {
   return (
     <StyledTableRow
-      key={item.id}
+      key={item.idProducto}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
     >
       <StyledTableCell component="th" scope="row">
-        {item.title}
+        {item.Nombre}
       </StyledTableCell>
-      <StyledTableCell>{item.price}</StyledTableCell>
-      <StyledTableCell>{item.days}</StyledTableCell>
+      <StyledTableCell>{item.Precio}</StyledTableCell>
       <StyledTableCell>&cent;{item.subtotal}</StyledTableCell>
       <StyledTableCell align="right">
-        <Tooltip title={'Borrar ' + item.title}>
+        <Tooltip title={'Borrar ' + item.Nombre}>
           <IconButton
             color="warning"
             onClick={() => removeItem(item)}
-            aria-label={'Borrar ' + item.title}
-            sx={{ ml: 'auto' }}
+            aria-label={'Borrar ' + item.Nombre}
           >
             <DeleteIcon />
           </IconButton>
@@ -78,26 +76,15 @@ export function Cart() {
   const {cart, removeItem, cleanCart, getTotal}=useCart()
   return (
     <>
-      <Tooltip title="Eliminar Alquiler">
-        <IconButton
-          color="error"
-         /*  Onclick para eliminar */
-         onClick={()=>cleanCart()}
-
-          aria-label="Eliminar"
-          sx={{ ml: 'auto' }}
-        >
-          <RemoveShoppingCartIcon />
-        </IconButton>
+      <Tooltip title="Limpiar Carrito">
+        <IconButton color="error" onClick={()=>cleanCart()} > <RemoveShoppingCartIcon /> </IconButton>
       </Tooltip>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead
-          >
+          <TableHead >
             <TableRow>
-              <StyledTableCell>Pelicula</StyledTableCell>
+              <StyledTableCell>Producto</StyledTableCell>
               <StyledTableCell>Precio</StyledTableCell>
-              <StyledTableCell>Días</StyledTableCell>
               <StyledTableCell>Subtotal</StyledTableCell>
               <StyledTableCell align="right">Acciones</StyledTableCell>
             </TableRow>
@@ -117,9 +104,7 @@ export function Cart() {
           >
             <TableRow>
               <StyledTableCell colSpan={3} align="right">
-                <Typography variant="subtitle1" gutterBottom>
-                  Total
-                </Typography>
+                <Typography variant="subtitle1" gutterBottom> Total </Typography>
               </StyledTableCell>
               <StyledTableCell colSpan={2}>
                 <Typography variant="subtitle1" gutterBottom>

@@ -91,7 +91,7 @@ export default function TableProducts() {
   return (
     <>
     <Typography variant="h5" gutterBottom>Listado de Herramientas
-      <Tooltip title="Crear"><IconButton component={Link} to="/producto/crear/" color="success"> <AddIcon/></IconButton> </Tooltip>
+      <Tooltip title="Crear"><IconButton component={Link} to="/Paginas/crear/" color="success"> <AddIcon/></IconButton> </Tooltip>
     </Typography>
       
       {data && (
