@@ -54,6 +54,23 @@ import CategoryIcon from '@mui/icons-material/Category';
   return (nombreCat || "Cargando...");
 }
 
+//Traer la promoción
+ function promocionDetalle(id) {
+  const [promocion[], setPromocion] = useState([]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(`http://localhost:81/apilyrastools/categoria/${id}`);
+        const data = await res.json();
+        setNombres([data.Nombre]);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [id]);
+  return (nombreCat || "Cargando...");
+}
+
   export default function Emergente({ open, onClose, item, BASE_URL }) {
   if (!item) return null;
 
