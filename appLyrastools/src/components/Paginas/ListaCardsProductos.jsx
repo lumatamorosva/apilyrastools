@@ -60,7 +60,19 @@ export function ListCardProductos({ data, isShopping }) {
   };
   //Para la busqueda de productos
   const [busqueda, setBusqueda] = useState('');
-  const filtrados = data.filter(producto => producto.NombreProducto.toLowerCase().includes(busqueda.toLowerCase()));
+  const filtrados = data.filter(producto => producto.NombreProducto.toLowerCase().includes(busqueda.toLowerCase()))
+  //Para ordenar comparando respecto al precio de cada producto
+  .sort((a,b)=>{
+    if(orden==='ascendente'){
+      return a.Precio - b.Precio;
+    }else if(orden==='descendente'){
+      return b.Precio - a.Precio;
+    }
+  });
+  //Para la paginación
+    //Define la cantidad de páginas que se ocupan
+    const totalPaginas = ( modo ? (Math.ceil(filtrados.length/modo)) : 1);
+  //Para activar el filtro de busqueda   
   const handleChangeBuscar = (e) => {
     setBusqueda(e.target.value);
     // Aquí puedes disparar un filtro o búsqueda
@@ -93,7 +105,7 @@ export function ListCardProductos({ data, isShopping }) {
         </FormControl>
           <Box sx={{alignContent:'center', mr:'1px', ml:'auto'}}>
             <Stack spacing={2}>
-              <Pagination count={4} shape="rounded" />
+              <Pagination count={totalPaginas} shape="rounded" />
             </Stack>
         </Box>
       </Box>
