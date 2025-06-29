@@ -23,22 +23,19 @@ import TextField from '@mui/material/TextField';
 import CardActionArea from '@mui/material/CardActionArea';
 import Emergente from './Emergente';
 
-
-
 ListCardProductos.propTypes = {
   data: PropTypes.array,
   isShopping: PropTypes.bool.isRequired,
 };
 
 export function ListCardProductos({ data, isShopping }) {
-
   const { addItem } =useCart()
   //Url para acceder a la imagenes guardadas en el API
   const BASE_URL = import.meta.env.VITE_BASE_URL + 'uploads';
   const [open, setOpen] = useState(false);
   const [productoActivo, setProductoActivo] = useState(null);
 
-  //Funcion para el popup
+  //Funcion para Emergente
   async function abrirPopup(item) {
     setProductoActivo(item);
     setOpen(true);
@@ -116,21 +113,20 @@ export function ListCardProductos({ data, isShopping }) {
         <Grid size={8} container sx={{ p: 2 }} spacing={3}>
         {/* ()=>{} */}
         {filtrados && filtrados.map((item) => (
-            <Grid size={4} key={item.id}>
+            <Grid size={4} key={item.id} minWidth='180px'>
               <Card>
                 <CardActionArea onClick={() => item && abrirPopup(item)}> 
                 <CardMedia height="180px" component="img" image={`${BASE_URL}/${item?.Imagen}`} alt={item.Imagen} sx={{width: '100%', objectFit: 'contain'}}/>
+                <Box sx={{display:'flex',justifyContent: 'center', }}>
+                  {item.IdPromocion > 0 && <Typography position="absolute" sx={{top:150, fontWeight:'bold',}} color = "red"> Artículo en promoción </Typography> }
+                </Box>
                 <CardContent>
                   <Typography variant="body3" color="text.primary" align="center"> {item.NombreProducto}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     <LocalAtmIcon sx={{ verticalAlign: 'middle' }}/>  ₡{Number(item.Precio).toLocaleString('en-US')}
                   </Typography>
-                  {isShopping && (
-                    <Typography variant="h6" align="right" gutterBottom>
-                      &cent;{item.Precio}
-                    </Typography>
-                  )}
+                  {isShopping && ( <Typography variant="h6" align="right" gutterBottom> &cent;{item.Precio} </Typography>)}
                 </CardContent>
                 </CardActionArea>
                 <CardActions
