@@ -56,7 +56,7 @@ import DiscountIcon from '@mui/icons-material/Discount';
 }
 
 //Traer la promoción
- function promocionDetalle(id) {
+ function promocionDetalle(id,precio) {
   const [promocion, setPromocion] = useState("");
   useEffect(() => {
     (async () => {
@@ -69,7 +69,7 @@ import DiscountIcon from '@mui/icons-material/Discount';
       }
     })();
   }, [id]);
-  return (promocion || "Cargando...");
+  return (precio-((promocion/100)*precio) || "Cargando...");
 }
 
   export default function Emergente({ open, onClose, item, BASE_URL }) {
@@ -94,8 +94,8 @@ import DiscountIcon from '@mui/icons-material/Discount';
         <Typography id="modal-descripcion" sx={{ mb: 2 }}>{item.Descripcion}</Typography>
         {item.IdPromocion == 0 ?
           <Typography> <LocalAtmIcon sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio).toLocaleString('en-US')} </Typography>:
-          <Typography><DiscountIcon sx={{verticalAlign: 'middle'}}/>
-           ₡{(promocionDetalle(item.IdPromocion))}</Typography>
+          <Typography color = "red"><DiscountIcon sx={{verticalAlign: 'middle'}}/>
+           Precio de promoción: ₡{(promocionDetalle(item.IdPromocion,item.Precio))}</Typography>
         }
         <Typography id="modal-descripcion" sx={{ mb: 2 }}><WarehouseIcon/>Disponibles: {item.Existencias}</Typography>
         <Button variant="contained" onClick={onClose}>Cerrar</Button>
