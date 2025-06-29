@@ -58,7 +58,7 @@ class MovieModel
             if(!empty($vResultado)){
                 $vResultado=$vResultado[0];
                 //Imagenes
-                $vResultado->imagen=$imagenM->getImageMovie(($vResultado->id));
+                $vResultado->imagen=$imagenM->getImage(($vResultado->id));
                 //Director
                 $director=$directorM->get($vResultado->director_id);
                 $vResultado->director=$director;
@@ -100,7 +100,7 @@ class MovieModel
             //Incluir imagenes
             if(!empty($vResultado) && is_array($vResultado)){
                 for ($i=0; $i < count($vResultado); $i++) { 
-                    $vResultado[$i]->imagen=$imagenM->getImageMovie(($vResultado[$i]->id));
+                    $vResultado[$i]->imagen=$imagenM->getImage(($vResultado[$i]->id));
                 }
             }
             //Retornar la respuesta
