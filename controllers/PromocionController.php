@@ -14,11 +14,23 @@ class promocion
             handleException($e);
         }
     }
+    public function get($param)
+    {
+        try {
+            $response = new Response();
+            $cat = new PromocionModel();
+            $result = $cat->get($param);
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
     public function getReason($param)
     {
         try {
             $response = new Response();
-            $cat = new PromoocionModel();
+            $cat = new PromocionModel();
             $result = $cat->get($param);
             //Dar respuesta
             $response->toJSON($result);
@@ -30,7 +42,7 @@ class promocion
     {
         try {
             $response = new Response();
-            $cat = new PromoocionModel();
+            $cat = new PromocionModel();
             $result = $cat->getByDate($inicio,$fin);
             //Dar respuesta
             $response->toJSON($result);

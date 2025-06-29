@@ -19,8 +19,26 @@ class PromocionModel
             handleException($e);
         }
     }
-    /*Obtener una promoción por razón*/
+    /*Obtener una promoción por Id*/
     public function get($id)
+    {
+        try {
+            //Consulta sql
+			$vSql = "SELECT * FROM promocion where IdPromocion=$id";
+            //Ejecutar la consulta
+			$vResultado = $this->enlace->ExecuteSQL ( $vSql);
+			// Retornar el objeto
+            if ($vResultado && count($vResultado) > 0) {
+                return $vResultado[0];
+            } else {
+                throw new Exception("Promoción no encontrada con ID: $id");
+            }
+		} catch (Exception $e) {
+            handleException($e);
+        }
+    }
+     /*Obtener una promoción por razón*/
+    public function getByRazon($id)
     {
         try {
             //Consulta sql

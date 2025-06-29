@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import CategoryIcon from '@mui/icons-material/Category';
+import DiscountIcon from '@mui/icons-material/Discount';
 
 //Estilo de la ventana emergente
   const stylePopup = {
@@ -56,19 +57,19 @@ import CategoryIcon from '@mui/icons-material/Category';
 
 //Traer la promoción
  function promocionDetalle(id) {
-  const [promocion[], setPromocion] = useState([]);
+  const [promocion, setPromocion] = useState("");
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`http://localhost:81/apilyrastools/categoria/${id}`);
+        const res = await fetch(`http://localhost:81/apilyrastools/promocion/${id}`);
         const data = await res.json();
-        setNombres([data.Nombre]);
+        setPromocion([data.Cantidad]);
       } catch (e) {
         console.error(e);
       }
     })();
   }, [id]);
-  return (nombreCat || "Cargando...");
+  return (promocion || "Cargando...");
 }
 
   export default function Emergente({ open, onClose, item, BASE_URL }) {
@@ -81,9 +82,7 @@ import CategoryIcon from '@mui/icons-material/Category';
       aria-labelledby="modal-titulo"
       aria-describedby="modal-descripcion"
     >
-
       <Box sx={stylePopup}>
-        
         <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{item.NombreProducto} </Typography>
         <Typography id="modal-descripcion" sx={{ mb: 2 }}> Marca: {(marcaDetalle(item.Marca))}</Typography>
         <Typography id="modal-descripcion" sx={{ mb: 2 }}> <CategoryIcon/> {(categoriaDetalle(item.Categoria))}</Typography>
@@ -93,9 +92,11 @@ import CategoryIcon from '@mui/icons-material/Category';
           style={{ width: '100%', borderRadius: 8, marginBottom: 16 }}
         />
         <Typography id="modal-descripcion" sx={{ mb: 2 }}>{item.Descripcion}</Typography>
-        <Typography variant="body2" color="text.secondary">
-           <LocalAtmIcon sx={{ verticalAlign: 'middle' }}/> ₡{Number(item.Precio).toLocaleString('en-US')}
-        </Typography>
+        {item.IdPromocion == 0 ?
+          <Typography> <LocalAtmIcon sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio).toLocaleString('en-US')} </Typography>:
+          <Typography><DiscountIcon sx={{verticalAlign: 'middle'}}/>
+           ₡{(promocionDetalle(item.IdPromocion))}</Typography>
+        }
         <Typography id="modal-descripcion" sx={{ mb: 2 }}><WarehouseIcon/>Disponibles: {item.Existencias}</Typography>
         <Button variant="contained" onClick={onClose}>Cerrar</Button>
       </Box>
