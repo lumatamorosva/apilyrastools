@@ -3,7 +3,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -24,8 +23,6 @@ export default function Header() {
   const {user, decodeToken,autorize}= useContext(UserContext)
   const [userData,setUserData]=useState(decodeToken())
   useEffect(()=>{setUserData(decodeToken())},[user])
-  //Para la barra de busqueda
-  const [searchText, setSearchText] = useState('');
   //Cantidad de elementos en el carrito
   const {cart, getCountItems}=useCart()
   //Gestión menu usuario
@@ -60,10 +57,6 @@ export default function Header() {
   //Cerrado menu opciones
   const handleOpcionesMenuClose = () => {
     setMobileMoreAnchorEl(null);
-  };
-  // Filtro o búsqueda en tiempo real
-  const handleSearchChange = (event) => {
-    setSearchText(event.target.value);
   };
   //Lista enlaces menu usuario
   const userItems = [
@@ -244,14 +237,6 @@ export default function Header() {
             > <HandymanIcon sx={{mr:"10px"}} />PRINCIPAL
             </IconButton>
           </Tooltip>
-          {/* Barra de busqueda en el menú */}
-          <TextField
-            size="small"
-            placeholder="Buscar productos..."
-            value={searchText}
-            onChange={handleSearchChange}
-            sx={{backgroundColor: 'white',borderRadius: 1, }}
-          />
           {/* Enlace página inicio */}
           {menuPrincipal}
           <Box sx={{ flexGrow: 1 }} />

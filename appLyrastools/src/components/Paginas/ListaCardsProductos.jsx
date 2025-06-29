@@ -58,13 +58,21 @@ export function ListCardProductos({ data, isShopping }) {
   const handleChange1 = (event) => {
     setModo(event.target.value); // Actualiza el estado con el valor seleccionado
   };
+  //Para la busqueda de productos
+  const [busqueda, setBusqueda] = useState('');
+  const filtrados = data.filter(producto => producto.NombreProducto.toLowerCase().includes(busqueda.toLowerCase()));
+  const handleChangeBuscar = (e) => {
+    setBusqueda(e.target.value);
+    // Aquí puedes disparar un filtro o búsqueda
+    console.log("Buscando:", e.target.value);
+  };
 
   return (
     <>
     <Grid row size={12}>
       <Box sx={{display:'flex', borderRadius:1, backgroundColor:(theme) => theme.palette.secondary.main}}>
         {/* Orden Dropdown */}
-       <FormControl sx={{ m: 1, minWidth: 220 }} size="small">
+       <FormControl sx={{ m: 1, minWidth: "20%" }} size="small">
         <InputLabel id="ordenDropDown">Orden</InputLabel>
           <Select labelId="ordenDropDown" id="ordenDropDown" value={orden} label="ordenDropDown" onChange={handleChange}>
             <MenuItem value={'descendente'}>Mayor a menor</MenuItem>
@@ -72,13 +80,16 @@ export function ListCardProductos({ data, isShopping }) {
           </Select>
         </FormControl>
         {/* Modo Dropdown */}
-       <FormControl sx={{ m: 1, minWidth: 220 }} size="small">
+       <FormControl sx={{ m: 1, minWidth: "20%" }} size="small">
         <InputLabel id="modoDropDown">Artículos</InputLabel>
           <Select labelId="modoDropDown" id="modoDropDown" value={modo} label="modoDropDown" onChange={handleChange1}>
             <MenuItem value={'10'}>10</MenuItem>
             <MenuItem value={'30'}>30</MenuItem>
             <MenuItem value={'40'}>40</MenuItem>
           </Select>
+        </FormControl>
+        <FormControl sx={{ m: 1, minWidth: "20%" }} size="small">
+          <TextField size="small" id="buscar" label="Buscar..." onChange={handleChangeBuscar}></TextField>
         </FormControl>
           <Box sx={{alignContent:'center', mr:'1px', ml:'auto'}}>
             <Stack spacing={2}>
@@ -92,8 +103,7 @@ export function ListCardProductos({ data, isShopping }) {
       <Box size={4} sx={{borderRadius:1, backgroundColor:(theme) => theme.palette.secondary.main, p:'15px'}}>Aquí van los filtros</Box>
         <Grid size={8} container sx={{ p: 2 }} spacing={3}>
         {/* ()=>{} */}
-        {data &&
-          data.map((item) => (
+        {filtrados && filtrados.map((item) => (
             <Grid size={4} key={item.id}>
               <Card>
                 <CardActionArea onClick={() => item && abrirPopup(item)}>
