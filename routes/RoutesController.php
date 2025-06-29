@@ -60,6 +60,13 @@ class RoutesController
                     echo 'Archivo no encontrado.';
                 }
             }
+            // Subida de imágenes (POST /image)
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] === '/apilyrastools/image') {
+                require_once './controllers/ImageController.php';
+                $controller = new Image();
+                $controller->create();  // Llama al método que maneja la subida
+                exit;
+            }
              //FIN Gestion de imagenes
              //Solicitud preflight
              if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {

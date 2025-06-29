@@ -15,13 +15,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import MovieService from "../../services/ProductoService";
 import ImageService from "../../services/ImageService";
+import ProductoService from "../../services/ProductoService";
 
-export function MovieUploadImage() {
+export function UploadImagenParaProducto() {
   const navigate = useNavigate();
   let formData = new FormData();
   // Esquema de validación
-  const movieSchema = yup.object({
-    movie_id: yup
+  const productSchema = yup.object({
+    idProducto: yup
       .number()
       .typeError("Seleccione una pelicula")
       .required("La pelicula es requerida"),
@@ -36,7 +37,7 @@ export function MovieUploadImage() {
       image: "",
     },
     // Asignación de validaciones
-    resolver: yupResolver(movieSchema),
+    resolver: yupResolver(productSchema),
   });
 
   const [error, setError] = useState("");
@@ -78,7 +79,7 @@ export function MovieUploadImage() {
     console.log(DataForm);
 
     try {
-      if (movieSchema.isValid()) {
+      if (productSchema.isValid()) {
         // Creamos un FormData para enviar el archivo
 
         formData.append("file", file); //Imagen

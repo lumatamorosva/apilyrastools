@@ -62,9 +62,9 @@ class producto
             //Obtener json enviado
             $inputJSON = $request->getJSON();
             //Instancia del modelo
-            $movie = new ProductoModel();
+            $prod = new ProductoModel();
             //Acción del modelo a ejecutar
-            $result = $movie->create($inputJSON);
+            $result = $prod->create($inputJSON);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {
@@ -80,9 +80,9 @@ class producto
             //Obtener json enviado
             $inputJSON = $request->getJSON();
             //Instancia del modelo
-            $movie = new ProductoModel();
+            $prod = new ProductoModel();
             //Acción del modelo a ejecutar
-            $result = $movie->update($inputJSON);
+            $result = $prod->update($inputJSON);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {

@@ -41,11 +41,9 @@ export function CreateProducto() {
           .required('La descripción del artículo es requerida'),
     marca: yup
           .number()
-          .typeError('Seleccione una marca de la lista')
           .required('Seleccione una marca de la lista'),
     categoria: yup
           .number()
-          .typeError('Seleccione una categoria de la lista')
           .required('Seleccione una categoria de la lista')
   });
   const {
@@ -54,13 +52,15 @@ export function CreateProducto() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      'nombre':'',
-      'marca':'',
-      'categoria':'',
-      'existencias':'',
-      'precio':'',
-      'descripcion':'',
-      image:''
+      nombre:'',
+      marca:'',
+      categoria:'',
+      existencias:'',
+      precio:'',
+      descripcion:'',
+      image:'',
+      oferta:'',
+      idPromocion:''
     },
     // Asignación de validaciones
     resolver: yupResolver(productoSchema),
@@ -71,20 +71,32 @@ export function CreateProducto() {
   const onError = (errors, e) => console.log(errors, e);
   // Accion submit
   const onSubmit = (DataForm) => {
+    //Para cambiar los nombres enviados en el Json
+    const payload ={
+      NombreProducto: DataForm.nombre,
+      Descripcion: DataForm.descripcion,
+      Precio: DataForm.precio,
+      Existencias: DataForm.existencias,
+      Marca: DataForm.marca,
+      Categoria: DataForm.categoria,
+      Imagen: file ? file.name : "Sin imagen", // Usa nombre del archivo si hay
+      Oferta: 0,
+      IdPromocion: 0
+    };
     console.log('Formulario:');
-    console.log(DataForm);
+    console.log(payload);
     //Llamar al API
     try {
        if(productoSchema.isValid()){
-        //Crear pelicula
-        ProductoService.createProducto(DataForm)
+        //Crear producto
+        ProductoService.createProducto(payload)
         .then((response)=>{
           setError(response.error)
           //Respuesta al usuario
           if(response.data !=null){
             //Gestionar imagen
             formData.append ("file",file)
-            formData.append("movie_id",response.data.id)
+            formData.append("IdProducto",response.data.IdProducto)
             ImageService.createImage(formData)
             .then((response)=>{
               setError(response.error)
@@ -183,32 +195,32 @@ export function CreateProducto() {
       <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
         <Grid container spacing={1}>
           {/*titulo de la pagina*/}
-          <Grid size={12} sm={12}> <Typography variant="h5" gutterBottom> Crear Pelicula </Typography> </Grid>
+          <Grid size={12} sm={12}> <Typography variant="h5" gutterBottom> Crear Nuevo Producto </Typography> </Grid>
           <Grid xs={12} md={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name='nombre' control={control}
-              render={({field})=>( <TextField {...field} id="nombre" label="Nombre" error={Boolean(errors.title)} />)}
+              render={({field})=>( <TextField {...field} id="nombre" label="Nombre" error={Boolean(errors.nombre)} />)}
             /><FormHelperText sx={{color: '#d32f2f'}}> {errors.nombre ? errors.nombre.message : ' '} </FormHelperText>
             </FormControl>
           </Grid>
           <Grid xs={12} md={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="existencias" control={control}
-                render={({ field }) => ( <TextField {...field} id="existencias" label="Existencias" error={Boolean(errors.year)} /> )}
+                render={({ field }) => ( <TextField {...field} id="existencias" label="Existencias" error={Boolean(errors.existencias)} /> )}
             /><FormHelperText sx={{color: '#d32f2f'}}> {errors.existencias ? errors.existencias.message : ' '} </FormHelperText>
              </FormControl>
           </Grid>
           <Grid xs={12} md={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="precio" control={control}
-                render={({ field }) => ( <TextField {...field} id="precio" label="Precio" error={Boolean(errors.time)} /> )}
+                render={({ field }) => ( <TextField {...field} id="precio" label="Precio" error={Boolean(errors.precio)} /> )}
             /><FormHelperText sx={{color: '#d32f2f'}}> {errors.precio ? errors.precio.message : ' '} </FormHelperText>
              </FormControl>
           </Grid>
           <Grid size={12}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="descripcion" control={control}
-                render={({ field }) => ( <TextField {...field} id="descripcion" label="Descripción" error={Boolean(errors.lang)} multiline/> )}
+                render={({ field }) => ( <TextField {...field} id="descripcion" label="Descripción" error={Boolean(errors.descripcion)} multiline/> )}
             />
             <FormHelperText sx={{color: '#d32f2f'}}> {errors.descripcion ? errors.descripcion.message : ' '} </FormHelperText>
              </FormControl>

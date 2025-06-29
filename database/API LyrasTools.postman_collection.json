@@ -76,7 +76,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"IdProducto\": 2,\r\n    \"NombreProducto\": \"Esmeriladora\",\r\n    \"Marca\": 1,\r\n    \"Categoria\": 1,\r\n    \"Existencias\": 15,\r\n    \"Precio\": 55000,\r\n    \"Oferta\": 1,\r\n    \"Imagen\": \"Sin imagen\",\r\n    \"Descripcion\": \"Esmeriladora nueva\",\r\n    \"IdPromocion\": 0\r\n}",
+							"raw": "{\r\n    \"NombreProducto\": \"Esmeriladora\",\r\n    \"Marca\": 1,\r\n    \"Categoria\": 1,\r\n    \"Existencias\": 15,\r\n    \"Precio\": 55000,\r\n    \"Oferta\": 1,\r\n    \"Imagen\": \"Sin imagen\",\r\n    \"Descripcion\": \"Esmeriladora nueva\",\r\n    \"IdPromocion\": 0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

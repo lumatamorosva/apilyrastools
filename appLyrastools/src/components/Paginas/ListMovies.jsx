@@ -14,7 +14,7 @@ export function ListMovies() {
 
 //Llamar al API y obtener la lista de peliculas de una tienda
 useEffect(() => {
-  MovieService.getMovieByShopRental(idShopRental)
+  MovieService.getProductosByMarca(idShopRental)
     .then((response) => {
       console.log(response);
       setData(response.data);

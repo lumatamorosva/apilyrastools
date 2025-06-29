@@ -13,7 +13,7 @@ export function SelectCategoria({ field, data}) {
       <InputLabel id="categoria"> Categoria </InputLabel>
       <Select {...field} labelId="categoria" label="Categoria" value={field.value ?? ''}>
         {data && data.map((categoria) => (
-          <MenuItem key={categoria.idCategoria} value={categoria.Nombre}> {categoria.Nombre} </MenuItem> ))}
+          <MenuItem key={categoria.IdCategoria} value={categoria.IdCategoria}> {categoria.Nombre} </MenuItem> ))}
       </Select>
     </>
   );

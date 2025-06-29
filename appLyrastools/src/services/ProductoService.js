@@ -14,7 +14,7 @@ class ProductoService {
   }
   //Obtener peliculas por marca
   //localhost:81/apilyrastools/producto/productoByMarca/1
-  getMovieByShopRental(Id){
+  getProductosByMarca(Id){
     return axios.get(BASE_URL+'/productoByMarca/'+Id);
   }
   createProducto(Producto) {

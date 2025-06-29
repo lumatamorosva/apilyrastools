@@ -1,7 +1,7 @@
 <?php
 //class Genre
 class image{
-    //POST Crear
+    //POST (Pasar imagen a la carpeta uploads al crear producto)
     public function create()
     {
         try {
@@ -14,9 +14,9 @@ class image{
             //Obtener json enviado
             $inputFILE = $request->getBody();
             //Instancia del modelo
-            $movie = new ImageModel();
+            $product = new ImageModel();
             //Acción del modelo a ejecutar
-            $result = $movie->uploadFile($inputFILE);
+            $result = $product->uploadFile($inputFILE);
            
             //Dar respuesta
             $response->toJSON($result);

@@ -14,7 +14,7 @@ import TableProducts from "./components/Paginas/TableProductos";
 import { CreateProducto } from "./components/Paginas/CreateProducto";
 import { UpdateMovie } from "./components/Paginas/UpdateMovie";
 import { CatalogProductos } from "./components/Paginas/CatalogProductos";
-import { MovieUploadImage } from "./components/Paginas/MovieUploadImage";
+import { UploadImagenParaProducto } from "./components/Paginas/UploadImage";
 import { CreateMovieRental } from "./components/Rental/PaginaCarritoCheckout";
 import { GraphRetal } from "./components/Rental/GraphRental";
 import UserProvider from "./components/User/UserProvider";
@@ -72,7 +72,7 @@ const rutas=createBrowserRouter(
         },
         {
           path: 'movie/image/',
-          element: <MovieUploadImage />
+          element: <UploadImagenParaProducto />
         },
         
         {
