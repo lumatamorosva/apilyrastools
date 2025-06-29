@@ -118,25 +118,13 @@ export function ListCardProductos({ data, isShopping }) {
         {filtrados && filtrados.map((item) => (
             <Grid size={4} key={item.id}>
               <Card>
-                <CardActionArea onClick={() => item && abrirPopup(item)}>
-                <CardHeader
-                  sx={{
-                    p: 0,
-                    backgroundColor: (theme) => theme.palette.secondary.main,
-                    color: (theme) => theme.palette.common.white,
-                  }}
-                  style={{ textAlign: 'center' }}
-                  title={item.title}
-                  subheader={item.year}
-                />
-                <CardMedia
-                  component="img"  image={`${BASE_URL}/${item?.Imagen}`} alt={item.Imagen}
-                />
+                <CardActionArea onClick={() => item && abrirPopup(item)}> 
+                <CardMedia height="180px" component="img" image={`${BASE_URL}/${item?.Imagen}`} alt={item.Imagen} sx={{width: '100%', objectFit: 'contain'}}/>
                 <CardContent>
                   <Typography variant="body3" color="text.primary" align="center"> {item.NombreProducto}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    <LocalAtmIcon/> Precio: ₡{Number(item.Precio).toLocaleString('en-US')}
+                    <LocalAtmIcon sx={{ verticalAlign: 'middle' }}/>  ₡{Number(item.Precio).toLocaleString('en-US')}
                   </Typography>
                   {isShopping && (
                     <Typography variant="h6" align="right" gutterBottom>

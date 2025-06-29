@@ -77,7 +77,7 @@ import CategoryIcon from '@mui/icons-material/Category';
         />
         <Typography id="modal-descripcion" sx={{ mb: 2 }}>{item.Descripcion}</Typography>
         <Typography variant="body2" color="text.secondary">
-           <LocalAtmIcon/> Precio: ₡{Number(item.Precio).toLocaleString('en-US')}
+           <LocalAtmIcon sx={{ verticalAlign: 'middle' }}/> ₡{Number(item.Precio).toLocaleString('en-US')}
         </Typography>
         <Typography id="modal-descripcion" sx={{ mb: 2 }}><WarehouseIcon/>Disponibles: {item.Existencias}</Typography>
         <Button variant="contained" onClick={onClose}>Cerrar</Button>
