@@ -26,6 +26,9 @@ export default function TableProducts() {
   //Para los nombres de los datos de otras tablas
   const [nombreMarca, setMarca] = useState(false);
   const [nombreCategoria, setCat] = useState(false);
+  //Para el efecto mientras espera
+  const [loadingMarcas, setLoadingMarcas] = useState(true);
+  const [loadingCats, setLoadingCats] = useState(true);
    //Enlaces o redireccionar
   const navigate = useNavigate();
 
@@ -50,10 +53,12 @@ export default function TableProducts() {
           .then((brandData) => {
             const brandObj = brandData.reduce((acc, curr) => ({ ...acc, ...curr }), {});
             setMarca(brandObj);
+            setLoadingMarcas(false);
           })
           .catch((err) => {
             console.error("Error al traer los datos de la marca:", err);
             setError(err);
+            setLoadingMarcas(false);
           });
 
           //Traer el nombre de la Categoría
@@ -67,10 +72,12 @@ export default function TableProducts() {
           .then((catData) => {
             const catObj = catData.reduce((acc, curr) => ({ ...acc, ...curr }), {});
             setCat(catObj);
+            setLoadingCats(false);
           })
           .catch((err) => {
             console.error("Error al traer los datos de la categoría:", err);
             setError(err);
+            setLoadingCats(false);
           });
       })
       .catch((error) => {
@@ -100,16 +107,16 @@ export default function TableProducts() {
             <TableHead>
               <TableRow>
                 <TableCell align="left">
-                  <Typography variant="subtitle1" color="primary" gutterBottom>Nombre</Typography>
+                  <Typography variant="subtitle1" gutterBottom>Nombre</Typography>
                 </TableCell>
                 <TableCell align="left">
-                  <Typography variant="subtitle1" color="primary" gutterBottom>Marca</Typography>
+                  <Typography variant="subtitle1" gutterBottom>Marca</Typography>
                 </TableCell>
                 <TableCell align="left">
-                  <Typography variant="subtitle1" color="primary" gutterBottom>Categoría</Typography>
+                  <Typography variant="subtitle1" gutterBottom>Categoría</Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="subtitle1" color="primary" gutterBottom> Acciones</Typography>
+                  <Typography variant="subtitle1" gutterBottom> Acciones</Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -118,8 +125,8 @@ export default function TableProducts() {
                 <TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }} >
                   {/* Contenido de la tabla */}
                   <TableCell align="left">{row.NombreProducto}</TableCell>
-                  <TableCell align="left">{nombreMarca[row.Marca]}</TableCell>
-                  <TableCell align="left">{nombreCategoria[row.Categoria]}</TableCell>
+                  <TableCell align="left">{loadingMarcas ? "Cargando..." : nombreMarca[row.Marca]}</TableCell>
+                  <TableCell align="left">{loadingCats ? "Cargando..." : nombreCategoria[row.Categoria]}</TableCell>
                   <TableCell align="right">
                     <Tooltip title="Actualizar">
                       {/* función anónima */}
