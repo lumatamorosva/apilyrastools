@@ -13,7 +13,6 @@ import Tooltip from '@mui/material/Tooltip';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate, useParams } from 'react-router-dom';
-import GenreService from '../../services/GenreService';
 import ActorService from '../../services/CategoriaService';
 import MovieService from '../../services/ProductoService';
 import { toast } from 'react-hot-toast';
@@ -184,25 +183,7 @@ export function UpdateMovie() {
         }
       });
   }, []);
-  //Lista de Generos
-  const [dataGenres, setDataGenres] = useState({});
-  const [loadedGenres, setLoadedGenres] = useState(false);
-  useEffect(() => {
-    GenreService.getGenres()
-      .then((response) => {
-        console.log(response);
-        setDataGenres(response.data);
-        setLoadedGenres(true);
-      })
-      .catch((error) => {
-        if (error instanceof SyntaxError) {
-          console.log(error);
-          setError(error);
-          setLoadedGenres(false);
-          throw new Error('Respuesta no válida del servidor');
-        }
-      });
-  }, []);
+  
   //Lista de actores
   const [dataActors, setDataActors] = useState({});
   const [loadedActors, setLoadedActors] = useState(false);
