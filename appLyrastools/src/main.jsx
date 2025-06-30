@@ -7,7 +7,6 @@ import { Home } from "./components/Home/Home";
 import { RouterProvider } from "react-router";
 import { PageNotFound } from "./components/Home/PageNotFound";
 import { ListMovies } from "./components/Paginas/ListMovies";
-import { DetailMovie } from "./components/Paginas/DetailMovie";
 import ListRentals from "./components/Rental/ListRentals";
 import DetailRental from "./components/Rental/DetailRental";
 import TableProducts from "./components/Paginas/TableProductos";
@@ -70,10 +69,6 @@ const rutas=createBrowserRouter(
         {
           path: '/catalog-productos/',
           element: <CatalogProductos />,
-        },
-        {
-          path:'/movie/:id',
-          element: <DetailMovie />
         },
         {
           path: 'movie/image/',

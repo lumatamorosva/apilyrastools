@@ -18,7 +18,6 @@ import ActorService from '../../services/CategoriaService';
 import MovieService from '../../services/ProductoService';
 import { toast } from 'react-hot-toast';
 import { SelectMarca } from './Form/SeleccionarMarca';
-import { SelectGenres } from './Form/SelectGenres';
 import { ActorsForm } from './Form/ActorsForm';
 import MarcaService from '../../services/MarcaService';
 
@@ -332,25 +331,6 @@ export function UpdateMovie() {
           </Grid>
           <Grid item xs={12} sm={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              {/* Lista de generos */}
-              {loadedGenres && (
-                <Controller
-                  name="genres"
-                  control={control}
-                  render={({ field }) => (
-                    <SelectGenres
-                      field={field}
-                      data={dataGenres}
-                      error={Boolean(errors.genres)}
-                      onChange={(e) =>
-                        setValue('genres', e.target.value, {
-                          shouldValidate: true,
-                        })
-                      }
-                    />
-                  )}
-                />
-              )}
               <FormHelperText sx={{ color: '#d32f2f' }}>
                 {errors.genres ? errors.genres.message : ' '}
               </FormHelperText>
