@@ -66,9 +66,10 @@ export default function Header() {
   ];
   //Lista enlaces menu principal
   const navItems = [
-    { name: "Comprar Herramientas", link: "/catalog-productos/", roles:null },
+    {name: "Comprar Herramientas", link: "/catalog-productos/", roles:null },
+    {name: "Promociones", link: "/Paginas/ListPromociones/", roles:null },
     //Rol desactivado por el momento
-    { name: "Mantenimiento Productos", link: "/product-table/", roles:['Administrador'] },
+    {name: "Mantenimiento Productos", link: "/product-table/", roles:['Administrador'] },
   ];
   //Identificador menu principal
   const menuIdPrincipal = "menu-appbar";

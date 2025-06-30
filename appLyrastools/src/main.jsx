@@ -11,6 +11,7 @@ import { DetailMovie } from "./components/Paginas/DetailMovie";
 import ListRentals from "./components/Rental/ListRentals";
 import DetailRental from "./components/Rental/DetailRental";
 import TableProducts from "./components/Paginas/TableProductos";
+import ListPromociones from "./components/Paginas/ListPromociones";
 import { CreateProducto } from "./components/Paginas/CreateProducto";
 import { UpdateMovie } from "./components/Paginas/UpdateMovie";
 import { CatalogProductos } from "./components/Paginas/CatalogProductos";
@@ -51,6 +52,10 @@ const rutas=createBrowserRouter(
             {
               path:'/Paginas/crear/',
               element: <CreateProducto />
+            },
+            {
+              path:'/Paginas/ListPromociones/',
+              element: <ListPromociones />
             },
             {
               path:'/movie/update/:id',

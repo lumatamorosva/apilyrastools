@@ -6,8 +6,8 @@ class promocion
         try {
             $response = new Response();
             //Obtener el listado
-            $cat = new PromocionModel();
-            $result = $cat->all();
+            $promocion = new PromocionModel();
+            $result = $promocion->all();
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {
@@ -18,8 +18,8 @@ class promocion
     {
         try {
             $response = new Response();
-            $cat = new PromocionModel();
-            $result = $cat->get($param);
+            $promocion = new PromocionModel();
+            $result = $promocion->get($param);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {
@@ -30,8 +30,8 @@ class promocion
     {
         try {
             $response = new Response();
-            $cat = new PromocionModel();
-            $result = $cat->get($param);
+            $promocion = new PromocionModel();
+            $result = $promocion->getByRazon($param);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {

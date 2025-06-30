@@ -42,15 +42,11 @@ class PromocionModel
     {
         try {
             //Consulta sql
-			$vSql = "SELECT * FROM promocion where AplicaA=$id";
+			$vSql = "SELECT * FROM promocion where AplicaA='$id'";
             //Ejecutar la consulta
 			$vResultado = $this->enlace->ExecuteSQL ( $vSql);
 			// Retornar el objeto
-            if ($vResultado && count($vResultado) > 0) {
-                return $vResultado[0];
-            } else {
-                throw new Exception("Razón no encontrada con: $id");
-            }
+            return $vResultado;
 		} catch (Exception $e) {
             handleException($e);
         }
