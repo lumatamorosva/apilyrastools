@@ -231,7 +231,7 @@ const currentDate = format(new Date(), 'dd/MM/yyyy');
           <Grid size={12} sm={8}>
             <Typography variant="h5" gutterBottom> Artículos en el carrito</Typography>
             {/* Detalles de Artículos cargados*/}
-            <Cart />
+            <Cart/>
           </Grid>
               {/*boton submit*/}
           <Grid size={12} sm={12}>

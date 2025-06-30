@@ -16,7 +16,8 @@ import PromocionService from "../../services/PromocionesService";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate, Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-
+import Box from '@mui/material/Box';
+import { Grid } from '@mui/material';
 //Componente tabla
 export default function ListPromociones() {
   //Datos a cargar en la tabla
@@ -57,7 +58,14 @@ export default function ListPromociones() {
     <Typography variant="h5" gutterBottom>Promociones en el sistema
       <Tooltip title="ListPromociones"><IconButton component={Link} to="/Paginas/crear/" color="success"> <AddIcon/></IconButton> </Tooltip>
     </Typography>
-      
+      <Box>
+        <Typography fontSize="small">Estados de las promociones:</Typography>
+        <Grid container size="6">
+            <Typography fontSize="small" backgroundColor="#db4848" marginLeft="10px" padding="5px">Vencidas</Typography>
+            <Typography fontSize="small" backgroundColor="#276dc2" marginLeft="10px" padding="5px">Pendientes</Typography>
+            <Typography fontSize="small" backgroundColor="#b1e6aa" marginLeft="10px" padding="5px">Actualmente activas</Typography>
+        </Grid>
+      </Box>
       {data && (
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -85,7 +93,8 @@ export default function ListPromociones() {
             </TableHead>
             <TableBody>
               {data.map((row) => (
-                <TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }} >
+                <TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, 
+                backgroundColor:new Date() > new Date(row.FechaFinal) ? '#db4848': new Date() < new Date(row.FechaInicio) ? '#276dc2':'#b1e6aa'}} >
                   {/* Contenido de la tabla */}
                   <TableCell align="left">{row.Nombre}</TableCell>
                   <TableCell align="left">{row.Descripcion}</TableCell>

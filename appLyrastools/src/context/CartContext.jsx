@@ -42,7 +42,7 @@ export function CartProvider({ children }) {
     dispatch({
       type: CART_ACTION.CLEAN_CART,
     });
-    toast(`El alquiler fue reiniciado`,
+    toast(`Carrito vaciado`,
       {
         icon: <DeleteIcon color='warning' />
       }
