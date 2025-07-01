@@ -16,7 +16,7 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
-import PropTypes from 'prop-types';
+import PropTypes, { number } from 'prop-types';
 import { useCart } from '../../hooks/useCart';
 import TextField from '@mui/material/TextField';
 //Para la ventana emergente
@@ -44,6 +44,18 @@ export function ListCardProductos({ data, isShopping }) {
     setOpen(false);
     setProductoActivo(null);
   };
+
+  //Función para agregar al carrito
+    //Guarda la cantidad de elementos en el textfield
+    const [cantidad, setCantidad] = useState({});
+    //Función de agregar
+    async function  agregarElemento(item, cantidad) {
+      if(cantidad>0 && number){
+        alert('Agregado: '+cantidad);
+      }else{
+        alert('Debe agregar al menos un '+item.NombreProducto);
+      }
+    }
   
   //Para el dropDownOrden
   const [orden, setOrden] = useState('');
@@ -136,11 +148,13 @@ export function ListCardProductos({ data, isShopping }) {
                     color: (theme) => theme.palette.common.white,
                   }}
                 >
-                  <IconButton onClick
+                  <IconButton onClick={() => item && agregarElemento(item,cantidad[item.IdProducto])}
                     sx={{ mr: '10%', ml: 'auto' ,border:'0.5px solid', borderRadius:1,width:'40%'}}
                   ><ShoppingCartIcon />
                   </IconButton>
-                  <TextField  size='small' style={{width:'50%',maxWidth:'50%', ml: '10%', mr: 'auto'}}></TextField>
+                  <TextField size='small' value={cantidad[item.IdProducto]}
+                   onChange={(e) => setCantidad((prev) => ({...prev,[item.IdProducto]: parseInt(e.target.value)}))}
+                   type="number" style={{width:'50%',maxWidth:'50%', ml: '10%', mr: 'auto'}} inputProps={{min: 0}}></TextField>
                 </CardActions>
               </Card>
             </Grid>
