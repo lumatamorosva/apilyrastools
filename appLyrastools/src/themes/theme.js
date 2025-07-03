@@ -6,7 +6,7 @@ export const appTheme= createTheme  ({
       main: '#498B97', 
     }, 
     secondary: { 
-      main: '#AA5B79', 
+      main: '#6a948d', 
     }, 
     primaryLight: { 
         main: "#AA6262", 
