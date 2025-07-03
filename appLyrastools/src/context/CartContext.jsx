@@ -6,15 +6,41 @@ import toast from 'react-hot-toast';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 
+//Traer la promoción
+ async function promocionDetalle(id) {
+  try {
+    const res = await fetch(`http://localhost:81/apilyrastools/promocion/${id}`);
+    const data = await res.json();
+    const cant = data.Cantidad;
+    if (isNaN(cant)) {
+      console.warn("Cantidad inválida recibida:", data.Cantidad);
+      return 0;
+    }
+    return cant/100;
+  } catch (e) {console.error(e); return 0;}
+}
+
 export const CartContext = createContext();
 
 CartProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+//Revisar y ajustar para promociones
+async function checkPromotion(producto){
+  const ajustado = {...producto};
+  if(parseInt(producto.Promocion) !== 0){
+    const descuento = await promocionDetalle(producto.IdPromocion)
+    ajustado.Precio = (producto.Precio - (producto.Precio * descuento));
+  }
+  return ajustado;
+}
+//Función principal para las funciones del carrito
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, cartInitialState);
-  const addItem = (producto, cantidad) =>{
-    dispatch({ type: CART_ACTION.ADD_ITEM, payload: { ...producto, cantidad }, });
+  const addItem = async (producto, cantidad) =>{
+    const adjust = await checkPromotion(producto);
+    dispatch({ type: CART_ACTION.ADD_ITEM, payload: { ...adjust, cantidad }, });
     toast.success(`${producto.NombreProducto} fue añadido al carrito`)
   }
   const removeItem = (producto) =>{

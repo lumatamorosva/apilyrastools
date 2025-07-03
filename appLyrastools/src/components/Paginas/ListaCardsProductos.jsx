@@ -51,7 +51,6 @@ export function ListCardProductos({ data, isShopping }) {
     const {addItem} = useCart();
     async function  agregarElemento(item, cantidad) {
       if(cantidad>0 && number){
-        alert('Agregado: '+cantidad);
         addItem(item,cantidad);
       }else{
         alert('Debe agregar al menos un '+item.NombreProducto);
