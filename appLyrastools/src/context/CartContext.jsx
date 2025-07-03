@@ -1,12 +1,6 @@
 import * as React from 'react';
 import { createContext, useReducer } from 'react';
-import {
-  cartReducer,
-  cartInitialState,
-  getTotal,
-  getCountItems,
-  CART_ACTION,
-} from '../reducers/cart';
+import { cartReducer, cartInitialState, getTotal, getCountItems, CART_ACTION} from '../reducers/cart';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -19,47 +13,20 @@ CartProvider.propTypes = {
 };
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, cartInitialState);
-  const addItem = (movie) =>{
-    dispatch({
-      type: CART_ACTION.ADD_ITEM,
-      payload: movie,
-    });
-    toast.success(`${movie.title} fue añadido al carrito`
-    )
+  const addItem = (producto, cantidad) =>{
+    dispatch({ type: CART_ACTION.ADD_ITEM, payload: { ...producto, cantidad }, });
+    toast.success(`${producto.NombreProducto} fue añadido al carrito`)
   }
-  const removeItem = (movie) =>{
-    dispatch({
-      type: CART_ACTION.REMOVE_ITEM,
-      payload: movie,
-    });
-    toast(`${movie.title} fue eliminado del alquiler`,
-      {
-        icon: <RemoveShoppingCartIcon color='warning' />
-      }
-    )
+  const removeItem = (producto) =>{
+    dispatch({ type: CART_ACTION.REMOVE_ITEM, payload: producto, });
+    toast(`${producto.NombreProducto} fue eliminado del carrito`, {icon: <RemoveShoppingCartIcon color='warning' />} )
   }
   const cleanCart = () =>{
-    dispatch({
-      type: CART_ACTION.CLEAN_CART,
-    });
-    toast(`Carrito vaciado`,
-      {
-        icon: <DeleteIcon color='warning' />
-      }
-    )
+    dispatch({ type: CART_ACTION.CLEAN_CART, });
+    toast(`Carrito vaciado`, { icon: <DeleteIcon color='warning' /> }  )
   }
   return (
-    <CartContext.Provider
-      value={{
-        cart: state,
-        addItem,
-        removeItem,
-        cleanCart,
-        getTotal,
-        getCountItems,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
+    <CartContext.Provider value={{ cart: state, addItem, removeItem, cleanCart, getTotal, getCountItems, }}>
+    {children}  </CartContext.Provider>
   );
 }

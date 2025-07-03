@@ -12,7 +12,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import RentalService from "../../services/RentalService";
 //Documentación Recharts: https://recharts.org/en-US/
 //Instalar: npm install recharts
 export function GraphRetal() {

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
@@ -29,7 +28,7 @@ ListCardProductos.propTypes = {
 };
 
 export function ListCardProductos({ data, isShopping }) {
-  const { addItem } =useCart()
+  //const { addItem } =useCart()
   //Url para acceder a la imagenes guardadas en el API
   const BASE_URL = import.meta.env.VITE_BASE_URL + 'uploads';
   const [open, setOpen] = useState(false);
@@ -49,9 +48,11 @@ export function ListCardProductos({ data, isShopping }) {
     //Guarda la cantidad de elementos en el textfield
     const [cantidad, setCantidad] = useState({});
     //Función de agregar
+    const {addItem} = useCart();
     async function  agregarElemento(item, cantidad) {
       if(cantidad>0 && number){
         alert('Agregado: '+cantidad);
+        addItem(item,cantidad);
       }else{
         alert('Debe agregar al menos un '+item.NombreProducto);
       }
@@ -136,7 +137,7 @@ export function ListCardProductos({ data, isShopping }) {
                   <Typography variant="body3" color="text.primary" align="center"> {item.NombreProducto}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    <LocalAtmIcon sx={{ verticalAlign: 'middle' }}/>  ₡{Number(item.Precio).toLocaleString('en-US')}
+                    <LocalAtmIcon sx={{ verticalAlign: 'middle' }}/>₡{Number(item.Precio).toLocaleString('en-US')}
                   </Typography>
                   {isShopping && ( <Typography variant="h6" align="right" gutterBottom> &cent;{item.Precio} </Typography>)}
                 </CardContent>

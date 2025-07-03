@@ -1,22 +1,13 @@
+import { Update } from "@mui/icons-material";
 
 export const cartInitialState = JSON.parse(localStorage.getItem('cart')) || [];
-export const CART_ACTION = {
-  ADD_ITEM: 'ADD_ITEM',
-  REMOVE_ITEM: 'REMOVE_ITEM',
-  CLEAN_CART: 'CLEAN_CART',
-};
+export const CART_ACTION = { ADD_ITEM: 'ADD_ITEM', REMOVE_ITEM: 'REMOVE_ITEM', CLEAN_CART: 'CLEAN_CART'};
 //Actualizar localstorage
-export const updateLocalStorage = (state) => {
-  localStorage.setItem('cart', JSON.stringify(state));
-};
+export const updateLocalStorage = (state) => { localStorage.setItem('cart', JSON.stringify(state));};
 // Función para calcular el subtotal de cada ítem
-const calculateSubtotal = (item) => item.price * item.days;
-
+const calculateSubtotal = (item, cantidad) => item.Precio * cantidad;
 // Función para calcular el total del carrito
-const calculateTotal = (cart) =>
-  cart.reduce((acc, item) => acc + item.subtotal, 0);
-
-
+const calculateTotal = (cart) => cart.reduce((acc, item) => acc + item.subtotal, 0);
 //Reducer carrito de compras
 //state: estado previo
 //retorna un nuevo estado
@@ -27,47 +18,32 @@ export const cartReducer = (state, action) => {
   switch (actionType) {
     //Agregar un item a la compra
     case CART_ACTION.ADD_ITEM: {
-      const { id } = actionPayload;
       //Verificar sí existe
-      const movieInCart = state.findIndex((item) => item.id === id);
-      //Actualizar alquiler de pelicula existente
-      if (movieInCart >= 0) {
-        //structuredClone: copia a profundidad
-        const newState = structuredClone(state);
-        //Aumentar días de alquiler
-        newState[movieInCart].days += 1;
-        // Calcula y actualiza el subtotal
-        newState[movieInCart].subtotal = calculateSubtotal(
-          newState[movieInCart],
-        );
-        updateLocalStorage(state);
+      const productInCart = state.find((item)=>item.IdProducto === action.payload.IdProducto);
+      //Actualizar carrito si el producto existe
+      if (productInCart) {
+        const newState = state.map((item)=>
+          item.IdProducto === action.payload.IdProducto? {...item,cantidad:item.cantidad+action.payload.cantidad,
+          subtotal: calculateSubtotal(item,item.cantidad+action.payload.cantidad)}:item);
+        updateLocalStorage(newState);
+        return newState;
+      //Agregar producto nuevo
+      }else{
+        const newItem = {...action.payload,subtotal: calculateSubtotal(action.payload, action.payload.cantidad),};
+        const newState = [...state, newItem];
+        updateLocalStorage(newState);
         return newState;
       }
-      //Nueva pelicula en la compra
-      const newState = [
-        ...state,
-        {
-          ...actionPayload,
-          days: 1,
-          subtotal: calculateSubtotal({ ...actionPayload, days: 1 }),
-        },
-      ];
-      updateLocalStorage(newState);
-      
-      return newState;
     }
     //Eliminar item de la compra
     case CART_ACTION.REMOVE_ITEM: {
-      const { id } = actionPayload;
-      const newState = state.filter((item) => item.id !== id);
+      const newState = state.filter((item) => item.IdProducto !== action.payload.IdProducto);
       updateLocalStorage(state);
       return newState;
     }
     //Eliminar el carrito completo
-    case CART_ACTION.CLEAN_CART: {
-      updateLocalStorage([]);
-      return [];
-    }
+    case CART_ACTION.CLEAN_CART:
+      {updateLocalStorage([]); return []; }
     default:
       return state;
   }

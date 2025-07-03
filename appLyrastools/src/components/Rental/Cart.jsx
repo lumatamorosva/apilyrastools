@@ -36,34 +36,21 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
+const StyledTableRow = styled(TableRow)(({ theme }) => ({'&:nth-of-type(odd)': {backgroundColor: theme.palette.action.hover,},
   // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
+  '&:last-child td, &:last-child th': {border: 0,},
 }));
-function CartItem({ item, removeItem }) {
+function CartItem({item, removeItem}) {
   return (
-    <StyledTableRow
-      key={item.idProducto}
-      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-    >
-      <StyledTableCell component="th" scope="row">
-        {item.Nombre}
-      </StyledTableCell>
-      <StyledTableCell>{item.Precio}</StyledTableCell>
-      <StyledTableCell>&cent;{item.subtotal}</StyledTableCell>
+    <StyledTableRow key={item.IdProducto} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+      <StyledTableCell component="th" scope="row"> {item.NombreProducto} </StyledTableCell>
+      <StyledTableCell>₡{Number(item.Precio).toLocaleString('en-US')}</StyledTableCell>
+      <StyledTableCell align="center">{item.cantidad}</StyledTableCell>
+      <StyledTableCell>₡{Number(item.subtotal).toLocaleString('en-US')}</StyledTableCell>
       <StyledTableCell align="right">
-        <Tooltip title={'Borrar ' + item.Nombre}>
-          <IconButton
-            color="warning"
-            onClick={() => removeItem(item)}
-            aria-label={'Borrar ' + item.Nombre}
-          >
-            <DeleteIcon />
+        <Tooltip title={'Remover ' + item.NombreProducto}>
+          <IconButton color="warning" onClick={() => removeItem(item)} aria-label={'Borrar '+item.NombreProducto}>
+          <DeleteIcon />
           </IconButton>
         </Tooltip>
       </StyledTableCell>
@@ -85,32 +72,23 @@ export function Cart() {
             <TableRow>
               <StyledTableCell>Producto</StyledTableCell>
               <StyledTableCell>Precio</StyledTableCell>
+              <StyledTableCell>Cantidad</StyledTableCell>
               <StyledTableCell>Subtotal</StyledTableCell>
-              <StyledTableCell align="right">Acciones</StyledTableCell>
+              <StyledTableCell align="right">Eliminar</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {/* Lista de lineas de detalle de la compra */}
-            {cart.map((row)=>(
-              <CartItem key={row.id}
-                item={row}
-                removeItem={()=>removeItem(row)}
-                {...row}
-              />
-            ))}
-
+            {cart.map((row)=>(<CartItem key={row.id} item={row} removeItem={()=>removeItem(row)} {...row}/>))}
           </TableBody>
-          <TableFooter
-          >
+          <TableFooter>
             <TableRow>
-              <StyledTableCell colSpan={3} align="right">
+              <StyledTableCell colSpan={4} align="right">
                 <Typography variant="subtitle1" gutterBottom> Total </Typography>
               </StyledTableCell>
-              <StyledTableCell colSpan={2}>
-                <Typography variant="subtitle1" gutterBottom>
-                  {/* Mostrar total */}
-                 &cent;{getTotal(cart)}
-                </Typography>
+              {/* Mostrar total */}
+              <StyledTableCell colSpan={3}>
+                <Typography variant="subtitle1" gutterBottom>₡{Number(getTotal(cart)).toLocaleString('en-US')}</Typography>
               </StyledTableCell>
             </TableRow>
           </TableFooter>

@@ -7,8 +7,6 @@ import { Home } from "./components/Home/Home";
 import { RouterProvider } from "react-router";
 import { PageNotFound } from "./components/Home/PageNotFound";
 import { ListMovies } from "./components/Paginas/ListMovies";
-import ListRentals from "./components/Rental/ListRentals";
-import DetailRental from "./components/Rental/DetailRental";
 import TableProducts from "./components/Paginas/TableProductos";
 import ListPromociones from "./components/Paginas/ListPromociones";
 import { CreateProducto } from "./components/Paginas/CreateProducto";
@@ -22,6 +20,7 @@ import { Unauthorized } from "./components/User/Unauthorized";
 import { Login } from "./components/User/Login";
 import { Logout } from "./components/User/Logout";
 import { Signup } from "./components/User/Signup";
+import {CartProvider} from "./context/CartContext"
 const rutas=createBrowserRouter(
   [
     {
@@ -74,16 +73,6 @@ const rutas=createBrowserRouter(
           path: 'movie/image/',
           element: <UploadImagenParaProducto />
         },
-        
-        {
-          path:'/rental',
-          element: <ListRentals />
-        },
-        {
-          path:'/retal/:id',
-          element: <DetailRental />
-        },
-       
         {
           path: '/rental/crear/',
           element: <CreateMovieRental />,
@@ -112,11 +101,14 @@ const rutas=createBrowserRouter(
     }
   ]
 )
-
 createRoot(document.getElementById("root")).render(
-  <StrictMode> 
-    <UserProvider>
-      <RouterProvider router={rutas} /> 
-    </UserProvider>
+  <StrictMode>
+    {/*Se rodea el app con el carrito*/} 
+    <CartProvider>
+      {/*Se rodea el app con el control de usuario*/}
+      <UserProvider>
+        <RouterProvider router={rutas} /> 
+      </UserProvider>
+  </CartProvider>
 </StrictMode>, 
 );

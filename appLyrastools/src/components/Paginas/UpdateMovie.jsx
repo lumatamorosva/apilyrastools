@@ -17,7 +17,6 @@ import ActorService from '../../services/CategoriaService';
 import MovieService from '../../services/ProductoService';
 import { toast } from 'react-hot-toast';
 import { SelectMarca } from './Form/SeleccionarMarca';
-import { ActorsForm } from './Form/ActorsForm';
 import MarcaService from '../../services/MarcaService';
 
 
@@ -329,27 +328,6 @@ export function UpdateMovie() {
                   </span>
                 </Tooltip>
               </Typography>
-              {/* Array de controles de actor */}
-              {loadedActors &&
-                fields.map((field, index) => (
-                  <>
-                    <ActorsForm
-                      name="actors"
-                      field={field}
-                      data={dataActors}
-                      key={field.id}
-                      index={index}
-                      onRemove={removeActor}
-                      control={control}
-                      disableRemoveButton={fields.length === 1}
-                      onChange={(e) =>
-                        setValue('actors', e.target.value, {
-                          shouldValidate: true,
-                        })
-                      }
-                    />
-                  </>
-                ))}
               <FormHelperText sx={{ color: '#d32f2f' }}>
                 {errors.actors ? errors.actors.message : ' '}
               </FormHelperText>
