@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -11,10 +11,9 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
+import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import PropTypes, { number } from 'prop-types';
 import { useCart } from '../../hooks/useCart';
 import TextField from '@mui/material/TextField';
@@ -36,7 +35,7 @@ export function ListCardProductos({ data, isShopping }) {
   const [open, setOpen] = useState(false);
   const [productoActivo, setProductoActivo] = useState(null);
 
-  //Funcion para Emergente
+  //Funcion para Mostrar Emergente
   async function abrirPopup(item) {
     setProductoActivo(item);
     setOpen(true);
@@ -51,44 +50,45 @@ export function ListCardProductos({ data, isShopping }) {
     const [cantidad, setCantidad] = useState({});
     //Función de agregar
     const {addItem} = useCart();
-    async function  agregarElemento(item, cantidad) {
-      if(cantidad>0 && number){
-        addItem(item,cantidad);
-      }else{
-        alert('Debe agregar al menos un '+item.NombreProducto);
-      }
-    }
-  
+    async function  agregarElemento(item, cantidad) {addItem(item,cantidad);}
   //Para el dropDownOrden
   const [orden, setOrden] = useState('');
   const handleChange = (event) => {
     setOrden(event.target.value); // Actualiza el estado con el valor seleccionado
-  };
-  //Para el dropDownCantidad
-  const [modo, setModo] = useState('');
-  const handleChange1 = (event) => {
-    setModo(event.target.value); // Actualiza el estado con el valor seleccionado
   };
   //Para la busqueda de productos
   const [busqueda, setBusqueda] = useState('');
   const filtrados = data.filter(producto => producto.NombreProducto.toLowerCase().includes(busqueda.toLowerCase()))
   //Para ordenar comparando respecto al precio de cada producto
   .sort((a,b)=>{
-    if(orden==='ascendente'){
-      return a.Precio - b.Precio;
-    }else if(orden==='descendente'){
-      return b.Precio - a.Precio;
+    if(orden==='ascendente'){return a.Precio - b.Precio;
+    }else if(orden==='descendente'){return b.Precio - a.Precio;
     }
   });
-  //Para la paginación
-    //Define la cantidad de páginas que se ocupan
-    const totalPaginas = ( modo ? (Math.ceil(filtrados.length/modo)) : 1);
   //Para activar el filtro de busqueda   
   const handleChangeBuscar = (e) => {
     setBusqueda(e.target.value);
-    // Aquí puedes disparar un filtro o búsqueda
-    console.log("Buscando:", e.target.value);
   };
+  //Para marcar categorias:
+    const [catChecked, setCatChecked] = useState(false);
+    const handleChangeCat = (event,id) => {setCatChecked(prev => ({...prev,[id]: event.target.checked}));};
+    //Para marcar marcas:
+    const [marcaChecked, setMarcaChecked] = useState(false);
+    const handleChangeMarca = (event,id) => {setMarcaChecked(prev => ({...prev,[id]: event.target.checked}));};
+  //Traer las categorias:
+    const [cats, setCats] = useState([]);
+    useEffect(() =>{
+    fetch(`http://localhost:81/apilyrastools/categoria`)
+            .then((res) => res.json())
+            .then(data => setCats(data));
+    },[]);
+    //Traer las marcas:
+    const [marcas, setMarcas] = useState([]);
+    useEffect(() =>{
+    fetch(`http://localhost:81/apilyrastools/marca`)
+            .then((res) => res.json())
+            .then(data => setMarcas(data));
+    },[]);
 
   return (
     <>
@@ -102,43 +102,52 @@ export function ListCardProductos({ data, isShopping }) {
             <MenuItem value={'ascendente'}>Menor a mayor</MenuItem>
           </Select>
         </FormControl>
-        {/* Modo Dropdown */}
-       <FormControl sx={{ m: 1, minWidth: "20%" }} size="small">
-        <InputLabel sx={{color: 'white', '&.Mui-focused': { color: 'white'}}} id="modoDropDown">Artículos</InputLabel>
-          <Select labelId="modoDropDown" id="modoDropDown" value={modo} label="modoDropDown" onChange={handleChange1}>
-            <MenuItem value={'10'}>10</MenuItem>
-            <MenuItem value={'30'}>30</MenuItem>
-            <MenuItem value={'40'}>40</MenuItem>
-          </Select>
-        </FormControl>
         <FormControl sx={{ m: 1, minWidth: "20%"}} size="small" color='white'>
           <TextField InputLabelProps={{sx: {color: 'white','&.Mui-focused': {color: 'white','& input':
             {color: 'white'}}}}} sx={{'& .MuiInputBase-input': {color: 'white'}}}
             size="small" id="buscar" label="Buscar..." onChange={handleChangeBuscar}></TextField>
         </FormControl>
-          <Box sx={{alignContent:'center', mr:'1px', ml:'auto'}}>
-            <Stack spacing={2}>
-              <Pagination count={totalPaginas} shape="rounded" />
-            </Stack>
-        </Box>
       </Box>
       
     </Grid>
     <Grid sx={{display:'flex', mt:'10px'}}>
-      <Box size={4} sx={{borderRadius:1, backgroundColor:(theme) => theme.palette.secondary.main, p:'15px'}}>Aquí van los filtros</Box>
+      <Box size={4} color='white' sx={{borderRadius:1, backgroundColor:(theme) => theme.palette.secondary.main, p:'15px'}}>
+        <Box>
+          Categorías:
+          {cats.map((item) =>
+          (
+            <FormGroup key={item.IdCategoria} >
+                <FormControlLabel control={<Checkbox checked={!!catChecked[item.IdCategoria]} size="small"
+                onChange={(e)=>handleChangeCat(e,item.IdCategoria)}></Checkbox>}
+                 label={<Typography variant="body2">{item.Nombre}</Typography>}></FormControlLabel>
+            </FormGroup>
+          ))}
+        </Box>
+        <Box>
+          Marcas:
+          {marcas.map((item) =>
+          (
+            <FormGroup key={item.IdMarca} >
+                <FormControlLabel control={<Checkbox checked={!!marcaChecked[item.IdMarca]} size="small"
+                onChange={(e)=>handleChangeMarca(e,item.IdMarca)}></Checkbox>}
+                 label={<Typography variant="body2">{item.Nombre}</Typography>}></FormControlLabel>
+            </FormGroup>
+          ))}
+        </Box>
+
+      </Box>
         <Grid size={8} container sx={{ p: 2 }} spacing={3}>
         {/* ()=>{} */}
         {filtrados && filtrados.map((item) => (
-            <Grid size={4} key={item.id} minWidth='180px'>
-              <Card>
-                <CardActionArea onClick={() => item && abrirPopup(item)}> 
-                <CardMedia height="180px" component="img" image={`${BASE_URL}/${item?.Imagen}`} alt={item.Imagen} sx={{width: '100%', objectFit: 'contain'}}/>
+          <Grid size={4} key={item.id} minWidth='180px'>
+            <Card>
+              <CardActionArea onClick={() => item && abrirPopup(item)}> 
+              <CardMedia height="180px" component="img" image={`${BASE_URL}/${item?.Imagen}`} alt={item.Imagen} sx={{width: '100%', objectFit: 'contain'}}/>
                 <Box sx={{display:'flex',justifyContent: 'center', }}>
                   {item.IdPromocion > 0 && <Typography position="absolute" sx={{top:150, fontWeight:'bold',}} color = "red"> Artículo en promoción </Typography> }
                 </Box>
-                <CardContent>
-                  <Typography variant="body1" color="text.primary" align="center"> {item.NombreProducto}
-                  </Typography>
+              <CardContent>
+                  <Typography variant="body1" color="text.primary" align="center"> {item.NombreProducto}</Typography>
                   <Box display="flex">
                     <Box>
                       {[...Array(Math.round(Number(item.Calificacion)))].map((_, i) => (
@@ -154,7 +163,6 @@ export function ListCardProductos({ data, isShopping }) {
                       </Typography>
                     </Box>
                   </Box>
-                  {isShopping && ( <Typography variant="h6" align="right" gutterBottom> &cent;{item.Precio} </Typography>)}
                 </CardContent>
                 </CardActionArea>
                 <CardActions
@@ -164,17 +172,17 @@ export function ListCardProductos({ data, isShopping }) {
                     color: (theme) => theme.palette.common.white,
                   }}
                 >
-                  <IconButton onClick={() => item && agregarElemento(item,cantidad[item.IdProducto])}
+                  <IconButton onClick={() => item && agregarElemento(item,cantidad[item.IdProducto] ?? 1)}
                     sx={{ mr: '10%', ml: 'auto' ,border:'0.5px solid', borderRadius:1,width:'40%'}}
                   ><ShoppingCartIcon />
                   </IconButton>
-                  <TextField size='small' value={cantidad[item.IdProducto]}
+                  <TextField size='small' value={cantidad[item.IdProducto] ?? 1}
                    onChange={(e) => setCantidad((prev) => ({...prev,[item.IdProducto]: parseInt(e.target.value)}))}
-                   type="number" style={{width:'50%',maxWidth:'50%', ml: '10%', mr: 'auto'}} inputProps={{min: 0}}></TextField>
+                   type="number" style={{width:'50%',maxWidth:'50%', ml: '10%', mr: 'auto'}} inputProps={{min: 1}}></TextField>
                 </CardActions>
               </Card>
             </Grid>
-          ))}
+        ))}
       </Grid>
     </Grid>
     

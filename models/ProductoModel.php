@@ -81,6 +81,26 @@ class ProductoModel
         }
     }
     /**
+     * Obtener los 10 mejores calificados
+     * @param 
+     * @return $vresultado - 10 productos con mejor calificación
+     */
+    //
+    public function getTop()
+    {
+        try {
+            $vResultado = null;
+            //Consulta sql
+            $vSql = "SELECT * from producto order by Calificacion DESC Limit 10";
+            //Ejecutar la consulta
+            $vResultado = $this->enlace->ExecuteSQL($vSql);
+            // Retornar el objeto
+            return $vResultado;
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+    /**
      * Crear producto
      * @param $objeto producto a insertar
      * @return $this->get($idProducto) - Objeto producto
