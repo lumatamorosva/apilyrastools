@@ -6,7 +6,7 @@ import CardActions from '@mui/material/CardActions';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,6 +18,8 @@ import Box from '@mui/material/Box';
 import PropTypes, { number } from 'prop-types';
 import { useCart } from '../../hooks/useCart';
 import TextField from '@mui/material/TextField';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 //Para la ventana emergente
 import CardActionArea from '@mui/material/CardActionArea';
 import Emergente from './Emergente';
@@ -133,11 +135,23 @@ export function ListCardProductos({ data, isShopping }) {
                   {item.IdPromocion > 0 && <Typography position="absolute" sx={{top:150, fontWeight:'bold',}} color = "red"> Artículo en promoción </Typography> }
                 </Box>
                 <CardContent>
-                  <Typography variant="body3" color="text.primary" align="center"> {item.NombreProducto}
+                  <Typography variant="body1" color="text.primary" align="center"> {item.NombreProducto}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    <LocalAtmIcon sx={{ verticalAlign: 'middle' }}/>₡{Number(item.Precio).toLocaleString('en-US')}
-                  </Typography>
+                  <Box display="flex">
+                    <Box>
+                      {[...Array(Math.round(Number(item.Calificacion)))].map((_, i) => (
+                        <ThumbUpAltIcon key={'filled-' + i} sx={{ color: '#2196F3' }} />
+                      ))}
+                      {[...Array(Math.round(5 - Number(item.Calificacion)))].map((_, i) => (
+                        <ThumbUpOffAltIcon key={'empty-' + i} sx={{ color: '#2196F3' }} />
+                      ))}
+                    </Box>
+                    <Box marginLeft='auto'>
+                      <Typography variant="body2" color="text.primary">
+                        <PointOfSaleIcon sx={{ verticalAlign: 'middle' }}/>₡{Number(item.Precio).toLocaleString('en-US')}
+                      </Typography>
+                    </Box>
+                  </Box>
                   {isShopping && ( <Typography variant="h6" align="right" gutterBottom> &cent;{item.Precio} </Typography>)}
                 </CardContent>
                 </CardActionArea>

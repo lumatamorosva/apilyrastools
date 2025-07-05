@@ -4,10 +4,12 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import CategoryIcon from '@mui/icons-material/Category';
 import DiscountIcon from '@mui/icons-material/Discount';
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 
 //Estilo de la ventana emergente
   const stylePopup = {
@@ -92,11 +94,25 @@ import DiscountIcon from '@mui/icons-material/Discount';
           style={{ width: '100%', borderRadius: 8, marginBottom: 16 }}
         />
         <Typography id="modal-descripcion" sx={{ mb: 2 }}>{item.Descripcion}</Typography>
-        {item.IdPromocion == 0 ?
-          <Typography> <LocalAtmIcon sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio).toLocaleString('en-US')} </Typography>:
-          <Typography color = "red"><DiscountIcon sx={{verticalAlign: 'middle'}}/>
-           Precio de promoción: ₡{(promocionDetalle(item.IdPromocion,item.Precio))}</Typography>
-        }
+        <Box display="flex">
+                            <Box widht="100%"> 
+                              {[...Array(Math.round(Number(item.Calificacion)))].map((_, i) => (
+                                <ThumbUpAltIcon key={'filled-' + i} sx={{ color: '#2196F3' }} />
+                              ))}
+                              {[...Array(Math.round(5 - Number(item.Calificacion)))].map((_, i) => (
+                                <ThumbUpOffAltIcon key={'empty-' + i} sx={{ color: '#2196F3' }} />
+                              ))}
+                            </Box>
+                            <Box marginLeft='auto'>
+                              {item.IdPromocion == 0 ?
+                                <Typography align='right'> <PointOfSaleIcon sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio).toLocaleString('en-US')} </Typography>:
+                                <> <Typography align='right' sx={{ textDecoration: 'line-through' }}> <PointOfSaleIcon sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio).toLocaleString('en-US')} </Typography>
+                                <Typography align='right' color = "red"><DiscountIcon sx={{verticalAlign: 'middle'}}/>
+                                Promoción: ₡{Number(promocionDetalle(item.IdPromocion,item.Precio)).toLocaleString('en-US')}</Typography></>
+                              }
+                            </Box>
+                          </Box>
+        
         <Typography id="modal-descripcion" sx={{ mb: 2 }}><WarehouseIcon/>Disponibles: {item.Existencias}</Typography>
         <Button variant="contained" onClick={onClose}>Cerrar</Button>
       </Box>
