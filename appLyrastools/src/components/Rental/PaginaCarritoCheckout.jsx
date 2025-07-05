@@ -15,8 +15,6 @@ import { useCart } from '../../hooks/useCart';
 
 export function CreateMovieRental() {
   const navigate = useNavigate();
-  //Identificador de la Tienda
-  let idShopRental = 1;
 // Obtener fecha actual en formato dd/MM/yyyy
 const currentDate = format(new Date(), 'dd/MM/yyyy');
   // Esquema de validación
@@ -81,7 +79,7 @@ const currentDate = format(new Date(), 'dd/MM/yyyy');
           </Grid>
           {/*boton submit*/}
           <Grid size={12} sm={12}>
-            <Button type="submit" variant="contained" >Proceder con la compra</Button>
+            <Button type="submit" variant="contained" >Proceder con el pago</Button>
           </Grid>
       </form>
     </>

@@ -20,6 +20,19 @@ import Box from '@mui/material/Box';
 import { Grid } from '@mui/material';
 //Componente tabla
 export default function ListPromociones() {
+  //Formato de la fecha
+  const formatDate = (date) => {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+  const parseDate = (dateString) => {const parsedDate = new Date(dateString);
+    if (isNaN(parsedDate)) {
+      return null;
+    }
+    return parsedDate;
+  };
   //Datos a cargar en la tabla
   const [data, setData] = useState({});
   const [error, setError] = useState("");
@@ -56,7 +69,7 @@ export default function ListPromociones() {
   return (
     <>
     <Typography variant="h5" gutterBottom>Promociones en el sistema
-      <Tooltip title="ListPromociones"><IconButton component={Link} to="/Paginas/crear/" color="success"> <AddIcon/></IconButton> </Tooltip>
+      <Tooltip title="Nueva Promoción"><IconButton component={Link} to="/Paginas/crearPromocion/" color="success"> <AddIcon/></IconButton></Tooltip>
     </Typography>
       <Box>
         <Typography fontSize="small">Estados de las promociones:</Typography>
@@ -86,6 +99,9 @@ export default function ListPromociones() {
                 <TableCell align="left">
                   <Typography variant="subtitle1" color="primary" gutterBottom>%</Typography>
                 </TableCell>
+                <TableCell align="left">
+                  <Typography variant="subtitle1" color="primary" gutterBottom>Aplica A</Typography>
+                </TableCell>
                 <TableCell align="right">
                   <Typography variant="subtitle1" color="primary" gutterBottom> Acciones</Typography>
                 </TableCell>
@@ -98,9 +114,10 @@ export default function ListPromociones() {
                   {/* Contenido de la tabla */}
                   <TableCell align="left">{row.Nombre}</TableCell>
                   <TableCell align="left">{row.Descripcion}</TableCell>
-                  <TableCell align="left">{row.FechaInicio}</TableCell>
-                  <TableCell align="left">{row.FechaFinal}</TableCell>
+                  <TableCell align="left">{row.FechaInicio ? formatDate(parseDate(row.FechaInicio)) : "Fecha no válida"}</TableCell>
+                  <TableCell align="left">{row.FechaFinal ? formatDate(parseDate(row.FechaFinal)) : "Fecha no válida"}</TableCell>
                   <TableCell align="left">{row.Cantidad}%</TableCell>
+                  <TableCell align="left">{row.AplicaA}</TableCell>
                   <TableCell align="right">
                     <Tooltip title="Actualizar">
                       {/* función anónima */}

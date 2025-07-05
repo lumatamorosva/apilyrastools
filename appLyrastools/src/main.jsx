@@ -10,6 +10,7 @@ import { ListMovies } from "./components/Paginas/ListMovies";
 import TableProducts from "./components/Paginas/TableProductos";
 import ListPromociones from "./components/Paginas/ListPromociones";
 import { CreateProducto } from "./components/Paginas/CreateProducto";
+import { CreatePromocion } from "./components/Paginas/CreatePromocion";
 import { UpdateMovie } from "./components/Paginas/UpdateMovie";
 import { CatalogProductos } from "./components/Paginas/CatalogProductos";
 import { UploadImagenParaProducto } from "./components/Paginas/UploadImage";
@@ -50,6 +51,10 @@ const rutas=createBrowserRouter(
             {
               path:'/Paginas/crear/',
               element: <CreateProducto />
+            },
+            {
+              path:'/Paginas/crearPromocion/',
+              element: <CreatePromocion />
             },
             {
               path:'/Paginas/ListPromociones/',
