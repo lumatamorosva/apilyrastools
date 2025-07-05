@@ -95,24 +95,26 @@ export function ListCardProductos({ data, isShopping }) {
     <Grid row size={12}>
       <Box sx={{display:'flex', borderRadius:1, backgroundColor:(theme) => theme.palette.secondary.main}}>
         {/* Orden Dropdown */}
-       <FormControl sx={{ m: 1, minWidth: "20%" }} size="small">
-        <InputLabel id="ordenDropDown">Orden</InputLabel>
-          <Select labelId="ordenDropDown" id="ordenDropDown" value={orden} label="ordenDropDown" onChange={handleChange}>
+       <FormControl sx={{ m: 1, minWidth: "20%"}} size="small">
+        <InputLabel sx={{color: 'white', '&.Mui-focused': { color: 'white'}}} id="ordenDropDown">Orden</InputLabel>
+          <Select sx={{ color: 'white' }} labelId="ordenDropDown" id="ordenDropDown" value={orden} label="ordenDropDown" onChange={handleChange}>
             <MenuItem value={'descendente'}>Mayor a menor</MenuItem>
             <MenuItem value={'ascendente'}>Menor a mayor</MenuItem>
           </Select>
         </FormControl>
         {/* Modo Dropdown */}
        <FormControl sx={{ m: 1, minWidth: "20%" }} size="small">
-        <InputLabel id="modoDropDown">Artículos</InputLabel>
+        <InputLabel sx={{color: 'white', '&.Mui-focused': { color: 'white'}}} id="modoDropDown">Artículos</InputLabel>
           <Select labelId="modoDropDown" id="modoDropDown" value={modo} label="modoDropDown" onChange={handleChange1}>
             <MenuItem value={'10'}>10</MenuItem>
             <MenuItem value={'30'}>30</MenuItem>
             <MenuItem value={'40'}>40</MenuItem>
           </Select>
         </FormControl>
-        <FormControl sx={{ m: 1, minWidth: "20%" }} size="small">
-          <TextField size="small" id="buscar" label="Buscar..." onChange={handleChangeBuscar}></TextField>
+        <FormControl sx={{ m: 1, minWidth: "20%"}} size="small" color='white'>
+          <TextField InputLabelProps={{sx: {color: 'white','&.Mui-focused': {color: 'white','& input':
+            {color: 'white'}}}}} sx={{'& .MuiInputBase-input': {color: 'white'}}}
+            size="small" id="buscar" label="Buscar..." onChange={handleChangeBuscar}></TextField>
         </FormControl>
           <Box sx={{alignContent:'center', mr:'1px', ml:'auto'}}>
             <Stack spacing={2}>
