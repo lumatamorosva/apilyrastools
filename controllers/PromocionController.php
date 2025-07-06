@@ -50,4 +50,22 @@ class promocion
             handleException($e);
         }
     }
+    //POST Crear
+    public function create()
+    {
+        try {
+            $request = new Request();
+            $response = new Response();
+            //Obtener json enviado
+            $inputJSON = $request->getJSON();
+            //Instancia del modelo
+            $prod = new PromocionModel();
+            //Acción del modelo a ejecutar
+            $result = $prod->create($inputJSON);
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
 }

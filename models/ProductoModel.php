@@ -103,7 +103,7 @@ class ProductoModel
     /**
      * Crear producto
      * @param $objeto producto a insertar
-     * @return $this->get($idProducto) - Objeto producto
+     * @return $this->get($IdProducto) - Objeto producto
      */
     //
     public function create($objeto)
@@ -116,9 +116,9 @@ class ProductoModel
 
             //Ejecutar la consulta
             //Obtener ultimo insert
-            $idProducto=$this->enlace->executeSQL_DML_last($sql);
+            $IdProducto=$this->enlace->executeSQL_DML_last($sql);
             //Retornar producto
-            return $this->get($idProducto);
+            return $this->get($IdProducto);
         } catch (Exception $e) {
             handleException($e);
         }

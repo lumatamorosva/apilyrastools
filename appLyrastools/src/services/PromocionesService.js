@@ -5,12 +5,14 @@ class PromocionService {
   getAll() {
     return axios.get(BASE_URL);
   }
-
   getPromocionById(Id) {
     return axios.get(BASE_URL + '/' + Id);
   }
   getPromocionByReason(Reason) {
     return axios.get(BASE_URL + '/getReason/' + Reason);
+  }
+  createPromocion(Promocion) {
+    return axios.post(BASE_URL, JSON.stringify(Promocion));
   }
 }
 export default new PromocionService();

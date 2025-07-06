@@ -88,13 +88,13 @@ export default function ListPromociones() {
                   <Typography variant="subtitle1" color="primary" gutterBottom>Nombre</Typography>
                 </TableCell>
                 <TableCell align="left">
-                  <Typography variant="subtitle1" color="primary" gutterBottom>Descripcion</Typography>
+                  <Typography variant="subtitle1" color="primary" gutterBottom>Descripción</Typography>
                 </TableCell>
                 <TableCell align="left">
                   <Typography variant="subtitle1" color="primary" gutterBottom>Fecha inicial</Typography>
                 </TableCell>
                 <TableCell align="left">
-                  <Typography variant="subtitle1" color="primary" gutterBottom>Fecha final</Typography>
+                  <Typography variant="subtitle1" color="primary" gutterBottom>Fecha de vencimiento</Typography>
                 </TableCell>
                 <TableCell align="left">
                   <Typography variant="subtitle1" color="primary" gutterBottom>%</Typography>

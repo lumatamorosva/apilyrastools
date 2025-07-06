@@ -5,7 +5,6 @@ class CategoriaService {
   getCategorias() {
     return axios.get(BASE_URL);
   }
-
   getCategoriaById(CatId) {
     return axios.get(BASE_URL + '/' + CatId);
   }
@@ -13,5 +12,4 @@ class CategoriaService {
     return axios.get(BASE_URL + '/productoByCategoria/' + CatId);
   }
 }
-
 export default new CategoriaService();

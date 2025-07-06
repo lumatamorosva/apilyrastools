@@ -3,7 +3,6 @@ import axios from 'axios';
 const BASE_URL = import.meta.env.VITE_BASE_URL + 'producto';
 class ProductoService {
   //Definición para Llamar al API y obtener el listado
-
   getProductos() {
     return axios.get(BASE_URL);
   }

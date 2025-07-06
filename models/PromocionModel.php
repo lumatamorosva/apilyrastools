@@ -69,4 +69,27 @@ class PromocionModel
             handleException($e);
         }
     }
+    /**
+     * Crear promoción
+     * @param $objeto promoción a insertar
+     * @return $this->get($idPromocion) - Objeto
+     */
+    //
+    public function create($objeto)
+    {
+        try {
+            //Consulta sql
+            //Identificador autoincrementable
+            $sql = "insert into promocion (Nombre,Descripcion,FechaInicio,FechaFinal,IdCreador,AplicaA,Cantidad)".
+                    " values ('$objeto->Nombre','$objeto->Descripcion','$objeto->FechaInicio','$objeto->FechaFinal','$objeto->IdCreador','$objeto->AplicaA','$objeto->Cantidad')";
+
+            //Ejecutar la consulta
+            //Obtener ultimo insert
+            $IdPromocion=$this->enlace->executeSQL_DML_last($sql);
+            //Retornar producto
+            return $this->get($IdPromocion);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
 }

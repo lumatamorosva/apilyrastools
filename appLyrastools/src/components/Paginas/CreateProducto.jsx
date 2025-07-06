@@ -115,7 +115,7 @@ export function CreateProducto() {
               }
             })
             toast.success(
-              `Producto creado satisfactoriamente #${response.data.id} - ${response.data.title}`,
+              `Producto creado satisfactoriamente #${response.data.IdProducto} - ${response.data.NombreProducto}`,
               {
                 duration: 4000,
                 position:'top-center'
