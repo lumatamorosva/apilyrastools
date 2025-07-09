@@ -14,5 +14,9 @@ class PromocionService {
   createPromocion(Promocion) {
     return axios.post(BASE_URL, JSON.stringify(Promocion));
   }
+  deletePromocion(Id) {
+    console.log('Eliminando promo:', Id);
+    return axios.delete(BASE_URL + '/delete/' + Id);
+  }
 }
 export default new PromocionService();

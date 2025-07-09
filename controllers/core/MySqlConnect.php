@@ -60,8 +60,6 @@ class MySqlConnect {
 							$lista [] = mysqli_fetch_object ( $result );
 							break;
 					}
-					
-					
 				}
 			} else {
 				handleException($this->link->error);

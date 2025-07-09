@@ -9,6 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
+import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { useEffect } from "react";
@@ -18,6 +19,8 @@ import { useNavigate, Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import Box from '@mui/material/Box';
 import { Grid } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+
 //Componente tabla
 export default function ListPromociones() {
   //Formato de la fecha
@@ -37,39 +40,48 @@ export default function ListPromociones() {
   const [data, setData] = useState({});
   const [error, setError] = useState("");
   const [loaded, setLoaded] = useState(false);
-  //Para los nombres de los datos de otras tablas
-  const [nombreMarca, setMarca] = useState(false);
-  const [nombreCategoria, setCat] = useState(false);
    //Enlaces o redireccionar
   const navigate = useNavigate();
   //Obtener lista del API
   useEffect(() => {
-    PromocionService.getAll()
-      .then((response) => {
-        console.log(response);
-        setData(response.data);
-        setError(response.error);
-        setLoaded(true);
-    })
-      .catch((error) => {
-        if (error instanceof SyntaxError) {
+    cargarPromociones();
+  }, []);
+
+  //Carga de todas las promociones:
+  const cargarPromociones = async () => {
+  try {
+    const response = await PromocionService.getAll();
+    setData(response.data);
+    setError(response.error);
+    setLoaded(true);
+  } catch (error) {
+    if (error instanceof SyntaxError) {
           setError(error);
           console.log(error);
           setLoaded(false);
           throw new Error("Respuesta no válida del servidor");
         }
-      });
-  }, []);
-  const update = (id) => {
-    return navigate(`/producto/update/${id}`);
-  };
+  }
+};
 
+  const update = (id) => {return navigate(`/producto/update/${id}`);};
+
+  //Para la función de eliminar:
+  const handleDelete = async (id) => {
+  try {
+    await PromocionService.deletePromocion(id);
+    cargarPromociones();
+    // Aquí podrías actualizar la lista o mostrar un mensaje
+  } catch (error) {
+    console.error("Error eliminando promoción:", error);
+  }
+};
   if (!loaded) return <p>Cargando...</p>;
   if (error) return <p>Error: {error.message}</p>;
   return (
     <>
     <Typography variant="h5" gutterBottom>Promociones en el sistema
-      <Tooltip title="Nueva Promoción"><IconButton component={Link} to="/Paginas/crearPromocion/" color="success"> <AddIcon/></IconButton></Tooltip>
+      <Tooltip title="Nueva Promoción"><IconButton component={RouterLink} to="/Paginas/crearPromocion/" color="success"> <AddIcon/></IconButton></Tooltip>
     </Typography>
       <Box>
         <Typography fontSize="small">Estados de las promociones:</Typography>
@@ -100,7 +112,7 @@ export default function ListPromociones() {
                   <Typography variant="subtitle1" color="primary" gutterBottom>%</Typography>
                 </TableCell>
                 <TableCell align="left">
-                  <Typography variant="subtitle1" color="primary" gutterBottom>Aplica A</Typography>
+                  <Typography variant="subtitle1" color="primary" gutterBottom>Aplica a</Typography>
                 </TableCell>
                 <TableCell align="right">
                   <Typography variant="subtitle1" color="primary" gutterBottom> Acciones</Typography>
@@ -109,22 +121,27 @@ export default function ListPromociones() {
             </TableHead>
             <TableBody>
               {data.map((row) => (
-                <TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 }, 
+                <TableRow key={row.IdPromocion} sx={{ "&:last-child td, &:last-child th": { border: 0 }, 
                 backgroundColor:new Date() > new Date(row.FechaFinal) ? '#db4848': new Date() < new Date(row.FechaInicio) ? '#276dc2':'#b1e6aa'}} >
                   {/* Contenido de la tabla */}
                   <TableCell align="left">{row.Nombre}</TableCell>
                   <TableCell align="left">{row.Descripcion}</TableCell>
                   <TableCell align="left">{row.FechaInicio ? formatDate(parseDate(row.FechaInicio)) : "Fecha no válida"}</TableCell>
                   <TableCell align="left">{row.FechaFinal ? formatDate(parseDate(row.FechaFinal)) : "Fecha no válida"}</TableCell>
-                  <TableCell align="left">{row.Cantidad}%</TableCell>
+                  <TableCell align="center">{row.Cantidad}%</TableCell>
                   <TableCell align="left">{row.AplicaA}</TableCell>
                   <TableCell align="right">
-                    <Tooltip title="Actualizar">
-                      {/* función anónima */}
-                      <IconButton onClick={() => update(row.id)} color="success">
-                        <EditIcon key={row.id} />
-                      </IconButton>
-                    </Tooltip>
+                    <Box display="flex" justifyContent="flex-end">
+                      <Tooltip title="Actualizar">
+                        {/* función anónima */}
+                        <IconButton onClick={() => update(row.id)} color="success">
+                          <EditIcon key={row.id} />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title={'Eliminar'}>
+                        <IconButton color="warning" onClick={()=> handleDelete(row.IdPromocion)}><DeleteIcon /></IconButton>
+                      </Tooltip>
+                    </Box>
                   </TableCell>
                   {/* Contenido de la tabla */}
                 </TableRow>

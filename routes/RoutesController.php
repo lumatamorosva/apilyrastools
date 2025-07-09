@@ -27,7 +27,6 @@ class RoutesController
             if(!$this->authMiddleware->handle($route['requiredRole'])){
                 return;
             }
-           
         } 
     }
 
@@ -49,7 +48,6 @@ class RoutesController
             //Gestion de imagenes
             if (strpos($_SERVER['REQUEST_URI'], '/uploads/') === 0) {
                 $filePath = __DIR__ . $_SERVER['REQUEST_URI'];
-                
                 // Verificar si el archivo existe
                 if (file_exists($filePath)) {
                     header('Content-Type: ' . mime_content_type($filePath));
@@ -114,7 +112,7 @@ class RoutesController
                                         } else {
                                             $json = array(
                                                 'status' => 404,
-                                                'result' => 'Acción no encontrada'
+                                                'result' => 'Acción no encontrada (Ir a RoutesController-GET)'
                                             );
                                             echo json_encode($json, http_response_code($json["status"]));
                                         }
@@ -131,7 +129,7 @@ class RoutesController
                                         } else {
                                             $json = array(
                                                 'status' => 404,
-                                                'result' => 'Acción no encontrada'
+                                                'result' => 'Acción no encontrada(Ir a RoutesController-POST)'
                                             );
                                             echo json_encode($json, http_response_code($json["status"]));
                                         }
@@ -150,7 +148,7 @@ class RoutesController
                                         } else {
                                             $json = array(
                                                 'status' => 404,
-                                                'result' => 'Acción no encontrada'
+                                                'result' => 'Acción no encontrada(Ir a RoutesController-PATCH)'
                                             );
                                             echo json_encode($json, http_response_code($json["status"]));
                                         }
@@ -168,7 +166,7 @@ class RoutesController
                                         } else {
                                             $json = array(
                                                 'status' => 404,
-                                                'result' => 'Acción no encontrada'
+                                                'result' => 'Acción no encontrada(Ir a RoutesController-Eliminar)'
                                             );
                                             echo json_encode($json, http_response_code($json["status"]));
                                         }

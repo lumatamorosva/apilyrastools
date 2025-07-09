@@ -92,4 +92,23 @@ class PromocionModel
             handleException($e);
         }
     }
+    /**
+     * Eliminar promoción
+     * @param $IdPromo promoción a eliminar
+     * @return $this->get($idPromocion) - Objeto
+     */
+    //
+    public function delete($IdPromo)
+    {
+        try {
+            //Consulta sql
+            $sql = "delete from promocion where IdPromocion = $IdPromo;";
+            //Ejecutar el sql
+            $this->enlace->executeSQL_DML_last($sql);
+            //Retornar producto
+            return true;
+        } catch (Exception $e) {
+            throw new Exception("Fallo eliminación: " . $e->getMessage());
+        }
+    }
 }
