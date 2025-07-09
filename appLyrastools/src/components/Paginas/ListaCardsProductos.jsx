@@ -19,6 +19,7 @@ import { useCart } from '../../hooks/useCart';
 import TextField from '@mui/material/TextField';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import toast from 'react-hot-toast';
 //Para la ventana emergente
 import CardActionArea from '@mui/material/CardActionArea';
 import Emergente from './Emergente';
@@ -48,9 +49,15 @@ export function ListCardProductos({ data, isShopping }) {
   //Función para agregar al carrito
     //Guarda la cantidad de elementos en el textfield
     const [cantidad, setCantidad] = useState({});
-    //Función de agregar
+    //Función de agregar con verificación de existencias
     const {addItem} = useCart();
-    async function  agregarElemento(item, cantidad) {addItem(item,cantidad);}
+    async function  agregarElemento(item, cantidad) {
+      if(cantidad>item.Existencias){
+      toast.error("De este producto solo quedan " + item.Existencias + " unidades en Stock");
+      }else{
+         addItem(item,cantidad);
+      }
+    }
   //Para el dropDownOrden
   const [orden, setOrden] = useState('');
   const handleChange = (event) => {
@@ -178,7 +185,7 @@ export function ListCardProductos({ data, isShopping }) {
                   </IconButton>
                   <TextField size='small' value={cantidad[item.IdProducto] ?? 1}
                    onChange={(e) => setCantidad((prev) => ({...prev,[item.IdProducto]: parseInt(e.target.value)}))}
-                   type="number" style={{width:'50%',maxWidth:'50%', ml: '10%', mr: 'auto'}} inputProps={{min: 1}}></TextField>
+                   type="number" style={{width:'50%',maxWidth:'50%', ml: '10%', mr: 'auto'}} inputProps={{min: 1, max:item.Existencias}}></TextField>
                 </CardActions>
               </Card>
             </Grid>

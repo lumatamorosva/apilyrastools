@@ -22,9 +22,11 @@ export const cartReducer = (state, action) => {
       const productInCart = state.find((item)=>item.IdProducto === action.payload.IdProducto);
       //Actualizar carrito si el producto existe
       if (productInCart) {
-        const newState = state.map((item)=>
-          item.IdProducto === action.payload.IdProducto? {...item,cantidad:item.cantidad+action.payload.cantidad,
-          subtotal: calculateSubtotal(item,item.cantidad+action.payload.cantidad)}:item);
+        const newState = state.map((item)=>{
+          if(item.IdProducto === action.payload.IdProducto) {let nuevaCantidad = item.cantidad + action.payload.cantidad;
+          if(nuevaCantidad>item.Existencias){ nuevaCantidad = item.Existencias;}
+          return {...item,cantidad:nuevaCantidad, subtotal: calculateSubtotal(item,nuevaCantidad),};}
+        return item;});
         updateLocalStorage(newState);
         return newState;
       //Agregar producto nuevo
