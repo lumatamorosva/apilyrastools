@@ -68,6 +68,24 @@ class promocion
             handleException($e);
         }
     }
+    //PUT actualizar
+    public function update()
+    {
+        try {
+            $request = new Request();
+            $response = new Response();
+            //Obtener json enviado
+            $inputJSON = $request->getJSON();
+            //Instancia del modelo
+            $promo = new PromocionModel();
+            //Acción del modelo a ejecutar
+            $result = $promo->update($inputJSON);
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
     //Eliminar
     public function delete($promo)
     {

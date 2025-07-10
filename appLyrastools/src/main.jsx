@@ -11,7 +11,7 @@ import TableProducts from "./components/Paginas/TableProductos";
 import ListPromociones from "./components/Paginas/ListPromociones";
 import { CreateProducto } from "./components/Paginas/CreateProducto";
 import { CreatePromocion } from "./components/Paginas/CreatePromocion";
-import { UpdateMovie } from "./components/Paginas/UpdateMovie";
+import { UpdatePromocion } from "./components/Paginas/UpdatePromocion";
 import { CatalogProductos } from "./components/Paginas/CatalogProductos";
 import { UploadImagenParaProducto } from "./components/Paginas/UploadImage";
 import { CreateMovieRental } from "./components/Rental/PaginaCarritoCheckout";
@@ -61,8 +61,8 @@ const rutas=createBrowserRouter(
               element: <ListPromociones />
             },
             {
-              path:'/movie/update/:id',
-              element: <UpdateMovie />
+              path:'/Paginas/updatePromocion/:id',
+              element: <UpdatePromocion />
             },
           ]
         },

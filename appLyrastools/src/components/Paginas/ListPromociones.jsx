@@ -64,7 +64,7 @@ export default function ListPromociones() {
   }
 };
 
-  const update = (id) => {return navigate(`/producto/update/${id}`);};
+  const update = (id) => {return navigate(`/Paginas/updatePromocion/${id}`);};
 
   //Para la función de eliminar:
   const handleDelete = async (id) => {
@@ -134,7 +134,7 @@ export default function ListPromociones() {
                     <Box display="flex" justifyContent="flex-end">
                       <Tooltip title="Actualizar">
                         {/* función anónima */}
-                        <IconButton onClick={() => update(row.id)} color="success">
+                        <IconButton onClick={() => update(row.IdPromocion)} color="success">
                           <EditIcon key={row.id} />
                         </IconButton>
                       </Tooltip>

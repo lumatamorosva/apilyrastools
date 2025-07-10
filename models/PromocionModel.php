@@ -93,6 +93,30 @@ class PromocionModel
         }
     }
     /**
+     * Actualizar promocion
+     * @param $objeto promocion a actualizar
+     * @return $this->get($id) - Objeto
+     */
+    //
+    public function update($objeto)
+    {
+        try {
+            //Consulta sql
+            $sql = "Update promocion
+            set Nombre ='$objeto->Nombre',Descripcion ='$objeto->Descripcion',FechaInicio ='$objeto->FechaInicio',
+            FechaFinal ='$objeto->FechaFinal',IdCreador ='$objeto->IdCreador',AplicaA ='$objeto->AplicaA',
+            Cantidad ='$objeto->Cantidad'
+            where IdPromocion=$objeto->IdPromocion";
+
+            //Ejecutar la consulta
+            $cResults = $this->enlace->executeSQL_DML($sql);
+            //Retornar promocion
+            return $this->get($objeto->IdPromocion);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+    /**
      * Eliminar promoción
      * @param $IdPromo promoción a eliminar
      * @return $this->get($idPromocion) - Objeto
