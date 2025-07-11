@@ -107,7 +107,8 @@ class PromocionModel
             FechaFinal ='$objeto->FechaFinal',IdCreador ='$objeto->IdCreador',AplicaA ='$objeto->AplicaA',
             Cantidad ='$objeto->Cantidad'
             where IdPromocion=$objeto->IdPromocion";
-
+            var_dump($objeto);
+            echo $sql;  
             //Ejecutar la consulta
             $cResults = $this->enlace->executeSQL_DML($sql);
             //Retornar promocion

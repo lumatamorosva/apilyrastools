@@ -71,13 +71,16 @@ export function UpdatePromocion() {
   // Accion submit
   const onSubmit = (DataForm) => {
     //Para cambiar los nombres enviados en el Json
+    console.log("DataForm.aplicaA:",DataForm.aplicaA);
+    console.log("values.AplicaA:",values.AplicaA); 
     const payload ={
+        IdPromocion: values.IdPromocion,
       Nombre: (DataForm.nombre == "" || values.Nombre == DataForm.nombre) ? values.Nombre : DataForm.nombre,
       Descripcion: (DataForm.descripcion == "" || values.Descripcion == DataForm.descripcion) ? values.Descripcion : DataForm.descripcion,
       FechaInicio: (DataForm.fechaInicio === "" || values.FechaInicio == DataForm.fechaInicio) ? values.FechaInicio : DataForm.fechaInicio,
       FechaFinal: (DataForm.fechaFinal === "" || values.FechaFinal == DataForm.fechaFinal) ? values.FechaFinal : DataForm.fechaFinal,
       IdCreador: 1, //Cambiar cuando haya login
-      AplicaA: (DataForm.aplicaA !== "" || values.AaplicaA == DataForm.aplicaA) ? values.AaplicaA : DataForm.aplicaA,
+      AplicaA: (DataForm.aplicaA == "" || values.AplicaA === DataForm.aplicaA) ? values.AplicaA : DataForm.aplicaA,
       Cantidad: (DataForm.cantidad === undefined || values.Cantidad === DataForm.cantidad) ? values.Cantidad : DataForm.cantidad,
     };
     console.log('Formulario:');

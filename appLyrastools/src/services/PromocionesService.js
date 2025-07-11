@@ -19,7 +19,8 @@ class PromocionService {
     return axios.delete(BASE_URL + '/delete/' + Id);
   }
   updatePromocion(Promocion) {
-    return axios.put(BASE_URL, JSON.stringify(Promocion));
+    console.log('Actualizando promo:', Promocion.IdPromocion);
+    return axios.patch(BASE_URL + '/patch/'+ Promocion.IdPromocion, JSON.stringify(Promocion));
   }
 }
 export default new PromocionService();
