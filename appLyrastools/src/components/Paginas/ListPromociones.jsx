@@ -30,12 +30,10 @@ export default function ListPromociones() {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
-  const parseDate = (dateString) => {const parsedDate = new Date(dateString);
-    if (isNaN(parsedDate)) {
-      return null;
-    }
-    return parsedDate;
-  };
+  const parseDate = (str) => {
+  const [year, month, day] = str.split('-'); // '2025-07-10'
+  return new Date(Number(year), Number(month) - 1, Number(day));
+};
   //Datos a cargar en la tabla
   const [data, setData] = useState({});
   const [error, setError] = useState("");
