@@ -69,7 +69,6 @@ export default function ListPromociones() {
   try {
     await PromocionService.deletePromocion(id);
     cargarPromociones();
-    // Aquí podrías actualizar la lista o mostrar un mensaje
   } catch (error) {
     console.error("Error eliminando promoción:", error);
   }

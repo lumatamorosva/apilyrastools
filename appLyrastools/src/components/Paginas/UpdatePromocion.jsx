@@ -16,7 +16,7 @@ import PromocionService from '../../services/PromocionesService';
 import toast from 'react-hot-toast';
 
 export function UpdatePromocion() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const routeParams = useParams();
   //Id a actualizar
   const id = routeParams.id || null;

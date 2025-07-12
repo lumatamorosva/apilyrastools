@@ -12,6 +12,7 @@ import ListPromociones from "./components/Paginas/ListPromociones";
 import { CreateProducto } from "./components/Paginas/CreateProducto";
 import { CreatePromocion } from "./components/Paginas/CreatePromocion";
 import { UpdatePromocion } from "./components/Paginas/UpdatePromocion";
+import { UpdateProducto } from "./components/Paginas/UpdateProducto";
 import { CatalogProductos } from "./components/Paginas/CatalogProductos";
 import { UploadImagenParaProducto } from "./components/Paginas/UploadImage";
 import { CreateMovieRental } from "./components/Rental/PaginaCarritoCheckout";
@@ -59,6 +60,10 @@ const rutas=createBrowserRouter(
             {
               path:'/Paginas/ListPromociones/',
               element: <ListPromociones />
+            },
+            {
+              path:'/Paginas/updateProducto/:id',
+              element: <UpdateProducto />
             },
             {
               path:'/Paginas/updatePromocion/:id',

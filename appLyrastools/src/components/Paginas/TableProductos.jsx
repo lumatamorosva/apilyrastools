@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
+import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from "@mui/material/Tooltip";
 import { useEffect } from "react";
 import ProductoService from "../../services/ProductoService";
@@ -31,68 +32,64 @@ export default function TableProducts() {
   const [loadingCats, setLoadingCats] = useState(true);
    //Enlaces o redireccionar
   const navigate = useNavigate();
-
-
-  //Obtener lista del API
-  useEffect(() => {
-    ProductoService.getProductos()
-      .then((response) => {
-        console.log(response);
-        setData(response.data);
-        setError(response.error);
-        setLoaded(true);
-
-        //Traer el nombre de la Marca
+//Carga de todos los productos:
+  const cargarProductos = async () => {
+    try{
+      const response = await ProductoService.getProductos();
+      setData(response.data);
+      setLoaded(true);
+      //Traer el nombre de la Marca
         const brandIds = response.data.map((product) => product.Marca);
-        const fetchBrands = brandIds.map((id) =>
-          fetch(`http://localhost:81/apilyrastools/marca/${id}`)
-            .then((res) => res.json())
-            .then((data) => ({ [id]: data.Nombre }))
-        );
-        Promise.all(fetchBrands)
-          .then((brandData) => {
-            const brandObj = brandData.reduce((acc, curr) => ({ ...acc, ...curr }), {});
-            setMarca(brandObj);
-            setLoadingMarcas(false);
-          })
-          .catch((err) => {
-            console.error("Error al traer los datos de la marca:", err);
-            setError(err);
-            setLoadingMarcas(false);
-          });
-
-          //Traer el nombre de la Categoría
+        const fetchBrands = brandIds.map((id) =>fetch(`http://localhost:81/apilyrastools/marca/${id}`)
+          .then((res) => res.json())
+          .then((data) => ({ [id]: data.Nombre }))
+        );Promise.all(fetchBrands)
+          .then((brandData) => {const brandObj = brandData.reduce((acc, curr) => ({ ...acc, ...curr }), {});
+          setMarca(brandObj);
+          setLoadingMarcas(false);
+        }).catch((err) => {console.error("Error al traer los datos de la marca:", err);
+          setError(err);
+          setLoadingMarcas(false);
+        });
+        //Traer el nombre de la Categoría
         const catIds = response.data.map((product) => product.Categoria);
-        const fetchCats = catIds.map((id) =>
-          fetch(`http://localhost:81/apilyrastools/categoria/${id}`)
-            .then((res) => res.json())
-            .then((data) => ({ [id]: data.Nombre }))
-        );
-        Promise.all(fetchCats)
-          .then((catData) => {
-            const catObj = catData.reduce((acc, curr) => ({ ...acc, ...curr }), {});
-            setCat(catObj);
-            setLoadingCats(false);
-          })
-          .catch((err) => {
-            console.error("Error al traer los datos de la categoría:", err);
-            setError(err);
-            setLoadingCats(false);
-          });
-      })
-      .catch((error) => {
-        if (error instanceof SyntaxError) {
+        const fetchCats = catIds.map((id) =>fetch(`http://localhost:81/apilyrastools/categoria/${id}`)
+          .then((res) => res.json())
+          .then((data) => ({ [id]: data.Nombre }))
+        );Promise.all(fetchCats)
+          .then((catData) => {const catObj = catData.reduce((acc, curr) => ({ ...acc, ...curr }), {});
+          setCat(catObj);
+          setLoadingCats(false);
+        }).catch((err) => {console.error("Error al traer los datos de la categoría:", err);
+          setError(err);
+          setLoadingCats(false);
+        })
+    }
+    catch{
+      if (error instanceof SyntaxError) {
           setError(error);
           console.log(error);
           setLoaded(false);
           throw new Error("Respuesta no válida del servidor");
-        }
-      });
-  }, []);
-  const update = (id) => {
-    return navigate(`/producto/update/${id}`);
+      }
+    }
   };
 
+  //Obtener lista del API
+  useEffect(() => {cargarProductos();}, []);
+
+  //Para la función modificar producto
+  const update = (id) => {return navigate(`/Paginas/updateProducto/${id}`);};
+
+  //Para la función de eliminar:
+    const handleDelete = async (id) => {
+    try {
+      await ProductoService.deleteProducto(id);
+      cargarProductos();
+    } catch (error) {
+      console.error("Error eliminando producto:", error);
+    }
+  }
   if (!loaded) return <p>Cargando...</p>;
   if (error) return <p>Error: {error.message}</p>;
   return (
@@ -128,12 +125,13 @@ export default function TableProducts() {
                   <TableCell align="left">{loadingMarcas ? "Cargando..." : nombreMarca[row.Marca]}</TableCell>
                   <TableCell align="left">{loadingCats ? "Cargando..." : nombreCategoria[row.Categoria]}</TableCell>
                   <TableCell align="right">
-                    <Tooltip title="Actualizar">
+                    <Tooltip title="Modificar">
                       {/* función anónima */}
-                      <IconButton onClick={() => update(row.id)} color="success">
-                        <EditIcon key={row.id} />
-                      </IconButton>
+                      <IconButton onClick={() => update(row.id)} color="success"><EditIcon key={row.id} /></IconButton>
                     </Tooltip>
+                    <Tooltip title={'Eliminar'}>
+                        <IconButton color="warning" onClick={()=> handleDelete(row.IdPromocion)}><DeleteIcon /></IconButton>
+                      </Tooltip>
                   </TableCell>
                   {/* Contenido de la tabla */}
                 </TableRow>

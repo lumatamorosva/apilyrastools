@@ -21,12 +21,7 @@ class ProductoService {
   }
   
   updateProducto(Prod) {
-    return axios({
-      method: 'put',
-      url: BASE_URL,
-      data: JSON.stringify(Prod)
-
-    })
+    return axios({method: 'put',url: BASE_URL,data: JSON.stringify(Prod)})
   }
 }
 export default new ProductoService();
