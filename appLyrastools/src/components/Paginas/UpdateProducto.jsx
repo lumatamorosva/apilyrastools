@@ -150,6 +150,19 @@ export function UpdateProducto() {
         }
       });
   }, []);
+
+  const [marcaNombre, setMarcaNombre] = useState("")
+  async function getMarcaNombre(id){
+    const response = await MarcaService.getMarcaById(id);
+    setMarcaNombre(response.data.Nombre)
+    return marcaNombre;
+  }
+  useEffect (()=>{
+    if (values.Marca){
+        getMarcaNombre(values.Marca);
+    }
+  })
+
 //Lista de Categorias
   const [dataCategoria, setDataCategoria] = useState({});
   const [loadedCategoria, setLoadedCategoria] = useState(false);
@@ -177,8 +190,8 @@ export function UpdateProducto() {
     return catNombre;
   }
   useEffect (()=>{
-    if (values.Marca){
-        getCatNombre(values.Marca);
+    if (values.Categoria){
+        getCatNombre(values.Categoria);
     }
   })
 
@@ -238,7 +251,7 @@ export function UpdateProducto() {
           </Grid>
           {/*Desplegable de Marcas*/}
           <Grid size={4} sm={4}>
-            <label style={{ fontSize: '12px' }}>Marca actual: {catNombre || "Cargando..."}</label>
+            <label style={{ fontSize: '12px' }}>Marca actual: {marcaNombre || "Cargando..."}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               {loadedMarca && (
                 <Controller name='marca' control={control} defaultValue=""
