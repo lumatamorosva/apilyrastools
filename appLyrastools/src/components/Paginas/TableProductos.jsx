@@ -130,7 +130,7 @@ export default function TableProducts() {
                       <IconButton onClick={() => update(row.IdProducto)} color="success"><EditIcon key={row.id} /></IconButton>
                     </Tooltip>
                     <Tooltip title={'Eliminar'}>
-                        <IconButton color="warning" onClick={()=> handleDelete(row.IdPromocion)}><DeleteIcon /></IconButton>
+                        <IconButton color="warning" onClick={()=> handleDelete(row.IdProducto)}><DeleteIcon /></IconButton>
                       </Tooltip>
                   </TableCell>
                   {/* Contenido de la tabla */}

@@ -144,4 +144,23 @@ class ProductoModel
             handleException($e);
         }
     }
+    /**
+     * Eliminar producto
+     * @param $IdProducto producto a eliminar
+     * @return $this->get($IdProducto) - Objeto
+     */
+    //
+    public function delete($IdProducto)
+    {
+        try {
+            //Consulta sql
+            $sql = "delete from producto where IdProducto = $IdProducto;";
+            //Ejecutar el sql
+            $this->enlace->executeSQL_DML_last($sql);
+            //Retornar producto
+            return true;
+        } catch (Exception $e) {
+            throw new Exception("Fallo eliminación: " . $e->getMessage());
+        }
+    }
 }

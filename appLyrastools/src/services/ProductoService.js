@@ -23,5 +23,9 @@ class ProductoService {
     console.log('Actualizando prod:', Prod.IdProducto);
     return axios.patch(BASE_URL + '/patch/'+ Prod.IdProducto, JSON.stringify(Prod));
   }
+  deleteProducto(Id) {
+    console.log('Eliminando producto:', Id);
+    return axios.delete(BASE_URL + '/delete/' + Id);
+  }
 }
 export default new ProductoService();

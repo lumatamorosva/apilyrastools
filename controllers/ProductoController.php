@@ -106,4 +106,25 @@ class producto
             handleException($e);
         }
     }
+    //Eliminar
+    public function delete($producto)
+    {
+        try {
+            $response = new Response();
+            //Instancia del modelo
+            $modelo = new ProductoModel();
+            //Acción del modelo a ejecutar
+            $deleted=$modelo->delete($producto);
+            //Dar respuesta
+            if($deleted){
+                $response->toJSON(['status'=>200]);
+            }else{
+                http_response_code(404);
+                $response->toJSON(['status'=>404]);
+            }
+        } catch (Exception $e) {
+            http_response_code(500);
+            $response->toJSON(['status'=>500,'Error:'=>$e]);
+        }
+    }
 }
