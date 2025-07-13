@@ -88,7 +88,7 @@ class producto
             handleException($e);
         }
     }
-    //PUT actualizar
+    //PATCH actualizar
     public function update()
     {
         try {

@@ -127,7 +127,7 @@ export default function TableProducts() {
                   <TableCell align="right">
                     <Tooltip title="Modificar">
                       {/* función anónima */}
-                      <IconButton onClick={() => update(row.id)} color="success"><EditIcon key={row.id} /></IconButton>
+                      <IconButton onClick={() => update(row.IdProducto)} color="success"><EditIcon key={row.id} /></IconButton>
                     </Tooltip>
                     <Tooltip title={'Eliminar'}>
                         <IconButton color="warning" onClick={()=> handleDelete(row.IdPromocion)}><DeleteIcon /></IconButton>

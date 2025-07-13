@@ -19,9 +19,9 @@ class ProductoService {
   createProducto(Producto) {
     return axios.post(BASE_URL, JSON.stringify(Producto));
   }
-  
   updateProducto(Prod) {
-    return axios({method: 'put',url: BASE_URL,data: JSON.stringify(Prod)})
+    console.log('Actualizando prod:', Prod.IdProducto);
+    return axios.patch(BASE_URL + '/patch/'+ Prod.IdProducto, JSON.stringify(Prod));
   }
 }
 export default new ProductoService();

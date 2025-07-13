@@ -133,8 +133,8 @@ class ProductoModel
     {
         try {
             //Consulta sql
-            $sql = "Update producto SET IdProducto='$objeto->IdProducto',NombreProducto='$objeto->NombreProducto',Marca='$objeto->Marca',Categoria='$objeto->Categoria',Existencias='$objeto->Existencias',Precio='$objeto->Precio',Oferta='$objeto->Oferta',Imagen='$objeto->Imagen',Descripcion='$objeto->Descripcion',IdPromocion='$objeto->IdPromocion'
-                    Where idProducto='$objeto->IdProducto'";
+            $sql = "Update producto SET NombreProducto='$objeto->NombreProducto',Marca='$objeto->Marca',Categoria='$objeto->Categoria',Existencias='$objeto->Existencias',Precio='$objeto->Precio',Imagen='$objeto->Imagen',Descripcion='$objeto->Descripcion',IdPromocion='$objeto->IdPromocion'
+                    Where IdProducto='$objeto->IdProducto'";
 
             //Ejecutar la consulta
             $cResults = $this->enlace->executeSQL_DML($sql);

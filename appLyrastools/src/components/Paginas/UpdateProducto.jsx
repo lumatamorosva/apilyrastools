@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import MarcaService from '../../services/MarcaService';
 import CategoriaService from '../../services/CategoriaService';
 import { SelectMarca } from './Form/SeleccionarMarca';
@@ -20,31 +20,37 @@ import ImageService from '../../services/ImageService';
 
 export function UpdateProducto() {
   const navigate = useNavigate();
+  const routeParams = useParams();
+  //Id a actualizar
+  const id = routeParams.id || null;
+  //Valores a precargar en el formulario desde el API
+    const [values, setValores] = useState([]);
+    //Obtener del API
+      useEffect(() => {
+          if(id !=undefined && !isNaN(Number(id))){
+          ProductoService.getProductosById(id)
+              .then((response) => {
+                  setError(response.error);
+                  setValores(response.data);})
+              .catch((error) => {
+                  setError(error);
+                  throw new Error('No se pudo obtener el Producto del Servidor');});
+      }},[id]);
   let formData=new FormData()
   // Esquema de validación
   const productoSchema = yup.object({
     nombre: yup
-          .string()
-          .required('El nombre del artículo es requerido'),
+          .string(),
     existencias: yup
           .number()
           .transform((value, originalValue) => originalValue === '' ? undefined : value)
-          .positive('Deben haber al menos 1')
-          .required('Este campo es requerido'),
+          .positive('Deben haber al menos 1'),
     precio: yup
           .number()
           .transform((value, originalValue) => originalValue === '' ? undefined : value)
-          .positive('El precio mínimo aceptable es ₡1')
-          .required('El precio es requerido'),
+          .positive('El precio mínimo aceptable es ₡1'),
     descripcion: yup
           .string()
-          .required('La descripción del artículo es requerida'),
-    marca: yup
-          .number()
-          .required('Seleccione una marca de la lista'),
-    categoria: yup
-          .number()
-          .required('Seleccione una categoria de la lista')
   });
   const {
     control, //register
@@ -59,7 +65,6 @@ export function UpdateProducto() {
       precio:'',
       descripcion:'',
       image:'',
-      oferta:'',
       idPromocion:''
     },
     // Asignación de validaciones
@@ -73,15 +78,15 @@ export function UpdateProducto() {
   const onSubmit = (DataForm) => {
     //Para cambiar los nombres enviados en el Json
     const payload ={
-      NombreProducto: DataForm.nombre,
-      Descripcion: DataForm.descripcion,
-      Precio: DataForm.precio,
-      Existencias: DataForm.existencias,
-      Marca: DataForm.marca,
-      Categoria: DataForm.categoria,
-      Imagen: file ? file.name : "Sin imagen", // Usa nombre del archivo si hay
-      Oferta: 0,
-      IdPromocion: 0
+      IdProducto: values.IdProducto,    
+      NombreProducto: (DataForm.nombre == "" || values.NombreProducto == DataForm.nombre) ? values.NombreProducto : DataForm.nombre,
+      Descripcion: (DataForm.descripcion == "" || values.Descripcion == DataForm.descripcion) ? values.Descripcion : DataForm.descripcion,
+      Precio: (DataForm.precio === undefined || values.Precio === DataForm.precio) ? values.Precio : DataForm.precio,
+      Existencias: (DataForm.existencias === undefined || values.Existencias === DataForm.existencias) ? values.Existencias : DataForm.existencias,
+      Marca: (DataForm.marca === "" || values.Marca === DataForm.marca) ? values.Marca : DataForm.marca,
+      Categoria: (DataForm.categoria === "" || values.Categoria === DataForm.categoria) ? values.Categoria : DataForm.categoria,
+      Imagen: file ? file.name : values.Imagen, // Usa nombre del archivo si hay
+      IdPromocion: values.IdPromocion
     };
     console.log('Formulario:');
     console.log(payload);
@@ -89,7 +94,7 @@ export function UpdateProducto() {
     try {
        if(productoSchema.isValid()){
         //Crear producto
-        ProductoService.createProducto(payload)
+        ProductoService.updateProducto(payload)
         .then((response)=>{
           setError(response.error)
           //Respuesta al usuario
@@ -100,12 +105,6 @@ export function UpdateProducto() {
             ImageService.createImage(formData)
             .then((response)=>{
               setError(response.error)
-              if(response.data !=null){
-                toast.success(response.data,{
-                  duration:4000,
-                  position: "top-center"
-                })
-              }
             })
             .catch((error) => {
               if (error instanceof SyntaxError) {
@@ -114,15 +113,9 @@ export function UpdateProducto() {
                 throw new Error('Respuesta no válida del servidor');
               }
             })
-            toast.success(
-              `Producto creado satisfactoriamente #${response.data.IdProducto} - ${response.data.NombreProducto}`,
-              {
-                duration: 4000,
-                position:'top-center'
-              }
-            )
-            //Redirección tabla de productos  
-            return navigate('/product-table')
+            toast.success(`Producto #${response.data.IdProducto} - ${response.data.NombreProducto} actualizado`,
+                {duration: 4000,position:'top-center'}) 
+            return navigate('/product-table/')
             }
         })
         .catch((error) => {
@@ -177,6 +170,19 @@ export function UpdateProducto() {
       });
   }, []);
 
+  const [catNombre, setCatNombre] = useState("")
+  async function getCatNombre(id){
+    const response = await CategoriaService.getCategoriaById(id);
+    setCatNombre(response.data.Nombre)
+    return catNombre;
+  }
+  useEffect (()=>{
+    if (values.Marca){
+        getCatNombre(values.Marca);
+    }
+  })
+
+
 /* Gestion de imagen */
   const [file,setFile]=useState(null)
   const [fileURL, setFileURL]=useState(null)
@@ -196,7 +202,9 @@ export function UpdateProducto() {
         <Grid container spacing={1}>
           {/*titulo de la pagina*/}
           <Grid size={12} sm={12}> <Typography variant="h5" gutterBottom> Crear Nuevo Producto </Typography> </Grid>
+          <label>Cambie los valores que desee modificar y guarde los cambios o regrese a la página anterior para descartar cambios</label>
           <Grid xs={12} md={4}>
+            <label style={{ fontSize: '12px' }}>Nombre actual: {values.NombreProducto}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name='nombre' control={control}
               render={({field})=>( <TextField {...field} id="nombre" label="Nombre" error={Boolean(errors.nombre)} />)}
@@ -204,6 +212,7 @@ export function UpdateProducto() {
             </FormControl>
           </Grid>
           <Grid xs={12} md={4}>
+            <label style={{ fontSize: '12px' }}>Existencias actuales: {values.Existencias}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="existencias" control={control}
                 render={({ field }) => ( <TextField {...field} id="existencias" label="Existencias" error={Boolean(errors.existencias)} /> )}
@@ -211,6 +220,7 @@ export function UpdateProducto() {
              </FormControl>
           </Grid>
           <Grid xs={12} md={4}>
+            <label style={{ fontSize: '12px' }}>Precio actual: {values.Precio}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="precio" control={control}
                 render={({ field }) => ( <TextField {...field} id="precio" label="Precio" error={Boolean(errors.precio)} /> )}
@@ -218,6 +228,7 @@ export function UpdateProducto() {
              </FormControl>
           </Grid>
           <Grid size={12}>
+            <label style={{ fontSize: '12px' }}>Descripción actual: {values.Descripcion}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="descripcion" control={control}
                 render={({ field }) => ( <TextField {...field} id="descripcion" label="Descripción" error={Boolean(errors.descripcion)} multiline/> )}
@@ -227,6 +238,7 @@ export function UpdateProducto() {
           </Grid>
           {/*Desplegable de Marcas*/}
           <Grid size={4} sm={4}>
+            <label style={{ fontSize: '12px' }}>Marca actual: {catNombre || "Cargando..."}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               {loadedMarca && (
                 <Controller name='marca' control={control} defaultValue=""
@@ -238,6 +250,7 @@ export function UpdateProducto() {
           </Grid>
           {/*Desplegable de Cats*/}
           <Grid size={4} sm={4}>
+            <label style={{ fontSize: '12px' }}>Categoría actual: {catNombre || "Cargando..."}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               {loadedCategoria && (
                 <Controller name='categoria' control={control} defaultValue=""
@@ -249,6 +262,8 @@ export function UpdateProducto() {
           </Grid>
           {/*Control de imagen del producto*/}
           <Grid size={12} sm={12}>
+            <label style={{ fontSize: '12px' }}>Imagen actual: </label>
+            <img src={"http://localhost:81/apilyrastools/uploads/"+values.Imagen} alt={values.Imagen} width={200}/>
               <FormControl variant='standard' fullWidth sx={{m:1}}>
                 <Controller name='image' control={control}
                   render={({field})=>( <input type='file' {...field} onChange={handleChangeImage} /> )} />
@@ -256,7 +271,7 @@ export function UpdateProducto() {
               <img src={fileURL} width={300}/>
           </Grid>
           <Grid size={12} sm={12}>
-            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }} > Guardar </Button>
+            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }} > Guardar Cambios</Button>
           </Grid>
         </Grid>
       </form>

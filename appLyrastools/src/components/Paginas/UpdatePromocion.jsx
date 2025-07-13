@@ -71,8 +71,6 @@ export function UpdatePromocion() {
   // Accion submit
   const onSubmit = (DataForm) => {
     //Para cambiar los nombres enviados en el Json
-    console.log("DataForm.aplicaA:",DataForm.aplicaA);
-    console.log("values.AplicaA:",values.AplicaA); 
     const payload ={
         IdPromocion: values.IdPromocion,
       Nombre: (DataForm.nombre == "" || values.Nombre == DataForm.nombre) ? values.Nombre : DataForm.nombre,
