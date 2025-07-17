@@ -20,6 +20,30 @@ export function Reviews() {
               .then(data => setOpiniones(data));
       },[]);
 
+  //Traer nombre de los productos:
+      const [prod, setProd] = useState([]);
+      useEffect(() =>{
+      fetch(`http://localhost:81/apilyrastools/producto`)
+              .then((res) => res.json())
+              .then(data => setProd(data));
+      },[]);
+      const obtenerNombre = (id) => {
+        const producto = prod.find (p => p.IdProducto === id);
+        return producto ? producto.NombreProducto : 'No encontrado';
+      }
+
+  //Traer nombre del cliente:
+      const [client, setClient] = useState([]);
+      useEffect(() =>{
+      fetch(`http://localhost:81/apilyrastools/user`)
+              .then((res) => res.json())
+              .then(data => setClient(data));
+      },[]);
+      const obtenerNombreCliente = (id) => {
+        const cliente = client.find(p => p.IdUsuario === id);
+        return cliente ? cliente.Nombre : 'No encontrado';
+      }
+
   return (
     <>
     <Grid row size={12}>
@@ -29,7 +53,8 @@ export function Reviews() {
           <Grid size={4} key={item.id} minWidth='180px'>
             <Card>
               <CardContent>
-                  <Typography variant="body1" color="text.primary" align="center"> {item.IdProducto}</Typography>
+                  <Typography variant="body1" color="text.primary" align="center"> {obtenerNombre(item.IdProducto)}</Typography>
+                  <Typography variant="body2" color="text.primary"> {item.Opinion}</Typography>
                   <Box display="flex">
                     <Box>
                       {[...Array(Math.round(Number(item.Calificacion)))].map((_, i) => (
@@ -40,6 +65,7 @@ export function Reviews() {
                       ))}
                     </Box>
                   </Box>
+                  <Typography variant="body2" color="text.primary"> {"Comentario por: " + obtenerNombreCliente(item.IdCliente)}</Typography>
                 </CardContent>
               </Card>
             </Grid>

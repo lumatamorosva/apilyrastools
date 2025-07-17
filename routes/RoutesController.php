@@ -186,7 +186,7 @@ class RoutesController
                         } else {
                             $json = array(
                                 'status' => 404,
-                                'result' => 'Controlador no encontrado'
+                                'result' => 'Controlador no encontrado (Array)'
                             );
                             echo json_encode($json, http_response_code($json["status"]));
                         }

@@ -274,6 +274,25 @@
 			"name": "User",
 			"item": [
 				{
+					"name": "Listar Usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:81/apilyrastools/usuario",
+							"host": [
+								"localhost"
+							],
+							"port": "81",
+							"path": [
+								"lyrastools",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Login",
 					"request": {
 						"method": "POST",
