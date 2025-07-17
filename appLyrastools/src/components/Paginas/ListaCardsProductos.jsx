@@ -30,6 +30,7 @@ ListCardProductos.propTypes = {
 };
 
 export function ListCardProductos({ data, isShopping }) {
+  console.log("Productos traídos: ", data);
   //const { addItem } =useCart()
   //Url para acceder a la imagenes guardadas en el API
   const BASE_URL = import.meta.env.VITE_BASE_URL + 'uploads';
@@ -65,7 +66,7 @@ export function ListCardProductos({ data, isShopping }) {
   };
   //Para la busqueda de productos
   const [busqueda, setBusqueda] = useState('');
-  const filtrados = data.filter(producto => producto.NombreProducto.toLowerCase().includes(busqueda.toLowerCase()))
+  const filtrados =  Array.isArray(data) ? data.filter(producto => producto.NombreProducto.toLowerCase().includes(busqueda.toLowerCase())): []
   //Para ordenar comparando respecto al precio de cada producto
   .sort((a,b)=>{
     if(orden==='ascendente'){return a.Precio - b.Precio;

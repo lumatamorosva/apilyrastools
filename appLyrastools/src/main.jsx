@@ -8,6 +8,7 @@ import { RouterProvider } from "react-router";
 import { PageNotFound } from "./components/Home/PageNotFound";
 import { ListMovies } from "./components/Paginas/ListMovies";
 import TableProducts from "./components/Paginas/TableProductos";
+import {Reviews} from "./components/Paginas/Reviews";
 import ListPromociones from "./components/Paginas/ListPromociones";
 import { CreateProducto } from "./components/Paginas/CreateProducto";
 import { CreatePromocion } from "./components/Paginas/CreatePromocion";
@@ -48,6 +49,10 @@ const rutas=createBrowserRouter(
             {
               path:'/product-table',
               element: <TableProducts />
+            },
+            {
+              path:'/Paginas/Reviews/',
+              element: <Reviews />
             },
             {
               path:'/Paginas/crear/',

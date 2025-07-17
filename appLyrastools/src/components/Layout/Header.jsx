@@ -68,6 +68,7 @@ export default function Header() {
   const navItems = [
     {name: "Comprar Herramientas", link: "/catalog-productos/", roles:null },
     {name: "Promociones", link: "/Paginas/ListPromociones/", roles:null },
+    {name: "Opiniones", link: "/Paginas/Reviews/", roles:null },
     //Rol desactivado por el momento
     {name: "Mantenimiento Productos", link: "/product-table/", roles:['Administrador'] },
   ];
