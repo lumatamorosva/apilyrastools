@@ -64,25 +64,39 @@ export function ListCardProductos({ data, isShopping }) {
   const handleChange = (event) => {
     setOrden(event.target.value); // Actualiza el estado con el valor seleccionado
   };
+
   //Para la busqueda de productos
+    //Para marcar categorias en los checkboxes:
+    const [catChecked, setCatChecked] = useState({});
+    const handleChangeCat = (event,id) => {setCatChecked(prev => ({...prev,[id]: event.target.checked}));};
+      //Busqueda con checkboxes
+      const categoriasSeleccionadas = Object.keys(catChecked).filter((id) => catChecked[id]).map(Number);
+    //Para marcar marcas en los checkboxes:
+    const [marcaChecked, setMarcaChecked] = useState({});
+    const handleChangeMarca = (event,id) => {setMarcaChecked(prev => ({...prev,[id]: event.target.checked}));};
+      //Busqueda con checkboxes
+      const marcasSeleccionadas = Object.keys(marcaChecked).filter((id) => marcaChecked[id]).map(Number);
+      //Remover acentos
+      const normalizar = (texto) =>texto?.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  //Aplicar filtros:
   const [busqueda, setBusqueda] = useState('');
-  const filtrados =  Array.isArray(data) ? data.filter(producto => producto.NombreProducto.toLowerCase().includes(busqueda.toLowerCase())): []
+  const filtrados = Array.isArray(data)
+  ? data.filter((producto) => {
+      const nombreCoincide = normalizar(producto.NombreProducto).includes(normalizar(busqueda));
+      const categoriaCoincide =categoriasSeleccionadas.length === 0 || categoriasSeleccionadas.includes(Number(producto.Categoria));
+      const marcaCoincide = marcasSeleccionadas.length === 0 || marcasSeleccionadas.includes(Number(producto.Marca));
+      return nombreCoincide && categoriaCoincide && marcaCoincide;
+    })
   //Para ordenar comparando respecto al precio de cada producto
   .sort((a,b)=>{
     if(orden==='ascendente'){return a.Precio - b.Precio;
     }else if(orden==='descendente'){return b.Precio - a.Precio;
     }
-  });
+  }) : [];
   //Para activar el filtro de busqueda   
   const handleChangeBuscar = (e) => {
     setBusqueda(e.target.value);
   };
-  //Para marcar categorias:
-    const [catChecked, setCatChecked] = useState(false);
-    const handleChangeCat = (event,id) => {setCatChecked(prev => ({...prev,[id]: event.target.checked}));};
-    //Para marcar marcas:
-    const [marcaChecked, setMarcaChecked] = useState(false);
-    const handleChangeMarca = (event,id) => {setMarcaChecked(prev => ({...prev,[id]: event.target.checked}));};
   //Traer las categorias:
     const [cats, setCats] = useState([]);
     useEffect(() =>{
