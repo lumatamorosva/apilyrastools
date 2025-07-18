@@ -66,7 +66,7 @@ export default function Header() {
   ];
   //Lista enlaces menu principal
   const navItems = [
-    {name: "Comprar Herramientas", link: "/catalog-productos/", roles:null },
+    {name: "Herramientas", link: "/catalog-productos/", roles:null },
     {name: "Promociones", link: "/Paginas/ListPromociones/", roles:null },
     {name: "Opiniones", link: "/Paginas/Reviews/", roles:null },
     //Rol desactivado por el momento
@@ -74,9 +74,9 @@ export default function Header() {
   ];
   //Identificador menu principal
   const menuIdPrincipal = "menu-appbar";
-  //Menu En la barra de nav(Eliminar?)
+  //Menu En la barra de nav(Revisado)
   const menuPrincipal = (
-    <Box sx={{ display: { xs: "none", sm: "block" } }}>
+    <Box sx={{ display: { xs: "none",sm: "none", md: "block" } }}>
       {navItems && navItems.map((item, index) => {
           //if(autorize(requiredRoles:['Administrador']))
         if(userData && item.roles){
@@ -108,17 +108,16 @@ export default function Header() {
   const userMenuId = "user-menu";
   //Menu Usuario
   const userMenu = (
-    <Box sx={{ flexGrow: 0 }}>
+    <Box sx={{ display: 'flex'}}>
       <IconButton
+        sx={{ marginLeft: 'auto' }}
         size="large"
-        edge="end"
         aria-label="account of current user"
         aria-controls={userMenuId}
         aria-haspopup="true"
         onClick={handleUserMenuOpen}
         color="inherit"
-      >
-        <AccountCircle sx={{color:(theme) => theme.palette.common.white}}/>
+        ><AccountCircle sx={{color:(theme) => theme.palette.common.white}}/>
       </IconButton>
 
       <Menu
@@ -204,61 +203,57 @@ export default function Header() {
         color="primaryLight"
         sx={{ backgroundColor: "primaryLight.main" }}
       >
-        <Toolbar sx={{backgroundColor: (theme) => theme.palette.secondary.main, color:(theme) => theme.palette.common.white}}>
-          <IconButton 
-            aria-controls={menuIdPrincipal}
-            aria-haspopup="true"
-            sx={{ mr: 2, color:(theme) => theme.palette.common.white}}
-            onClick={handleOpenPrincipalMenu}
-          >
-            <MenuIcon/>
-          </IconButton>
-          <Menu
-            id={menuIdPrincipal}
-            anchorEl={anchorElPrincipal}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            open={Boolean(anchorElPrincipal)}
-            onClose={handleClosePrincipalMenu}
-            sx={{ display: "block"}}
-          >
-            {menuPrincipalMobile}
-          </Menu>
-          {/* Enlace página inicio */}
-          <Tooltip title="Home">
-            <IconButton sx={{mr: "30px"}}
-              component="a"
-              href="/"
-            > <HandymanIcon sx={{mr:"10px"}} />PRINCIPAL
-            </IconButton>
-          </Tooltip>
-          {/* Enlace página inicio */}
-          {menuPrincipal}
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "flex", md: "flex" } }}>
-            <IconButton >
-              <Badge
-                badgeContent={getCountItems(cart)}
-                color="primary"
-                component={Link}
-                to="/rental/crear/"
+        <Toolbar sx={{display: 'flex',alignItems: "center",justifyContent: "space-between",
+          backgroundColor: (theme) => theme.palette.secondary.main, color:(theme) => theme.palette.common.white}}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+              <IconButton 
+                aria-controls={menuIdPrincipal}
+                aria-haspopup="true"
+                sx={{ mr: 2, color:(theme) => theme.palette.common.white}}
+                onClick={handleOpenPrincipalMenu}>
+                <MenuIcon/>
+              </IconButton>
+              <Menu
+                id={menuIdPrincipal}
+                anchorEl={anchorElPrincipal}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElPrincipal)}
+                onClose={handleClosePrincipalMenu}
+                sx={{ display: "block"}}
               >
-                <ShoppingCartIcon sx={{color:(theme) => theme.palette.common.white}}/>
-              </Badge>
-            </IconButton>
-            <IconButton size="large" color="inherit">
-              <Badge badgeContent={1} sx={{color:(theme) => theme.palette.common.white}}>
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+                {menuPrincipalMobile}
+              </Menu>
+              {/* Enlace página inicio */}
+              <Tooltip title="Home">
+                <IconButton sx={{mr: "30px"}}component="a"href="/"> <HandymanIcon sx={{mr:"10px"}} />PRINCIPAL</IconButton>
+              </Tooltip>
+              {/* Opciones del Menú */}
+              {menuPrincipal}
           </Box>
+          {/* Espacio entre los íconos y el resto de elementos */}
+          <Box sx={{ flexGrow: 20 }} />
+          {/* Iconos */}
+          <Box sx={{ display: 'flex', alignItems: "center", gap: 1 }} />
+            <Box sx={{ display: { xs: "flex", md: "flex" } }}>
+              <IconButton >
+                <Badge badgeContent={getCountItems(cart)}color="primary"component={Link}to="/rental/crear/"
+                  ><ShoppingCartIcon sx={{color:(theme) => theme.palette.common.white}}/>
+                </Badge>
+              </IconButton>
+              <IconButton size="large" color="inherit">
+                <Badge badgeContent={1} sx={{color:(theme) => theme.palette.common.white}}>
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </Box>
           <div>{userMenu}</div>
           <Box sx={{ display: { xs: "flex", md: "flex" } }}>
             <IconButton 
