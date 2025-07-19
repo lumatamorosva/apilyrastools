@@ -29,7 +29,7 @@ class OpinionesModel
 			$vResultado = $this->enlace->ExecuteSQL ( $vSql);
 			// Retornar el objeto
             if ($vResultado && count($vResultado) > 0) {
-                return $vResultado[0];
+                return $vResultado;
             } else {
                 throw new Exception("Producto $id no cuenta con opiniones");
             }

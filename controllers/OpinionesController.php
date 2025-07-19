@@ -20,8 +20,8 @@ class opiniones
     {
         try {
             $response = new Response();
-            $genero = new OpinionesModel();
-            $result = $genero->get($param);
+            $opins = new OpinionesModel();
+            $result = $opins->get($param);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {

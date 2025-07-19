@@ -10,6 +10,12 @@ import DiscountIcon from '@mui/icons-material/Discount';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import Grid from '@mui/material/Grid2';
+import {ReviewCard} from './Form/ReviewCard';
+import FormControl from '@mui/material/FormControl';
+import { Controller} from 'react-hook-form';
+import { FormHelperText } from '@mui/material';
+import { useForm } from 'react-hook-form';
 
 //Estilo de la ventana emergente
   const stylePopup = {
@@ -57,6 +63,19 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
   return (nombreCat || "Cargando...");
 }
 
+ //Traer las opiniones:
+ export function opinionDetalle(id) {
+      const [opiniones, setOpiniones] = useState([]);
+      useEffect(() =>{
+      fetch(`http://localhost:81/apilyrastools/opiniones/get/${id}`)
+              .then((res) => res.json())
+              .then(data => setOpiniones(data));
+      },[id]);
+      if(opiniones){
+        return opiniones;
+      }
+    }
+
 //Traer la promoción
  function promocionDetalle(id,precio) {
   const [promocion, setPromocion] = useState("");
@@ -76,19 +95,15 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 
   export default function Emergente({ open, onClose, item, BASE_URL }) {
   if (!item) return null;
-
+    const {control} = useForm({});
+    const opiniones1 = opinionDetalle(item.IdProducto);
+    console.log("Estas son las opiniones: ", (opiniones1));
   return (
-    <Modal open={open} onClose={onClose} aria-labelledby="modal-titulo" aria-describedby="modal-descripcion" >
+    <Modal open={open} onClose={onClose} aria-describedby="modal-descripcion" >
       <Box sx={stylePopup}>
         <Box display= "flex" gap="10px">
           <Box>
-            <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{"Derecha"} </Typography>
-          </Box>
-          <Box>
-            <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{"Izquierda"} </Typography>
-          </Box>
-        </Box>
-        <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{item.NombreProducto} </Typography>
+            <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{item.NombreProducto} </Typography>
         <Typography id="modal-descripcion" sx={{ mb: 2 }}> Marca: {(marcaDetalle(item.Marca))}</Typography>
         <Typography id="modal-descripcion" sx={{ mb: 2 }}> <CategoryIcon/> {(categoriaDetalle(item.Categoria))}</Typography>
         <img
@@ -97,26 +112,45 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
           style={{ width: '100%', borderRadius: 8, marginBottom: 16 }}
         />
         <Typography id="modal-descripcion" sx={{ mb: 2 }}>{item.Descripcion}</Typography>
+        {/*Calificaciones */}
         <Box display="flex">
-                            <Box widht="100%"> 
-                              {[...Array(Math.round(Number(item.Calificacion)))].map((_, i) => (
-                                <ThumbUpAltIcon key={'filled-' + i} sx={{ color: '#2196F3' }} />
-                              ))}
-                              {[...Array(Math.round(5 - Number(item.Calificacion)))].map((_, i) => (
-                                <ThumbUpOffAltIcon key={'empty-' + i} sx={{ color: '#2196F3' }} />
-                              ))}
-                            </Box>
-                            <Box marginLeft='auto'>
-                              {item.IdPromocion == 0 ?
-                                <Typography align='right'> <PointOfSaleIcon sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio).toLocaleString('en-US')} </Typography>:
-                                <> <Typography align='right' sx={{ textDecoration: 'line-through' }}> <PointOfSaleIcon sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio).toLocaleString('en-US')} </Typography>
-                                <Typography align='right' color = "red"><DiscountIcon sx={{verticalAlign: 'middle'}}/>
-                                Promoción: ₡{Number(promocionDetalle(item.IdPromocion,item.Precio)).toLocaleString('en-US')}</Typography></>
-                              }
-                            </Box>
-                          </Box>
-        
+          <Box widht="100%"> 
+            {[...Array(Math.round(Number(item.Calificacion)))].map((_, i) => (
+            <ThumbUpAltIcon key={'filled-' + i} sx={{ color: '#2196F3' }} />
+            ))}
+            {[...Array(Math.round(5 - Number(item.Calificacion)))].map((_, i) => (
+            <ThumbUpOffAltIcon key={'empty-' + i} sx={{ color: '#2196F3' }} />
+            ))}
+            </Box>
+            <Box marginLeft='auto'>{item.IdPromocion == 0 ?
+              <Typography align='right'> <PointOfSaleIcon sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio).toLocaleString('en-US')} </Typography>:
+              <> <Typography align='right' sx={{ textDecoration: 'line-through' }}> <PointOfSaleIcon sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio).toLocaleString('en-US')} </Typography>
+              <Typography align='right' color = "red"><DiscountIcon sx={{verticalAlign: 'middle'}}/>
+                Promoción: ₡{Number(promocionDetalle(item.IdPromocion,item.Precio)).toLocaleString('en-US')}</Typography></>
+            }</Box>
+        </Box>
         <Typography id="modal-descripcion" sx={{ mb: 2 }}><WarehouseIcon/>Disponibles: {item.Existencias}</Typography>
+          </Box>
+          <Box>
+            <Grid display="flex" flexWrap="wrap" >
+                {opiniones1.length > 0 ? 
+                  (opiniones1.map((item) => (
+                    <Grid size={8} key={item.id} minWidth='250px'>
+                      {/*Tarjeta*/}
+                        <Grid size={4} sm={4}>
+                          <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+                            {(<Controller name='tarjeta' control={control} defaultValue=""
+                              render={({field})=>( <ReviewCard field={field} data={item}/> )} /> )}
+                          <FormHelperText sx={{color: '#d32f2f'}}></FormHelperText>
+                        </FormControl>
+                      </Grid>
+                    </Grid>))
+                ):("Producto aún no cuenta con Revisiones de usuario")}
+            </Grid>
+            <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{(opinionDetalle(item.IdProducto)).Opinion} </Typography>
+          </Box>
+        </Box>
+        
         <Button variant="contained" onClick={onClose}>Cerrar</Button>
       </Box>
     </Modal>
