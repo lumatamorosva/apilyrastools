@@ -78,13 +78,16 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
   if (!item) return null;
 
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      aria-labelledby="modal-titulo"
-      aria-describedby="modal-descripcion"
-    >
+    <Modal open={open} onClose={onClose} aria-labelledby="modal-titulo" aria-describedby="modal-descripcion" >
       <Box sx={stylePopup}>
+        <Box display= "flex" gap="10px">
+          <Box>
+            <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{"Derecha"} </Typography>
+          </Box>
+          <Box>
+            <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{"Izquierda"} </Typography>
+          </Box>
+        </Box>
         <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{item.NombreProducto} </Typography>
         <Typography id="modal-descripcion" sx={{ mb: 2 }}> Marca: {(marcaDetalle(item.Marca))}</Typography>
         <Typography id="modal-descripcion" sx={{ mb: 2 }}> <CategoryIcon/> {(categoriaDetalle(item.Categoria))}</Typography>
