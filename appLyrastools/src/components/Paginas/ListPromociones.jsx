@@ -121,13 +121,13 @@ export default function ListPromociones() {
                 <TableRow key={row.IdPromocion} sx={{ "&:last-child td, &:last-child th": { border: 0 }, 
                 backgroundColor:new Date() > new Date(row.FechaFinal) ? '#db4848': new Date() < new Date(row.FechaInicio) ? '#276dc2':'#b1e6aa'}} >
                   {/* Contenido de la tabla */}
-                  <TableCell align="left">{row.Nombre}</TableCell>
-                  <TableCell align="left">{row.Descripcion}</TableCell>
-                  <TableCell align="left">{row.FechaInicio ? formatDate(parseDate(row.FechaInicio)) : "Fecha no válida"}</TableCell>
-                  <TableCell align="left">{row.FechaFinal ? formatDate(parseDate(row.FechaFinal)) : "Fecha no válida"}</TableCell>
-                  <TableCell align="center">{row.Cantidad}%</TableCell>
-                  <TableCell align="left">{row.AplicaA}</TableCell>
-                  <TableCell align="right">
+                  <TableCell sx={{fontWeight:'bold'}} align="left">{row.Nombre}</TableCell>
+                  <TableCell sx={{fontWeight:'bold'}} align="left">{row.Descripcion}</TableCell>
+                  <TableCell sx={{fontWeight:'bold'}} align="left">{row.FechaInicio ? formatDate(parseDate(row.FechaInicio)) : "Fecha no válida"}</TableCell>
+                  <TableCell sx={{fontWeight:'bold'}} align="left">{row.FechaFinal ? formatDate(parseDate(row.FechaFinal)) : "Fecha no válida"}</TableCell>
+                  <TableCell sx={{fontWeight:'bold'}} align="center">{row.Cantidad}%</TableCell>
+                  <TableCell sx={{fontWeight:'bold'}} align="left">{row.AplicaA}</TableCell>
+                  <TableCell sx={{fontWeight:'bold'}} align="right">
                     <Box display="flex" justifyContent="flex-end">
                       <Tooltip title="Actualizar">
                         {/* función anónima */}

@@ -26,7 +26,7 @@ export function ReviewCard({data}) {
       },[]);
       const obtenerNombre = (id) => {
         const producto = prod.find (p => p.IdProducto === id);
-        return producto ? producto.NombreProducto : 'No encontrado';
+        return producto ? producto.NombreProducto : 'Buscando...';
       }
 
   //Traer nombre del cliente:
@@ -38,7 +38,7 @@ export function ReviewCard({data}) {
       },[]);
       const obtenerNombreCliente = (id) => {
         const cliente = client.find(p => p.IdUsuario === id);
-        return cliente ? cliente.Nombre : 'No encontrado';
+        return cliente ? cliente.Nombre : 'Buscando...';
       }
 
   return (

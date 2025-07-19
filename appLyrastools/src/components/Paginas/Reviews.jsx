@@ -18,19 +18,17 @@ export function Reviews() {
       },[]);
   return (
     <>
-    <Grid display="flex" flexWrap="wrap" justifyContent={"center"}>
+    <Grid container spacing={1} display="flex" flexWrap="wrap" justifyContent={"center"}>
         {/* ()=>{} */}
         {opiniones.map((item) => (
-          <Grid size={8} key={item.id} minWidth='250px'>
+          <Grid size={4} key={item.id} width='250px' >
             {/*Tarjeta*/}
-              <Grid size={4} sm={4}>
-                <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-                  {(<Controller name='tarjeta' control={control} defaultValue=""
-                      render={({field})=>( <ReviewCard field={field} data={item}/> )} /> )}
-                  <FormHelperText sx={{color: '#d32f2f'}}></FormHelperText>
-                </FormControl>
-              </Grid>
-            </Grid>
+            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+              {(<Controller name='tarjeta' control={control} defaultValue=""
+                render={({field})=>( <ReviewCard field={field} data={item}/> )} /> )}
+              <FormHelperText sx={{color: '#d32f2f'}}></FormHelperText>
+            </FormControl>
+          </Grid>
         ))}
     </Grid>
     </>

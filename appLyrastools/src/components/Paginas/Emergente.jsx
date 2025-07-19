@@ -115,6 +115,7 @@ import { useForm } from 'react-hook-form';
               {/*Calificaciones */}
               <Box display="flex" flexWrap="wrap">
                 <Box widht="100%"> 
+                  <Typography id="modal-descripcion" sx={{ mb: 2 }}>Calificación</Typography>
                   {[...Array(Math.round(Number(item.Calificacion)))].map((_, i) => (
                   <ThumbUpAltIcon key={'filled-' + i} sx={{ color: '#2196F3' }} />
                   ))}
