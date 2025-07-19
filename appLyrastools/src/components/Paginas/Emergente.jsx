@@ -23,7 +23,10 @@ import { useForm } from 'react-hook-form';
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: '80%',
+    maxWidth: '700px',
+    minWidth: '400px',
+    height: '90%',
     bgcolor: 'background.paper',
     borderRadius: 2,
     boxShadow: 24,
@@ -101,41 +104,43 @@ import { useForm } from 'react-hook-form';
   return (
     <Modal open={open} onClose={onClose} aria-describedby="modal-descripcion" >
       <Box sx={stylePopup}>
-        <Box display= "flex" gap="10px">
-          <Box>
+        <Box display="flex" gap="10px">
+          <Box width={'50%'}>
             <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{item.NombreProducto} </Typography>
-        <Typography id="modal-descripcion" sx={{ mb: 2 }}> Marca: {(marcaDetalle(item.Marca))}</Typography>
-        <Typography id="modal-descripcion" sx={{ mb: 2 }}> <CategoryIcon/> {(categoriaDetalle(item.Categoria))}</Typography>
-        <img
-          src={`${BASE_URL}/${item.Imagen}`}
-          alt={item.NombreProducto}
-          style={{ width: '100%', borderRadius: 8, marginBottom: 16 }}
-        />
-        <Typography id="modal-descripcion" sx={{ mb: 2 }}>{item.Descripcion}</Typography>
-        {/*Calificaciones */}
-        <Box display="flex">
-          <Box widht="100%"> 
-            {[...Array(Math.round(Number(item.Calificacion)))].map((_, i) => (
-            <ThumbUpAltIcon key={'filled-' + i} sx={{ color: '#2196F3' }} />
-            ))}
-            {[...Array(Math.round(5 - Number(item.Calificacion)))].map((_, i) => (
-            <ThumbUpOffAltIcon key={'empty-' + i} sx={{ color: '#2196F3' }} />
-            ))}
-            </Box>
-            <Box marginLeft='auto'>{item.IdPromocion == 0 ?
-              <Typography align='right'> <PointOfSaleIcon sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio).toLocaleString('en-US')} </Typography>:
-              <> <Typography align='right' sx={{ textDecoration: 'line-through' }}> <PointOfSaleIcon sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio).toLocaleString('en-US')} </Typography>
-              <Typography align='right' color = "red"><DiscountIcon sx={{verticalAlign: 'middle'}}/>
-                Promoción: ₡{Number(promocionDetalle(item.IdPromocion,item.Precio)).toLocaleString('en-US')}</Typography></>
-            }</Box>
-        </Box>
-        <Typography id="modal-descripcion" sx={{ mb: 2 }}><WarehouseIcon/>Disponibles: {item.Existencias}</Typography>
+            <Typography id="modal-descripcion" sx={{ mb: 2 }}> Marca: {(marcaDetalle(item.Marca))}</Typography>
+            <Typography id="modal-descripcion" sx={{ mb: 2 }}> <CategoryIcon/> {(categoriaDetalle(item.Categoria))}</Typography>
+            <img src={`${BASE_URL}/${item.Imagen}`} alt={item.NombreProducto} style={{ width: '100%', borderRadius: 8,
+               marginBottom: 16, maxHeight: '300px' }}/>
+            <Typography id="modal-descripcion" sx={{ mb: 2 }}>{item.Descripcion}</Typography>
+              {/*Calificaciones */}
+              <Box display="flex" flexWrap="wrap">
+                <Box widht="100%"> 
+                  {[...Array(Math.round(Number(item.Calificacion)))].map((_, i) => (
+                  <ThumbUpAltIcon key={'filled-' + i} sx={{ color: '#2196F3' }} />
+                  ))}
+                  {[...Array(Math.round(5 - Number(item.Calificacion)))].map((_, i) => (
+                  <ThumbUpOffAltIcon key={'empty-' + i} sx={{ color: '#2196F3' }} />
+                  ))}
+                  </Box>
+              </Box>
+              <Box sx={{ my: 2 }} />
+              <Box marginLeft='auto'>{item.IdPromocion == 0 ?
+                    <Typography align='right'> <PointOfSaleIcon sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio)
+                      .toLocaleString('en-US')} </Typography>:
+                    <><Typography align='right' sx={{ textDecoration: 'line-through' }}> <PointOfSaleIcon
+                       sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio).toLocaleString('en-US')} </Typography>
+                    <Typography align='right' color = "red"><DiscountIcon sx={{verticalAlign: 'middle'}}/>
+                      Promoción: ₡{Number(promocionDetalle(item.IdPromocion,item.Precio)).toLocaleString('en-US')}</Typography></>
+                  }</Box>
+              <Box sx={{ my: 2 }} />
+            <Typography id="modal-descripcion" sx={{ mb: 2 }}><WarehouseIcon/>Disponibles: {item.Existencias}</Typography>
+            <Button variant="contained" onClick={onClose}>Cerrar</Button>
           </Box>
-          <Box>
-            <Grid display="flex" flexWrap="wrap" >
+          <Box display="flex" sx={{maxHeight: '80vh', overflowY:"auto", width:'50%'}} >
+            <Grid display="block" sx={{width:'90%'}}>
                 {opiniones1.length > 0 ? 
                   (opiniones1.map((item) => (
-                    <Grid size={8} key={item.id} minWidth='250px'>
+                    <Grid size={8} key={item.Id} minWidth='250px'>
                       {/*Tarjeta*/}
                         <Grid size={4} sm={4}>
                           <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
@@ -150,8 +155,6 @@ import { useForm } from 'react-hook-form';
             <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{(opinionDetalle(item.IdProducto)).Opinion} </Typography>
           </Box>
         </Box>
-        
-        <Button variant="contained" onClick={onClose}>Cerrar</Button>
       </Box>
     </Modal>
   );
