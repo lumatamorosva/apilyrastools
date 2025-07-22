@@ -13,7 +13,6 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import HandymanIcon from '@mui/icons-material/Handyman';
-import MoreIcon from "@mui/icons-material/MoreVert";
 import Tooltip from "@mui/material/Tooltip";
 import { useCart } from "../../hooks/useCart";
 import { UserContext } from "../../context/UserContext";
@@ -49,10 +48,6 @@ export default function Header() {
   //Cerrado menu principal
   const handleClosePrincipalMenu = () => {
     setAnchorElPrincipal(null);
-  };
-  //Abierto menu opciones
-  const handleOpcionesMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
   };
   //Cerrado menu opciones
   const handleOpcionesMenuClose = () => {
@@ -255,20 +250,6 @@ export default function Header() {
               </IconButton>
             </Box>
           <div>{userMenu}</div>
-          <Box sx={{ display: { xs: "flex", md: "flex" } }}>
-            <IconButton 
-              size="large"
-              aria-label="show more"
-              aria-controls={menuOpcionesId}
-              aria-haspopup="true"
-              onClick={handleOpcionesMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-          <Box sx={{ flexGrow: 1, mx: 2 }}>
-        </Box>
         </Toolbar>
       </AppBar>
       {menuOpcionesMobile}

@@ -11,6 +11,7 @@ import TableProducts from "./components/Paginas/TableProductos";
 import {Reviews} from "./components/Paginas/Reviews";
 import ListPromociones from "./components/Paginas/ListPromociones";
 import { CreateProducto } from "./components/Paginas/CreateProducto";
+import { CreateReview } from "./components/Paginas/CreateReview";
 import { CreatePromocion } from "./components/Paginas/CreatePromocion";
 import { UpdatePromocion } from "./components/Paginas/UpdatePromocion";
 import { UpdateProducto } from "./components/Paginas/UpdateProducto";
@@ -61,6 +62,10 @@ const rutas=createBrowserRouter(
             {
               path:'/Paginas/crearPromocion/',
               element: <CreatePromocion />
+            },
+            {
+              path:'/Paginas/crearReseña/',
+              element: <CreateReview />
             },
             {
               path:'/Paginas/ListPromociones/',

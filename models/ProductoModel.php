@@ -111,8 +111,8 @@ class ProductoModel
         try {
             //Consulta sql
             //Identificador autoincrementable
-            $sql = "insert into producto (NombreProducto,Marca,Categoria,Existencias,Precio,Imagen,Descripcion,IdPromocion)".
-                    " values ('$objeto->NombreProducto','$objeto->Marca','$objeto->Categoria','$objeto->Existencias','$objeto->Precio','$objeto->Imagen','$objeto->Descripcion','$objeto->IdPromocion')";
+            $sql = "insert into producto (NombreProducto,Marca,Categoria,Existencias,Precio,Imagen,Descripcion,IdPromocion,Calificacion)".
+                    " values ('$objeto->NombreProducto','$objeto->Marca','$objeto->Categoria','$objeto->Existencias','$objeto->Precio','$objeto->Imagen','$objeto->Descripcion','$objeto->IdPromocion','$objeto->Calificacion')";
 
             //Ejecutar la consulta
             //Obtener ultimo insert

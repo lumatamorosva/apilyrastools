@@ -16,6 +16,8 @@ import FormControl from '@mui/material/FormControl';
 import { Controller} from 'react-hook-form';
 import { FormHelperText } from '@mui/material';
 import { useForm } from 'react-hook-form';
+import { Link as RouterLink } from 'react-router-dom';
+import IconButton from "@mui/material/IconButton";
 
 //Estilo de la ventana emergente
   const stylePopup = {
@@ -151,7 +153,8 @@ import { useForm } from 'react-hook-form';
                         </FormControl>
                       </Grid>
                     </Grid>))
-                ):("Producto aún no cuenta con Revisiones de usuario")}
+                ):(<>Este producto aún no cuenta con reseñas. Se el primero en reseñar este producto:<br />
+                  <IconButton component={RouterLink} to="/Paginas/crearReseña/" color="success">Nueva Reseña</IconButton></>)}
             </Grid>
             <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{(opinionDetalle(item.IdProducto)).Opinion} </Typography>
           </Box>

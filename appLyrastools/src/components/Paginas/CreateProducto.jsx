@@ -44,7 +44,13 @@ export function CreateProducto() {
           .required('Seleccione una marca de la lista'),
     categoria: yup
           .number()
-          .required('Seleccione una categoria de la lista')
+          .required('Seleccione una categoria de la lista'),
+    calificacion: yup
+          .number()
+          .transform((value, originalValue) => originalValue === '' ? undefined : value)
+          .min(1,'No puede ser menor a 1')
+          .max(5,'No puede ser mayor a 5')
+          .required('Este campo es requerido'),
   });
   const {
     control, //register
@@ -60,7 +66,8 @@ export function CreateProducto() {
       descripcion:'',
       image:'',
       oferta:'',
-      idPromocion:''
+      idPromocion:'',
+      calificacion:''
     },
     // Asignación de validaciones
     resolver: yupResolver(productoSchema),
@@ -81,7 +88,8 @@ export function CreateProducto() {
       Categoria: DataForm.categoria,
       Imagen: file ? file.name : "Sin imagen", // Usa nombre del archivo si hay
       Oferta: 0,
-      IdPromocion: 0
+      IdPromocion: 0,
+      Calificacion: DataForm.calificacion
     };
     console.log('Formulario:');
     console.log(payload);
@@ -215,6 +223,13 @@ export function CreateProducto() {
               <Controller name="precio" control={control}
                 render={({ field }) => ( <TextField {...field} id="precio" label="Precio" error={Boolean(errors.precio)} /> )}
             /><FormHelperText sx={{color: '#d32f2f'}}> {errors.precio ? errors.precio.message : ' '} </FormHelperText>
+             </FormControl>
+          </Grid>
+          <Grid xs={12} md={2}>
+            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+              <Controller name="calificacion" control={control}
+                render={({ field }) => ( <TextField {...field} id="calificacion" label="Calificación" error={Boolean(errors.precio)} /> )}
+            /><FormHelperText sx={{color: '#d32f2f'}}> {errors.calificacion ? errors.calificacion.message : ' '} </FormHelperText>
              </FormControl>
           </Grid>
           <Grid size={12}>

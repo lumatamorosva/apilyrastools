@@ -4,6 +4,10 @@ import {ReviewCard} from './Form/ReviewCard';
 import FormControl from '@mui/material/FormControl';
 import { useForm, Controller} from 'react-hook-form';
 import { FormHelperText } from '@mui/material';
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import { Link as RouterLink } from 'react-router-dom';
 
 export function Reviews() {
   //Url para acceder a la imagenes guardadas en el API
@@ -18,6 +22,9 @@ export function Reviews() {
       },[]);
   return (
     <>
+    <Typography variant="h6" gutterBottom>Agregar nueva: 
+      <Tooltip title="Nueva Promoción"><IconButton component={RouterLink} to="/Paginas/crearReseña/" color="success"> Nueva Reseña</IconButton></Tooltip>
+    </Typography>
     <Grid container spacing={1} display="flex" flexWrap="wrap" justifyContent={"center"}>
         {/* ()=>{} */}
         {opiniones.map((item) => (
