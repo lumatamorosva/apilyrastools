@@ -37,6 +37,24 @@ class OpinionesModel
             handleException($e);
         }
     }
+    /*Obtener review exacto*/
+    public function getReview($id)
+    {
+        try {
+            //Consulta sql
+			$vSql = "SELECT * FROM opiniones where Id=$id";
+            //Ejecutar la consulta
+			$vResultado = $this->enlace->ExecuteSQL ( $vSql);
+			// Retornar el objeto
+            if ($vResultado && count($vResultado) > 0) {
+                return $vResultado;
+            } else {
+                throw new Exception("$id no encontrado");
+            }
+		} catch (Exception $e) {
+            handleException($e);
+        }
+    }
     /**
      * Crear review
      * @param $objeto review a insertar
@@ -50,9 +68,9 @@ class OpinionesModel
                     " values ('$objeto->IdProducto','$objeto->IdCliente','$objeto->Opinion','$objeto->Calificacion')";
             //Ejecutar la consulta
             //Obtener ultimo insert
-            $IdProducto=$this->enlace->executeSQL_DML_last($sql);
+            $Id=$this->enlace->executeSQL_DML_last($sql);
             //Retornar producto
-            return $this->get($IdProducto);
+            return $this->getReview($Id);
         } catch (Exception $e) {
             handleException($e);
         }

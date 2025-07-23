@@ -64,7 +64,7 @@ const rutas=createBrowserRouter(
               element: <CreatePromocion />
             },
             {
-              path:'/Paginas/crearReseña/',
+              path:'/Paginas/crearReseña/:id/:name/',
               element: <CreateReview />
             },
             {

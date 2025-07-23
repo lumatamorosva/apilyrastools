@@ -22,9 +22,7 @@ export function Reviews() {
       },[]);
   return (
     <>
-    <Typography variant="h6" gutterBottom>Agregar nueva: 
-      <Tooltip title="Nueva Promoción"><IconButton component={RouterLink} to="/Paginas/crearReseña/" color="success"> Nueva Reseña</IconButton></Tooltip>
-    </Typography>
+    <Typography variant="h6" gutterBottom>Reseñas de productos:</Typography>
     <Grid container spacing={1} display="flex" flexWrap="wrap" justifyContent={"center"}>
         {/* ()=>{} */}
         {opiniones.map((item) => (

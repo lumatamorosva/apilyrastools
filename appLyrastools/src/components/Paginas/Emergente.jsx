@@ -154,7 +154,7 @@ import IconButton from "@mui/material/IconButton";
                       </Grid>
                     </Grid>))
                 ):(<>Este producto aún no cuenta con reseñas. Se el primero en reseñar este producto:<br />
-                  <IconButton component={RouterLink} to="/Paginas/crearReseña/" color="success">Nueva Reseña</IconButton></>)}
+                  <IconButton component={RouterLink} to={`/Paginas/crearReseña/${item.IdProducto}/${item.NombreProducto}`}>Nueva Reseña</IconButton></>)}
             </Grid>
             <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{(opinionDetalle(item.IdProducto)).Opinion} </Typography>
           </Box>
