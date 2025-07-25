@@ -45,8 +45,8 @@ export function ReviewCard({data}) {
     <>
             <Card>
               <CardContent>
-                  <Typography variant="body1" color="text.primary" align="center"> {obtenerNombre(data.IdProducto)}</Typography>
-                  <Typography variant="body2" color="text.primary"> {data.Opinion}</Typography>
+                  <Typography variant="body1" fontWeight={"bold"} align="center"> {obtenerNombre(data.IdProducto)}</Typography>
+                  <Typography variant="body1" color="text.primary"> {data.Opinion}</Typography>
                   <Box display="flex">
                     <Box>
                       {[...Array(Math.round(Number(data.Calificacion)))].map((_, i) => (
@@ -57,7 +57,8 @@ export function ReviewCard({data}) {
                       ))}
                     </Box>
                   </Box>
-                  <Typography variant="body2" color="text.primary"> {"Comentario por: " + obtenerNombreCliente(data.IdCliente)}</Typography>
+                  <Typography variant="caption" color="text.primary"> {"Comentario por: " + obtenerNombreCliente(data.IdCliente)}</Typography>
+                  <br /><Typography variant="caption" color="text.primary"> {"Reseñado el: " + data.Fecha}</Typography>
                 </CardContent>
               </Card>
     </>

@@ -141,8 +141,10 @@ import IconButton from "@mui/material/IconButton";
           </Box>
           <Box display="flex" sx={{maxHeight: '80vh', overflowY:"auto", width:'50%'}} >
             <Grid display="block" sx={{width:'90%'}}>
-                {opiniones1.length > 0 ? 
-                  (opiniones1.map((item) => (
+                {opiniones1.length > 0 ? (
+                <><IconButton component={RouterLink} to={`/Paginas/crearReseña/${item.IdProducto}/${item.NombreProducto}`}>Nueva Reseña</IconButton>
+                { 
+                  opiniones1.map((item) => (
                     <Grid size={8} key={item.Id} minWidth='250px'>
                       {/*Tarjeta*/}
                         <Grid size={4} sm={4}>
@@ -152,7 +154,7 @@ import IconButton from "@mui/material/IconButton";
                           <FormHelperText sx={{color: '#d32f2f'}}></FormHelperText>
                         </FormControl>
                       </Grid>
-                    </Grid>))
+                    </Grid>))}</>
                 ):(<>Este producto aún no cuenta con reseñas. Se el primero en reseñar este producto:<br />
                   <IconButton component={RouterLink} to={`/Paginas/crearReseña/${item.IdProducto}/${item.NombreProducto}`}>Nueva Reseña</IconButton></>)}
             </Grid>

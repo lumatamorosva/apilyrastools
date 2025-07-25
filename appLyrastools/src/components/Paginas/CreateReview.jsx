@@ -13,6 +13,9 @@ import { FormHelperText } from '@mui/material';
 import ReviewService from '../../services/ReviewService';
 import { useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import Box from '@mui/material/Box';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 
 export function CreateReview() {
     const {id,name} = useParams();
@@ -55,7 +58,8 @@ export function CreateReview() {
       IdProducto: id,
       IdCliente:  1, //Cambiar cuando haya login
       Opinion: DataForm.opinion,
-      Calificacion: DataForm.calificacion
+      Calificacion: DataForm.calificacion,
+      Fecha: new Date().toISOString().split('T')[0]
     };
     console.log('Formulario:');
     console.log(payload);
@@ -91,19 +95,28 @@ export function CreateReview() {
           {/*titulo de la pagina*/}
           <Grid size={12}> <Typography variant="h5" gutterBottom>Crear Reseña para {name}</Typography></Grid>
           <Grid>
-            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller name='opinion' control={control}
-              render={({field})=>( <TextField {...field} id="opinion" label="Su opinión: " error={Boolean(errors.opinion)} />)}
-            /><FormHelperText sx={{color: '#d32f2f'}}> {errors.opinion ? errors.opinion.message : ' '} </FormHelperText>
-            </FormControl>
+            <Grid>
+              <Typography variant="body2" gutterBottom>Selecciona tu calificación:</Typography>
+                <Grid md={12} xs={12}>
+                  <FormControl fullWidth sx={{ m: 1 }}>
+                    <Controller name="calificacion" control={control} render={({ field }) => (
+                        <Box display="flex" alignItems="center">
+                          {[1, 2, 3, 4, 5].map((value) => (
+                            <Box key={value} onClick={() => field.onChange(value)} sx={{ cursor: 'pointer',
+                              color: value <= field.value ? '#2196F3' : '#ccc',}}>
+                              {value <= field.value ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />} </Box> ))}
+                        </Box> )} />
+                    <FormHelperText sx={{ color: '#d32f2f' }}> {errors.calificacion ? errors.calificacion.message : ' '} </FormHelperText>
+                  </FormControl>
           </Grid>
-          <Grid md={12} xs={12}>
-            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller name='calificacion' control={control}
-                render={({field})=>( <TextField {...field} id="calificacion" label="Calificación" type='number'inputProps={{min:1, max:5}}
-                error={Boolean(errors.calificacion)} />)}
-            /><FormHelperText sx={{color: '#d32f2f'}}> {errors.calificacion ? errors.calificacion.message : ' '} </FormHelperText>
-            </FormControl>
+            </Grid>
+            <Grid>
+                  <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+                    <Controller name='opinion' control={control}
+                    render={({field})=>( <TextField {...field} id="opinion" label="Su opinión: " error={Boolean(errors.opinion)} />)}
+                  /><FormHelperText sx={{color: '#d32f2f'}}> {errors.opinion ? errors.opinion.message : ' '} </FormHelperText>
+                  </FormControl>
+            </Grid>
           </Grid>
         </Grid> 
         <Grid size={12} sm={12}>

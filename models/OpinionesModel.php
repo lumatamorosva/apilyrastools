@@ -64,8 +64,8 @@ class OpinionesModel
     {
         try {
             //Consulta sql
-            $sql = "insert into opiniones (IdProducto,IdCliente,Opinion,Calificacion)".
-                    " values ('$objeto->IdProducto','$objeto->IdCliente','$objeto->Opinion','$objeto->Calificacion')";
+            $sql = "insert into opiniones (IdProducto,IdCliente,Opinion,Calificacion,Fecha)".
+                    " values ('$objeto->IdProducto','$objeto->IdCliente','$objeto->Opinion','$objeto->Calificacion','$objeto->Fecha')";
             //Ejecutar la consulta
             //Obtener ultimo insert
             $Id=$this->enlace->executeSQL_DML_last($sql);
