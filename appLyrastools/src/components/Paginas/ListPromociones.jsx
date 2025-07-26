@@ -20,6 +20,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Box from '@mui/material/Box';
 import { Grid } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 //Componente tabla
 export default function ListPromociones() {
@@ -68,9 +69,11 @@ export default function ListPromociones() {
   const handleDelete = async (id) => {
   try {
     await PromocionService.deletePromocion(id);
+    toast.success(`Promoción eliminada`,{duration: 4000,position:'top-center'});
     cargarPromociones();
   } catch (error) {
     console.error("Error eliminando promoción:", error);
+    toast.error(`Problema al eliminar. Contacte al administrador`,{duration: 4000,position:'top-center'});
   }
 };
   if (!loaded) return <p>Cargando...</p>;
@@ -117,7 +120,7 @@ export default function ListPromociones() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((row) => (
+              {data.filter((row) => row != null).map((row) => (
                 <TableRow key={row.IdPromocion} sx={{ "&:last-child td, &:last-child th": { border: 0 }, 
                 backgroundColor:new Date() > new Date(row.FechaFinal) ? '#db4848': new Date() < new Date(row.FechaInicio) ? '#276dc2':'#b1e6aa'}} >
                   {/* Contenido de la tabla */}

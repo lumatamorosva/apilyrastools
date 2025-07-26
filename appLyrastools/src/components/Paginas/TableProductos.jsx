@@ -17,6 +17,7 @@ import ProductoService from "../../services/ProductoService";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate, Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
+import toast from 'react-hot-toast';
 
 //Componente tabla
 export default function TableProducts() {
@@ -85,9 +86,11 @@ export default function TableProducts() {
     const handleDelete = async (id) => {
     try {
       await ProductoService.deleteProducto(id);
+      toast.success(`Producto eliminado`,{duration: 4000,position:'top-center'});
       cargarProductos();
     } catch (error) {
       console.error("Error eliminando producto:", error);
+      toast.error(`Problema al eliminar. Contacte al administrador`,{duration: 4000,position:'top-center'});
     }
   }
   if (!loaded) return <p>Cargando...</p>;

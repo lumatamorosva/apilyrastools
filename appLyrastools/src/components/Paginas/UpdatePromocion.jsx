@@ -93,7 +93,7 @@ export function UpdatePromocion() {
           //Respuesta al usuario
           if(response.data !=null){
             toast.success(
-              `Promoción #${response.data.IdPromocion} - ${response.data.Nombre} actualizada`,
+              `Promoción actualizada`,
               {duration: 4000,position:'top-center'}) 
             return navigate('/Paginas/ListPromociones/')
             }
