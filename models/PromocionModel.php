@@ -83,8 +83,7 @@ class PromocionModel
             $sql = "insert into promocion (Nombre,Descripcion,FechaInicio,FechaFinal,IdCreador,AplicaA,Cantidad)".
                     " values ('$objeto->Nombre','$objeto->Descripcion','$objeto->FechaInicio','$objeto->FechaFinal','$objeto->IdCreador','$objeto->AplicaA','$objeto->Cantidad')";
 
-            //Ejecutar la consulta
-            //Obtener ultimo insert
+            //Ejecutar la consulta y obtener ultimo insert
             $IdPromocion=$this->enlace->executeSQL_DML_last($sql);
             //Retornar producto
             return $this->get($IdPromocion);

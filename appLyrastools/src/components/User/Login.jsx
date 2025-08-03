@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
 import UserService from '../../services/UserService';
 import { UserContext } from '../../context/UserContext';
@@ -18,10 +17,8 @@ export function Login() {
   const { saveUser } = useContext(UserContext);
   // Esquema de validación
   const loginSchema = yup.object({
-    userNameInput: yup
-      .string()
-      .required('El nombre de usuario es requerido'),
-    passwordInput: yup.string().required('El password es requerido'),
+    userName: yup.string().required('El nombre de usuario es requerido'),
+    password: yup.string().required('El password es requerido'),
   });
   const {
     control,
@@ -30,8 +27,8 @@ export function Login() {
   } = useForm({
     // Valores iniciales
     defaultValues: {
-      userNameInput: '',
-      passwordInput: '',
+      userName: '',
+      password: '',
     },
     // Asignación de validaciones
     resolver: yupResolver(loginSchema),
@@ -42,26 +39,20 @@ export function Login() {
   // Accion submit
   const onSubmit = (DataForm) => {
     try {
+      console.log("Esto se envía:", DataForm)
       UserService.loginUser(DataForm)
         .then((response) => {
           console.log(response);
          //Validar la respuesta
-         if(response.data !=null 
-          && response.data !='undefined'
-          && response.data !='Usuario no valido'
-         ){
+         if(response.data !=null && response.data !='undefined' && response.data !='Usuario no valido'){
           //Usuario válido o identificado
           //Guardar el token
           saveUser(response.data)
-          toast.success('Bienvenido, usuario',{
-            duration:4000
-          })
+          toast.success('Bienvenido, usuario',{  duration:5000})
           return navigate('/')
          }else{
           //Usuario No válido
-          toast.error('Usuario No válido',{
-            duration:4000
-          })
+          toast.error('Datos de ingreso incorrectos',{ duration:5000 })
          }
         })
         .catch((error) => {
@@ -71,70 +62,39 @@ export function Login() {
             throw new Error('Respuesta no válida del servidor');
           }
         });
-    } catch (e) {
-      console.error('Error:', e);
-    }
+    } catch (e) {console.error('Error:', e);}
   };
-
   // Si ocurre error al realizar el submit
   const onError = (errors, e) => console.log(errors, e);
-
   if (error) return <p>Error: {error.message}</p>;
   return (
     <>
-      <Toaster />
       <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
         <Grid container spacing={1}>
           <Grid size={12} sm={12}>
-            <Typography variant="h5" gutterBottom>
-              Ingreso
-            </Typography>
+            <Typography variant="h5" gutterBottom>Ingreso</Typography>
           </Grid>
           <Grid size={12} sm={4}>
             {/* ['filled','outlined','standard']. */}
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller
-                name="userNameInput"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    id="UserName"
-                    label="Nombre de usuario"
-                    error={Boolean(errors.email)}
-                    helperText={errors.email ? errors.email.message : ' '}
-                  />
+              <Controller name="userName" control={control} render={({ field }) => (
+                  <TextField {...field} id="userName" label="Nombre de usuario" error={Boolean(errors.email)} 
+                  helperText={errors.userName ? errors.userName.message :' '}/>
                 )}
               />
             </FormControl>
           </Grid>
           <Grid size={12} sm={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller
-                name="passwordInput"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    id="Password"
-                    label="Contraseña"
-                    type="Password"
-                    error={Boolean(errors.password)}
-                    helperText={errors.password ? errors.password.message : ' '}
-                  />
+              <Controller name="password" control={control} render={({ field }) => (
+                  <TextField {...field} id="password" label="Contraseña" type="password" error={Boolean(errors.password)}
+                    helperText={errors.password ? errors.password.message : ' '}/>
                 )}
               />
             </FormControl>
           </Grid>
           <Grid size={12} sm={12}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="secondary"
-              sx={{ m: 1 }}
-            >
-              Login
-            </Button>
+            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }}>Ingresar</Button>
           </Grid>
         </Grid>
       </form>

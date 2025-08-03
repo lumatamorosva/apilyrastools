@@ -17,12 +17,15 @@ export function Signup() {
   const navigate = useNavigate();
   // Esquema de validación
   const loginSchema = yup.object({
-    nameInput: yup.string().required('El nombre es requerido'),
-    userNameInput: yup
-      .string()
-      .required('El nombre de usuario es requerido'),
-    passwordInput: yup.string().required('La contraseña es requerida'),
-    rol_id: yup.number().required('El rol es requerido'),
+    id: yup.number().required('Se requiere una identificación'),
+    nombre: yup.string().required('El nombre es requerido'),
+    apellido: yup.string().required('El apellido es requerido'),
+    fechaNacimiento: yup.date()
+              .typeError('La fecha no es valida')
+              .required('La fecha es requerida')
+              .max(new Date(), 'Fecha no permitida'),
+    userName: yup.string().required('El nombre de usuario es requerido'),
+    password: yup.string().required('La contraseña es requerida')
   });
   const {
     control,
@@ -32,10 +35,12 @@ export function Signup() {
   } = useForm({
     // Valores iniciales
     defaultValues: {
-      name: '',
+      id: '',
+      nombre: '',
+      apellido: '',
+      fechaNacimiento: '',
       userName: '',
-      password: '',
-      rol_id: 5,
+      password: ''
     },
     // Asignación de validaciones
     resolver: yupResolver(loginSchema),
@@ -49,12 +54,20 @@ export function Signup() {
     });
   // Accion submit
   const onSubmit = (DataForm) => {
+    const payload ={
+      IdUsuario: DataForm.id,
+      Nombre: DataForm.nombre,
+      Apellido: DataForm.apellido,
+      FechaNacimiento: new Date(DataForm.fechaNacimiento).toISOString().split('T')[0],
+      Tipo: 5,
+      UserName: DataForm.userName,
+      Password: DataForm.password
+    };
     try {
-      console.log(DataForm);
+      console.log("Submitting: ");
+      console.log(payload);
       //Registrar usuario
-      //Asignar por defector rol
-      setValue('rol_id', 5);
-      UserService.createUser(DataForm)
+      UserService.createUser(payload)
         .then((response) => {
           console.log(response);
           notify();
@@ -87,65 +100,55 @@ export function Signup() {
           </Grid>
           <Grid size={12} sm={12}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller
-                name="nameInput"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    id="name"
-                    label="Nombre"
-                    error={Boolean(errors.name)}
-                    helperText={errors.name ? errors.name.message : ' '}
-                  />
+              <Controller name="id" control={control} render={({ field }) => (
+                  <TextField {...field} id="id" label="Número de indentificación:" error={Boolean(errors.id)} helperText={errors.id ? errors.id.message : ' '}/>
                 )}
               />
             </FormControl>
           </Grid>
           <Grid size={12} sm={6}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller
-                name="userNameInput"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    id="UserName"
-                    label="Nombre de usuario"
-                    error={Boolean(errors.email)}
-                    helperText={errors.email ? errors.email.message : ' '}
-                  />
+              <Controller name="nombre" control={control} render={({ field }) => (
+                  <TextField {...field} id="nombre" label="Nombre" error={Boolean(errors.nombre)} helperText={errors.nombre ? errors.nombre.message : ' '}/>
                 )}
               />
             </FormControl>
           </Grid>
           <Grid size={12} sm={6}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller
-                name="passwordInput"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    id="Password"
-                    label="Contraseña"
-                    type="Password"
-                    error={Boolean(errors.password)}
-                    helperText={errors.password ? errors.password.message : ' '}
-                  />
+              <Controller name="apellido" control={control} render={({ field }) => (
+                  <TextField {...field} id="apellido" label="Apellido" error={Boolean(errors.apellido)} helperText={errors.apellido ? errors.apellido.message : ' '}/>
+                )}
+              />
+            </FormControl>
+          </Grid>
+          <Grid size={12} sm={6}>
+            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+              <Controller name="fechaNacimiento" control={control} render={({ field }) => (
+                <TextField {...field} id="fechaNacimiento" label="Fecha de nacimiento" type="date"
+                  error={Boolean(errors.fechaNacimiento)} helperText={errors.fechaNacimiento?.message || ' '} />)}
+              />
+            </FormControl>
+          </Grid>
+          <Grid size={12} sm={6}>
+            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+              <Controller name="userName" control={control} render={({ field }) => (
+                  <TextField {...field} id="userName" label="Nombre de usuario" error={Boolean(errors.userName)} helperText={errors.userName ? errors.userName.message : ' '}/>
+                )}
+              />
+            </FormControl>
+          </Grid>
+          <Grid size={12} sm={6}>
+            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+              <Controller name="password" control={control} render={({ field }) => (
+                  <TextField {...field} id="password" label="Contraseña" type="Password" error={Boolean(errors.password)}
+                    helperText={errors.password ? errors.password.message : ' '}/>
                 )}
               />
             </FormControl>
           </Grid>
           <Grid size={12} sm={12}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="secondary"
-              sx={{ m: 1 }}
-            >
-              Registrar nuevo usuario
-            </Button>
+            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }}>Crear usuario</Button>
           </Grid>
         </Grid>
       </form>

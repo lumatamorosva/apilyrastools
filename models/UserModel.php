@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 use Firebase\JWT\JWT;
 class UserModel
 {
@@ -66,13 +69,14 @@ class UserModel
 	public function login($objeto)
 	{
 		try {
-			$vSql = "SELECT * from usuario where UserName='$objeto->UserName'";
+			$vSql = "SELECT * from usuario where UserName='$objeto->userName'";
+			error_log("SQL login: " . $vSql);
 			//Ejecutar la consulta
 			$vResultado = $this->enlace->ExecuteSQL($vSql);
-			if (is_object($vResultado[0])) {
+			if (!empty($vResultado) && is_object($vResultado[0])) {
 				$user = $vResultado[0];
-				if (password_verify($objeto->Password, $user->Password)) {
-					$usuario = $this->get($user->id);
+				if (password_verify($objeto->password, $user->Password)) {
+					$usuario = $this->get($user->IdUsuario);
 					if (!empty($usuario)) {
 						// Datos para el token JWT
 						$data = [
@@ -103,10 +107,11 @@ class UserModel
 				$objeto->Password = $crypt;
 			}
 			//Consulta sql            
-			$vSql = "Insert into usuario (IdUsuario,Nombre,Apellido,Tipo,FechaNacimiento,UserName,Password)" .
-				" Values ('$objeto->IdUsuario','$objeto->Nombre','$objeto->Apellido','$objeto->Tipo',$objeto->FechaNacimiento,$objeto->UserName,$objeto->Password)";
-			//Ejecutar la consulta
+			$vSql = "insert into usuario (IdUsuario,Nombre,Apellido,Tipo,FechaNacimiento,UserName,Password)" .
+				" values ($objeto->IdUsuario,'$objeto->Nombre','$objeto->Apellido',$objeto->Tipo,'$objeto->FechaNacimiento','$objeto->UserName','$objeto->Password')";
+				//Ejecutar la consulta
 			$vResultado = $this->enlace->executeSQL_DML_last($vSql);
+			error_log("Resultado de executeSQL_DML_last: " . print_r($vResultado, true));
 			// Retornar el objeto creado
 			return $this->get($vResultado);
 		} catch (Exception $e) {

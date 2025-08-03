@@ -52,7 +52,7 @@ class user
         if (isset($result) && !empty($result) && $result != false) {
             $response->toJSON($result);
         } else {
-            $response->toJSON($response, "Usuario no valido");
+            $response->toJSON("Usuario no valido");
         }
     }
     public function create()
