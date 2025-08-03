@@ -22,16 +22,12 @@ class UserModel
 	public function get($id)
 	{
 		try {
-			$rolM = new RolModel();
-
 			//Consulta sql
-			$vSql = "SELECT * FROM usuario where id=$id";
+			$vSql = "SELECT * FROM usuario where IdUsuario=$id";
 			//Ejecutar la consulta
 			$vResultado = $this->enlace->ExecuteSQL($vSql);
 			if ($vResultado) {
 				$vResultado = $vResultado[0];
-				$rol = $rolM->getRolUser($id);
-				$vResultado->rol = $rol;
 				// Retornar el objeto
 				return $vResultado;
 			} else {
@@ -45,28 +41,22 @@ class UserModel
 	{
 		try {
 			//Consulta sql
-			$vSql = "SELECT * FROM usuario
-					where Tipo=5;";
-
+			$vSql = "SELECT * FROM usuario where Tipo=5;";
 			//Ejecutar la consulta
 			$vResultado = $this->enlace->ExecuteSQL($vSql);
-
 			// Retornar el objeto
 			return $vResultado;
 		} catch (Exception $e) {
 			die($e->getMessage());
 		}
 	}
-	public function allVendedores($idShopRental)
+	public function allVendedores()
 	{
 		try {
 			//Consulta sql
-			$vSql = "SELECT * FROM usuario
-					where Tipo=4;";
-
+			$vSql = "SELECT * FROM usuario where Tipo=4;"; 
 			//Ejecutar la consulta
-			$vResultado = $this->enlace->ExecuteSQL($vSql);
-
+			$vResultado = $this->enlace->ExecuteSQL($vSql); 
 			// Retornar el objeto
 			return $vResultado;
 		} catch (Exception $e) {
@@ -76,9 +66,7 @@ class UserModel
 	public function login($objeto)
 	{
 		try {
-
 			$vSql = "SELECT * from usuario where UserName='$objeto->UserName'";
-
 			//Ejecutar la consulta
 			$vResultado = $this->enlace->ExecuteSQL($vSql);
 			if (is_object($vResultado[0])) {
@@ -88,16 +76,14 @@ class UserModel
 					if (!empty($usuario)) {
 						// Datos para el token JWT
 						$data = [
-							'id' => $usuario->idUsuario,
+							'id' => $usuario->IdUsuario,
 							'userName' => $usuario->UserName,
 							'rol' => $usuario->Tipo,
 							'iat' => time(),  // Hora de emisión
 							'exp' => time() + 3600 // Expiración en 1 hora
 						];
-
 						// Generar el token JWT
 						$jwt_token = JWT::encode($data, config::get('SECRET_KEY'), 'HS256');
-
 						// Enviar el token como respuesta
 						return $jwt_token;
 					}
@@ -112,14 +98,13 @@ class UserModel
 	public function create($objeto)
 	{
 		try {
-			if (isset($objeto->password) && $objeto->password != null) {
-				$crypt = password_hash($objeto->password, PASSWORD_BCRYPT);
-				$objeto->password = $crypt;
+			if (isset($objeto->Password) && $objeto->Password != null) {
+				$crypt = password_hash($objeto->Password, PASSWORD_BCRYPT);
+				$objeto->Password = $crypt;
 			}
 			//Consulta sql            
-			$vSql = "Insert into user (name,email,password,rol_id)" .
-				" Values ('$objeto->name','$objeto->email','$objeto->password',$objeto->rol_id)";
-
+			$vSql = "Insert into usuario (IdUsuario,Nombre,Apellido,Tipo,FechaNacimiento,UserName,Password)" .
+				" Values ('$objeto->IdUsuario','$objeto->Nombre','$objeto->Apellido','$objeto->Tipo',$objeto->FechaNacimiento,$objeto->UserName,$objeto->Password)";
 			//Ejecutar la consulta
 			$vResultado = $this->enlace->executeSQL_DML_last($vSql);
 			// Retornar el objeto creado

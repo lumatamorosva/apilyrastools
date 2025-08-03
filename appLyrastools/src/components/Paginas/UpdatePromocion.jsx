@@ -139,8 +139,9 @@ export function UpdatePromocion() {
           {/*titulo de la pagina*/}
           <Grid size={12}> <Typography variant="h5" gutterBottom>Modificar Promoción {values.IdPromocion} -- {values.Nombre}</Typography> </Grid>
           <label>Cambie los valores que desee modificar y guarde los cambios o regrese a la página anterior para descartar cambios</label>
+          <Grid size={12}></Grid>
           <Grid xs={12} md={6}>
-            <label style={{ fontSize: '12px' }}>Nombre actual: {values.Nombre}</label>
+            <label style={{ fontSize: '15px' }}>Nombre actual: {values.Nombre}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name='nombre' control={control}
               render={({field})=>( <TextField {...field} id="nombre" label="Nuevo nombre" error={Boolean(errors.nombre)} />)}
@@ -148,7 +149,7 @@ export function UpdatePromocion() {
             </FormControl>
           </Grid>
           <Grid md={12} xs={12}>
-            <label style={{ fontSize: '12px' }}>Cantidad a descontar actual: {values.Cantidad}</label>
+            <label style={{ fontSize: '15px' }}>Cantidad a descontar actual: {values.Cantidad}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name='cantidad' control={control}
                 render={({field})=>( <TextField {...field} id="cantidad" label="Nueva cantidad" type='number'inputProps={{min:1, max:100}}
@@ -157,7 +158,7 @@ export function UpdatePromocion() {
             </FormControl>
           </Grid>
           <Grid size={12}>
-            <label style={{ fontSize: '12px' }}>Descripción actual: {values.Descripcion}</label>
+            <label style={{ fontSize: '15px' }}>Descripción actual: {values.Descripcion}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="descripcion" control={control}
                 render={({ field }) => ( <TextField {...field} id="descripcion" label="Nueva descripción" error={Boolean(errors.descripcion)} multiline/> )}
@@ -167,8 +168,7 @@ export function UpdatePromocion() {
           </Grid>
           {/*Desplegable de Cats*/}
           <Grid size={4} sm={4}>
-            <label style={{ fontSize: '12px' }}>Categoría actual: {values.AplicaA}</label>
-            <Typography>Aplicar a:</Typography>
+            <label style={{ fontSize: '15px' }}>Categoría actual: {values.AplicaA}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               {loadedCategoria && (
                 <Controller name='aplicaA' control={control} defaultValue=""
@@ -182,8 +182,7 @@ export function UpdatePromocion() {
           <Grid md={6} xs={12}>
                 <Box>
                     <Grid xs={12}>
-                    <Typography>Fecha de aplicación:</Typography>
-                     <label style={{ fontSize: '12px' }}>Fecha de inicio actual: {values.FechaInicio}</label>
+                    <label style={{ fontSize: '15px' }}>Fecha de inicio actual: {values.FechaInicio}</label>
                     <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
                     <Controller name='fechaInicio' control={control}
                         render={({ field })=>(<input {...field} style={{fontSize: '16px',height: '55px', borderColor:"#c2c2c2",
@@ -192,8 +191,7 @@ export function UpdatePromocion() {
                     </FormControl>
                 </Grid>
                 <Grid xs={12}>
-                    <Typography>Fecha de expiración:</Typography>
-                    <label style={{ fontSize: '12px' }}>Fecha de expiración actual: {values.FechaFinal}</label>
+                    <label style={{ fontSize: '15px' }}>Fecha de expiración actual: {values.FechaFinal}</label>
                     <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
                     <Controller name='fechaFinal' control={control}
                         render={({ field })=>(<input {...field} style={{fontSize: '16px', height: '55px', borderColor:"#c2c2c2", borderRadius:'5px'}} 

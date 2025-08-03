@@ -11,8 +11,8 @@ class UserService {
   getAllCustomer() {
     return axios.get(BASE_URL + '/allCustomer/');
   }
-  getCustomerbyShopRental(ShopRentalId) {
-    return axios.get(BASE_URL + '/customerbyShopRental/'+ ShopRentalId);
+  getAllVendedores() {
+    return axios.get(BASE_URL + '/allVendedores/');
   }
   createUser(User) {
     return axios.post(BASE_URL, JSON.stringify(User));
@@ -21,5 +21,4 @@ class UserService {
     return axios.post(BASE_URL + '/login/', JSON.stringify(User));
   }
 }
-
 export default new UserService();

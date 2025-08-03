@@ -214,8 +214,11 @@ export function UpdateProducto() {
       <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
         <Grid container spacing={1}>
           {/*titulo de la pagina*/}
-          <Grid size={12} sm={12}> <Typography variant="h5" gutterBottom> Crear Nuevo Producto </Typography> </Grid>
-          <label>Cambie los valores que desee modificar y guarde los cambios o regrese a la página anterior para descartar cambios</label>
+          <Grid>
+            <Grid size={12} sm={12}> <Typography variant="h5" gutterBottom>Modificación de Producto: {values.NombreProducto}</Typography> </Grid>
+            <label>Cambie los valores que desee modificar y guarde los cambios o regrese a la página anterior para descartar cambios</label>
+          </Grid>
+          <Grid size={12}></Grid>
           <Grid xs={12} md={4}>
             <label style={{ fontSize: '12px' }}>Nombre actual: {values.NombreProducto}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
@@ -233,7 +236,7 @@ export function UpdateProducto() {
              </FormControl>
           </Grid>
           <Grid xs={12} md={4}>
-            <label style={{ fontSize: '12px' }}>Precio actual: {values.Precio}</label>
+            <label style={{ fontSize: '12px' }}>Precio actual: ₡{Number(values.Precio).toLocaleString('en-US')}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="precio" control={control}
                 render={({ field }) => ( <TextField {...field} id="precio" label="Precio" error={Boolean(errors.precio)} /> )}
