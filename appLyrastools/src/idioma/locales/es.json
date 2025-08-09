@@ -7,7 +7,8 @@
     "order": "Orden",
     "search": "Buscar...",
     "categories": "Categorías: ",
-    "brands": "Marcas: "
+    "brands": "Marcas: ",
+    "promoon": "¡Artículo en Promoción!"
   },
   "nav":{
     "title":"Principal",
@@ -45,5 +46,14 @@
     "comentario": "Comentario por: ",
     "fecha": "Reseñado el: ",
     "cargando":"Buscando..."
+  },
+  "emergente": {
+    "marca": "Marca: ",
+    "calificacion": "Calificación",
+    "promocion": "Precio de Promoción: ",
+    "disponible":"Disponibles: ",
+    "cerrar": "Cerrar",
+    "nuevo": "Nueva Reseña",
+    "aun": "Este producto aún no cuenta con reseñas. Se el primero en reseñar este producto:"
   }
 }

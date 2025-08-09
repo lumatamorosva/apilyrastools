@@ -166,7 +166,7 @@ export function ListCardProductos({ data, isShopping }) {
               <CardActionArea onClick={() => item && abrirPopup(item)}> 
               <CardMedia height="180px" component="img" image={`${BASE_URL}/${item?.Imagen}`} alt={item.Imagen} sx={{width: '100%', objectFit: 'contain'}}/>
                 <Box sx={{display:'flex',justifyContent: 'center', }}>
-                  {item.IdPromocion > 0 && <Typography position="absolute" sx={{top:150, fontWeight:'bold',}} color = "red"> Artículo en promoción </Typography> }
+                  {item.IdPromocion > 0 && <Typography position="absolute" sx={{top:150, fontWeight:'bold',}} color = "red"> {t('catalog.promoon')} </Typography> }
                 </Box>
               <CardContent>
                   <Typography variant="body1" color="text.primary" align="center"> {item.NombreProducto}</Typography>
@@ -208,6 +208,6 @@ export function ListCardProductos({ data, isShopping }) {
       </Grid>
     </Grid>
     
-    <Emergente open={open} onClose={cerrarPopup} item={productoActivo} BASE_URL={BASE_URL} /></>
+    <Emergente lang={t} open={open} onClose={cerrarPopup} item={productoActivo} BASE_URL={BASE_URL} /></>
   );
 }

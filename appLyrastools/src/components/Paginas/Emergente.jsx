@@ -18,6 +18,7 @@ import { FormHelperText } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Link as RouterLink } from 'react-router-dom';
 import IconButton from "@mui/material/IconButton";
+import { useTranslation } from 'react-i18next';
 
 //Estilo de la ventana emergente
   const stylePopup = {
@@ -98,18 +99,18 @@ import IconButton from "@mui/material/IconButton";
   return (precio-((promocion/100)*precio) || "Cargando...");
 }
 
-  export default function Emergente({ open, onClose, item, BASE_URL }) {
+  export default function Emergente({lang, open, onClose, item, BASE_URL }) {
+    const t = lang;
   if (!item) return null;
     const {control} = useForm({});
     const opiniones1 = opinionDetalle(item.IdProducto);
-    console.log("Estas son las opiniones: ", (opiniones1));
   return (
     <Modal open={open} onClose={onClose} aria-describedby="modal-descripcion" >
       <Box sx={stylePopup}>
         <Box display="flex" gap="10px">
           <Box width={'50%'}>
             <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{item.NombreProducto} </Typography>
-            <Typography id="modal-descripcion" sx={{ mb: 2 }}> Marca: {(marcaDetalle(item.Marca))}</Typography>
+            <Typography id="modal-descripcion" sx={{ mb: 2 }}>{t('emergente.marca')}{(marcaDetalle(item.Marca))}</Typography>
             <Typography id="modal-descripcion" sx={{ mb: 2 }}> <CategoryIcon/> {(categoriaDetalle(item.Categoria))}</Typography>
             <img src={`${BASE_URL}/${item.Imagen}`} alt={item.NombreProducto} style={{ width: '100%', borderRadius: 8,
                marginBottom: 16, maxHeight: '300px' }}/>
@@ -117,7 +118,7 @@ import IconButton from "@mui/material/IconButton";
               {/*Calificaciones */}
               <Box display="flex" flexWrap="wrap">
                 <Box widht="100%"> 
-                  <Typography id="modal-descripcion" sx={{ mb: 2 }}>Calificación</Typography>
+                  <Typography id="modal-descripcion" sx={{ mb: 2 }}>{t('emergente.calificacion')}</Typography>
                   {[...Array(Math.round(Number(item.Calificacion)))].map((_, i) => (
                   <ThumbUpAltIcon key={'filled-' + i} sx={{ color: '#2196F3' }} />
                   ))}
@@ -133,16 +134,16 @@ import IconButton from "@mui/material/IconButton";
                     <><Typography align='right' sx={{ textDecoration: 'line-through' }}> <PointOfSaleIcon
                        sx={{verticalAlign: 'middle'}}/> ₡{Number(item.Precio).toLocaleString('en-US')} </Typography>
                     <Typography align='right' color = "red"><DiscountIcon sx={{verticalAlign: 'middle'}}/>
-                      Promoción: ₡{Number(promocionDetalle(item.IdPromocion,item.Precio)).toLocaleString('en-US')}</Typography></>
+                      {t('emergente.promocion')}₡{Number(promocionDetalle(item.IdPromocion,item.Precio)).toLocaleString('en-US')}</Typography></>
                   }</Box>
               <Box sx={{ my: 2 }} />
-            <Typography id="modal-descripcion" sx={{ mb: 2 }}><WarehouseIcon/>Disponibles: {item.Existencias}</Typography>
-            <Button variant="contained" onClick={onClose}>Cerrar</Button>
+            <Typography id="modal-descripcion" sx={{ mb: 2 }}><WarehouseIcon/>{t('emergente.disponible')} {item.Existencias}</Typography>
+            <Button variant="contained" onClick={onClose}>{t('emergente.cerrar')}</Button>
           </Box>
           <Box display="flex" sx={{maxHeight: '80vh', overflowY:"auto", width:'50%'}} >
             <Grid display="block" sx={{width:'90%'}}>
                 {opiniones1.length > 0 ? (
-                <><IconButton component={RouterLink} to={`/Paginas/crearReseña/${item.IdProducto}/${item.NombreProducto}`}>Nueva Reseña</IconButton>
+                <><IconButton component={RouterLink} to={`/Paginas/crearReseña/${item.IdProducto}/${item.NombreProducto}`}>{t('emergente.nuevo')}</IconButton>
                 { 
                   opiniones1.map((item) => (
                     <Grid size={8} key={item.Id} minWidth='250px'>
@@ -155,8 +156,8 @@ import IconButton from "@mui/material/IconButton";
                         </FormControl>
                       </Grid>
                     </Grid>))}</>
-                ):(<>Este producto aún no cuenta con reseñas. Se el primero en reseñar este producto:<br />
-                  <IconButton component={RouterLink} to={`/Paginas/crearReseña/${item.IdProducto}/${item.NombreProducto}`}>Nueva Reseña</IconButton></>)}
+                ):(<>{t('emergente.aun')}<br />
+                  <IconButton component={RouterLink} to={`/Paginas/crearReseña/${item.IdProducto}/${item.NombreProducto}`}>{t('emergente.nuevo')}</IconButton></>)}
             </Grid>
             <Typography id="modal-titulo" variant="h6" component="h2" gutterBottom>{(opinionDetalle(item.IdProducto)).Opinion} </Typography>
           </Box>
