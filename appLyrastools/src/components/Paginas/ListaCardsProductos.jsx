@@ -23,6 +23,7 @@ import toast from 'react-hot-toast';
 //Para la ventana emergente
 import CardActionArea from '@mui/material/CardActionArea';
 import Emergente from './Emergente';
+import { useTranslation } from 'react-i18next';
 
 ListCardProductos.propTypes = {
   data: PropTypes.array,
@@ -30,8 +31,8 @@ ListCardProductos.propTypes = {
 };
 
 export function ListCardProductos({ data, isShopping }) {
-  console.log("Productos traídos: ", data);
-  //const { addItem } =useCart()
+  //Para la traducción
+  const { t } = useTranslation();
   //Url para acceder a la imagenes guardadas en el API
   const BASE_URL = import.meta.env.VITE_BASE_URL + 'uploads';
   const [open, setOpen] = useState(false);
@@ -118,7 +119,7 @@ export function ListCardProductos({ data, isShopping }) {
       <Box sx={{display:'flex', borderRadius:1, backgroundColor:(theme) => theme.palette.secondary.main}}>
         {/* Orden Dropdown */}
        <FormControl sx={{ m: 1, minWidth: "20%"}} size="small">
-        <InputLabel sx={{color: 'white', '&.Mui-focused': { color: 'white'}}} id="ordenDropDown">Orden</InputLabel>
+        <InputLabel sx={{color: 'white', '&.Mui-focused': { color: 'white'}}} id="ordenDropDown">{t('catalog.order')}</InputLabel>
           <Select sx={{ color: 'white' }} labelId="ordenDropDown" id="ordenDropDown" value={orden} label="ordenDropDown" onChange={handleChange}>
             <MenuItem value={'descendente'}>Mayor a menor</MenuItem>
             <MenuItem value={'ascendente'}>Menor a mayor</MenuItem>
@@ -127,7 +128,7 @@ export function ListCardProductos({ data, isShopping }) {
         <FormControl sx={{ m: 1, minWidth: "20%"}} size="small" color='white'>
           <TextField InputLabelProps={{sx: {color: 'white','&.Mui-focused': {color: 'white','& input':
             {color: 'white'}}}}} sx={{'& .MuiInputBase-input': {color: 'white'}}}
-            size="small" id="buscar" label="Buscar..." onChange={handleChangeBuscar}></TextField>
+            size="small" id="buscar" label={t('catalog.search')} onChange={handleChangeBuscar}></TextField>
         </FormControl>
       </Box>
       
@@ -135,8 +136,7 @@ export function ListCardProductos({ data, isShopping }) {
     <Grid sx={{display:'flex', mt:'10px'}}>
       <Box size={4} color='white' sx={{borderRadius:1, backgroundColor:(theme) => theme.palette.secondary.main, p:'15px'}}>
         <Box>
-          Categorías:
-          {cats.map((item) =>
+          {t('catalog.categories')}{cats.map((item) =>
           (
             <FormGroup key={item.IdCategoria} >
                 <FormControlLabel control={<Checkbox checked={!!catChecked[item.IdCategoria]} size="small"
@@ -146,7 +146,7 @@ export function ListCardProductos({ data, isShopping }) {
           ))}
         </Box>
         <Box>
-          Marcas:
+          {t('catalog.brands')}
           {marcas.map((item) =>
           (
             <FormGroup key={item.IdMarca} >

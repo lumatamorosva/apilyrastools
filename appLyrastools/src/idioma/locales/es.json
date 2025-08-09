@@ -3,10 +3,11 @@
     "title": "Todo en Calidad y variedad de herramientas para tus proyectos industriales o residenciales.",
     "subtitle": "Top 10 mejor calificados:"
   },
-  "about": {
-    "title": "This is the example in English",
-    "text": "Made by Luis Matamoros for ISW-613",
-    "images": "Flag pictures taken from: "
+  "catalog": {
+    "order": "Orden",
+    "search": "Buscar...",
+    "categories": "Categorías: ",
+    "brands": "Marcas: "
   },
   "nav":{
     "title":"Principal",
@@ -19,5 +20,30 @@
     "login":"Ingresar",
     "register":"Registrarse",
     "logout":"Cerrar sesión"
+  },
+  "promos":{
+    "title":"Promociones en el sistema",
+    "estado":"Estados de las promociones:",
+    "vencidas":"Vencidas",
+    "pendientes":"Pendientes",
+    "activas":"Actualmente activas",
+    "nombre":"Nombre",
+    "descripcion":"Descripción",
+    "inicio":"Fecha Inicial",
+    "fin":"Fecha de vencimiento",
+    "porciento":"%",
+    "aplicaa":"Aplica a",
+    "acciones":"Acciones",
+    "actualizar":"Actualizar",
+    "nueva":"Nueva promoción",
+    "eliminar":"Eliminar definitivamente",
+    "toastEliminar":"Promoción eliminada",
+    "cargando":"Cargando..."
+  },
+  "review": {
+    "title": "Reseñas de productos:",
+    "comentario": "Comentario por: ",
+    "fecha": "Reseñado el: ",
+    "cargando":"Buscando..."
   }
 }

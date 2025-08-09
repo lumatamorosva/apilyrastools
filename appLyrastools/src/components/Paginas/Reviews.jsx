@@ -8,8 +8,11 @@ import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import { Link as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export function Reviews() {
+  //Para la traducción
+  const { t } = useTranslation();
   //Url para acceder a la imagenes guardadas en el API
   const BASE_URL = import.meta.env.VITE_BASE_URL + 'uploads';
   const {control,formState: {},} = useForm({});
@@ -22,7 +25,7 @@ export function Reviews() {
       },[]);
   return (
     <>
-    <Typography variant="h6" gutterBottom>Reseñas de productos:</Typography>
+    <Typography variant="h6" gutterBottom>{t('review.title')}</Typography>
     <Grid container spacing={1} display="flex" flexWrap="wrap" justifyContent={"center"}>
         {/* ()=>{} */}
         {opiniones.map((item) => (
