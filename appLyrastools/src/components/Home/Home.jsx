@@ -10,7 +10,7 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import Box from '@mui/material/Box';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import CardActionArea from '@mui/material/CardActionArea';
-
+import { useTranslation } from 'react-i18next';
 
 export function Home() { 
   //Para la imagen
@@ -25,13 +25,13 @@ export function Home() {
   //Para el carusel de productos
   const settings = {dots: true,infinite: true,speed: 500,slidesToShow: 1,slidesToScroll: 1};
 
+  //Para la traducción
+  const { t } = useTranslation();
   return (
     <Container sx={{ p: 2 }} maxWidth="sm"> 
       <img src="/images/logo.png" alt="logo" style={{ display: 'block', margin: '0 auto' }}/>
-      <Typography variant="h5" align="center" color="text.secondary"> 
-        Todo en Calidad y variedad de herramientas para tus proyectos industriales o residenciales. 
-      </Typography> 
-      <Typography variant="h6"> Top 10 mejor calificados:</Typography> 
+      <Typography variant="h5" align="center" color="text.secondary">{t('home.title')}</Typography> 
+      <Typography variant="h6">{t('home.subtitle')}</Typography> 
       <Slider {...settings} >
         {prods.map((item) => (
           <div key={item.IdProducto}>

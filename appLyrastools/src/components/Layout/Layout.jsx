@@ -5,10 +5,10 @@ import { Container } from '@mui/material';
 import Header from './Header'; 
 import { Footer } from './Footer'; 
 import { Toaster } from 'react-hot-toast';
- 
+
 Layout.propTypes = { children: PropTypes.node.isRequired }; 
  
-export function Layout({ children }) { 
+export function Layout({ t, changeLanguage, children }) { 
   return ( 
     <> 
       <Header /> 
@@ -19,7 +19,7 @@ export function Layout({ children }) {
       <Toaster position='bottom-right' />
         {children} 
       </Container> 
-      <Footer /> 
+      <Footer t={t} changeLanguage={changeLanguage} /> 
     </> 
   ); 
 } 

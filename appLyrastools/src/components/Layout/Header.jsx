@@ -16,8 +16,11 @@ import HandymanIcon from '@mui/icons-material/Handyman';
 import Tooltip from "@mui/material/Tooltip";
 import { useCart } from "../../hooks/useCart";
 import { UserContext } from "../../context/UserContext";
+import { useTranslation } from 'react-i18next';
 
 export default function Header() {
+  //Para la traducción
+  const { t } = useTranslation();
   //Obtener usuario
   const {user, decodeToken,autorize}= useContext(UserContext)
   const [userData,setUserData]=useState(decodeToken())
@@ -55,17 +58,16 @@ export default function Header() {
   };
   //Lista enlaces menu usuario
   const userItems = [
-    { name: "Login", link: "/user/login", login: false },
-    { name: "Registrarse", link: "/user/create", login: false },
-    { name: "Logout", link: "/user/logout", login: true },
+    { name: t('nav.login'), link: "/user/login", login: false },
+    { name: t('nav.register'), link: "/user/create", login: false },
+    { name: t('nav.logout'), link: "/user/logout", login: true },
   ];
   //Lista enlaces menu principal
   const navItems = [
-    {name: "Herramientas", link: "/catalog-productos/", roles:null },
-    {name: "Promociones", link: "/Paginas/ListPromociones/", roles:null },
-    {name: "Opiniones", link: "/Paginas/Reviews/", roles:null },
-    //Rol desactivado por el momento
-    {name: "Mantenimiento Productos", link: "/product-table/", roles:['Administrador'] },
+    {name: t('nav.op1'), link: "/catalog-productos/", roles:null },
+    {name: t('nav.op2'), link: "/Paginas/ListPromociones/", roles:null },
+    {name: t('nav.op3'), link: "/Paginas/Reviews/", roles:null },
+    {name: t('nav.op4'), link: "/product-table/", roles:[1,2] },
   ];
   //Identificador menu principal
   const menuIdPrincipal = "menu-appbar";
@@ -73,24 +75,17 @@ export default function Header() {
   const menuPrincipal = (
     <Box sx={{ display: { xs: "none",sm: "none", md: "block" } }}>
       {navItems && navItems.map((item, index) => {
-          //if(autorize(requiredRoles:['Administrador']))
-        if(userData && item.roles){
-          //Verificar rol
-          if(autorize({requiredRoles:item.roles})){
-            //Rutas con restricción
-            return (<Button key={index} component={Link} to={item.link} color="white" >
-              <Typography textAlign="center">{item.name}</Typography>
-            </Button>)
-          }
-        }else{
-          if(item.roles==null){
-            //Rutas sin restricción
-            return (<Button key={index} component={Link} to={item.link} color="white" >
-              <Typography textAlign="center">{item.name}</Typography>
-            </Button>)
-          }
-        }   
-      })}
+        const isPublic = item.roles === null;
+        //console.log(`Leer aquí item.roles:`, item.roles);
+        const isAuthorized = item.roles && item.roles.includes(parseInt(userData?.rol));
+          if (isPublic || isAuthorized) {
+            return (
+              <Button key={index} component={Link} to={item.link} color="white">
+                <Typography textAlign="center">{item.name}</Typography>
+              </Button>
+            );
+          }return null;
+          })}
     </Box>
   );
   //Menu Hamburguesa (Revisado)
@@ -178,7 +173,7 @@ export default function Header() {
             <ShoppingCartIcon />
           </Badge>
         </IconButton>
-        <p>Compras</p>
+        <p>{t('nav.op6')}</p>
       </MenuItem>
       <MenuItem>
         <IconButton size="large" color="inherit">
@@ -186,11 +181,10 @@ export default function Header() {
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notificaciones</p>
+        <p>{t('nav.op5')}</p>
       </MenuItem>
     </Menu>
   );
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -228,7 +222,7 @@ export default function Header() {
               </Menu>
               {/* Enlace página inicio */}
               <Tooltip title="Home">
-                <IconButton sx={{mr: "30px"}}component="a"href="/"> <HandymanIcon sx={{mr:"10px"}} />PRINCIPAL</IconButton>
+                <IconButton sx={{mr: "30px"}}component="a"href="/"> <HandymanIcon sx={{mr:"10px"}} />{t('nav.title')}</IconButton>
               </Tooltip>
               {/* Opciones del Menú */}
               {menuPrincipal}

@@ -1,0 +1,23 @@
+{
+  "home": {
+    "title": "Todo en Calidad y variedad de herramientas para tus proyectos industriales o residenciales.",
+    "subtitle": "Top 10 mejor calificados:"
+  },
+  "about": {
+    "title": "This is the example in English",
+    "text": "Made by Luis Matamoros for ISW-613",
+    "images": "Flag pictures taken from: "
+  },
+  "nav":{
+    "title":"Principal",
+    "op1":"Herramientas",
+    "op2":"Promociones",
+    "op3":"Reseñas",
+    "op4":"Mantenimiento Productos",
+    "op5":"Notificaciones",
+    "op6":"Compras",
+    "login":"Ingresar",
+    "register":"Registrarse",
+    "logout":"Cerrar sesión"
+  }
+}

@@ -39,7 +39,6 @@ export function Login() {
   // Accion submit
   const onSubmit = (DataForm) => {
     try {
-      console.log("Esto se envía:", DataForm)
       UserService.loginUser(DataForm)
         .then((response) => {
           console.log(response);

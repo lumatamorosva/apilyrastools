@@ -1,0 +1,23 @@
+{
+  "home": {
+    "title": "All the multeity and quality of tools for your industrial or residential projects",
+    "subtitle": "Top 10 best qualified:"
+  },
+  "about": {
+    "title": "This is the example in English",
+    "text": "Made by Luis Matamoros for ISW-613",
+    "images": "Flag pictures taken from: "
+  },
+  "nav":{
+    "title":"Main Page",
+    "op1":"Tools",
+    "op2":"Promotions",
+    "op3":"Reviews",
+    "op4":"Product Maintenance",
+    "op5":"Notifications",
+    "op6":"Shopping",
+    "login":"Login",
+    "register":"Register",
+    "logout":"Logout"
+  }
+}
