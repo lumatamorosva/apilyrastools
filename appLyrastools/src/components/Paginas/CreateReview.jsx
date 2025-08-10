@@ -16,8 +16,12 @@ import toast from 'react-hot-toast';
 import Box from '@mui/material/Box';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import { useTranslation } from 'react-i18next';
 
 export function CreateReview() {
+    //Para la traducción
+    const { t } = useTranslation();
+
     const {id,name} = useParams();
     const navigate = useNavigate();
     let formData=new FormData()
@@ -26,12 +30,10 @@ export function CreateReview() {
     calificacion: yup
         .number()
         .transform((value, originalValue) => originalValue === '' ? undefined : value)
-        .min(1,'El mínimo válido es 1')
-        .max(5,'El máximo válido es 5')
-        .required('Este campo es requerido'),
+        .required(t('crearReview.requerido')),
     opinion: yup
         .string()
-        .required('Este campo es requerido'),
+        .required(t('crearReview.requerido')),
   });
   const {
     control, //register
@@ -61,8 +63,6 @@ export function CreateReview() {
       Calificacion: DataForm.calificacion,
       Fecha: new Date().toISOString().split('T')[0]
     };
-    console.log('Formulario:');
-    console.log(payload);
     //Llamar al API
     try {
        if(reviewSchema.isValid()){
@@ -72,7 +72,7 @@ export function CreateReview() {
           setError(response.error)
           //Respuesta al usuario
           if(response.data !=null){
-            toast.success(`Reseña creada para ${response.data.IdProducto}`,{duration: 4000,position:'top-center'}) 
+            toast.success(`${t('crearReview.toast')} ${response.data.IdProducto}`,{duration: 4000,position:'top-center'}) 
             return navigate('/Paginas/Reviews/')
           }
         })
@@ -93,10 +93,10 @@ export function CreateReview() {
     <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
         <Grid container spacing={1}>
           {/*titulo de la pagina*/}
-          <Grid size={12}> <Typography variant="h5" gutterBottom>Crear Reseña para {name}</Typography></Grid>
+          <Grid size={12}> <Typography variant="h5" gutterBottom>{t('crearReview.title')} {name}</Typography></Grid>
           <Grid>
             <Grid>
-              <Typography variant="body2" gutterBottom>Selecciona tu calificación:</Typography>
+              <Typography variant="body2" gutterBottom>{t('crearReview.calificacion')}</Typography>
                 <Grid md={12} xs={12}>
                   <FormControl fullWidth sx={{ m: 1 }}>
                     <Controller name="calificacion" control={control} render={({ field }) => (
@@ -113,14 +113,14 @@ export function CreateReview() {
             <Grid>
                   <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
                     <Controller name='opinion' control={control}
-                    render={({field})=>( <TextField {...field} id="opinion" label="Su opinión: " error={Boolean(errors.opinion)} />)}
+                    render={({field})=>( <TextField {...field} id="opinion" label={t('crearReview.opinion')} error={Boolean(errors.opinion)} />)}
                   /><FormHelperText sx={{color: '#d32f2f'}}> {errors.opinion ? errors.opinion.message : ' '} </FormHelperText>
                   </FormControl>
             </Grid>
           </Grid>
         </Grid> 
         <Grid size={12} sm={12}>
-            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }} >Someter reseña</Button>
+            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }} >{t('crearReview.someter')}</Button>
         </Grid> 
     </form>
     </>

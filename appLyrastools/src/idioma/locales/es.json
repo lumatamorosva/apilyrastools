@@ -55,5 +55,47 @@
     "cerrar": "Cerrar",
     "nuevo": "Nueva Reseña",
     "aun": "Este producto aún no cuenta con reseñas. Se el primero en reseñar este producto:"
+  },
+  "crearReview": {
+    "title": "Crear reseña para ",
+    "calificacion": "Selecciona tu calificación con los pulgares",
+    "opinion": "Su opinión aquí",
+    "someter":"Someter reseña",
+    "toast": "Reseña creada para ",
+    "requerido": "Este campo es requerido"
+  },
+  "updatePromo":{
+    "title":"Modificar Promoción",
+    "subtitle":"Cambie los valores que desee modificar y guarde los cambios o regrese a la página anterior para descartar cambios",
+    "nuevonombre":"Nuevo nombre",
+    "nombreactual":"Nombre actual: ",
+    "cantidadactual":"Cantiadad actual a descontar: ",
+    "cantidad":"Nueva cantidad",
+    "descripcionactual":"Descripción actual: ",
+    "descr":"Nueva descripción",
+    "catactual":"Categoría actual: ",
+    "catnueva":"Categoría",
+    "fechaactual":"Fecha de inicio actual: ",
+    "fechaexp":"Fecha de expiración actual: ",
+    "guardar":"Guardar cambios",
+    "min":"El porcentaje no puede ser menor a 1%",
+    "max":"El porcentaje no puede ser mayor a 100%",
+    "toast":"Promoción actualizada"
+  },
+  "newPromo":{
+    "title":"Crear nueva Promoción",
+    "nombre":"Nombre",
+    "cantidad":"Cantidad (%)",
+    "descr":"Descripción",
+    "aplica":"Aplica a: ",
+    "fechaactual":"Fecha de inicio: ",
+    "fechaexp":"Fecha de expiración: ",
+    "min":"El porcentaje no puede ser menor a 1%",
+    "max":"El porcentaje no puede ser mayor a 100%",
+    "required":"Este campo es requerido",
+    "fechano":"Fecha no válida",
+    "fechaposterior":"La fecha debe ser posterior a hoy",
+    "fechaposterior2":"La fecha debe ser posterior a la fecha de inicio",
+    "toast":"Promoción nueva creada #"
   }
 }

@@ -14,35 +14,38 @@ import { SelectCategoriaValue } from './Form/SeleccionarCategoriaValue';
 import { Box, FormHelperText } from '@mui/material';
 import PromocionService from '../../services/PromocionesService';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 export function CreatePromocion() {
   const navigate = useNavigate();
   let formData=new FormData()
+        //Para la traducción
+        const { t } = useTranslation();
   // Esquema de validación
   const promoSchema = yup.object({
     nombre: yup
           .string()
-          .required('Debe indicar un nombre'),
+          .required(t('newPromo.required')),
     cantidad: yup
         .number()
           .transform((value, originalValue) => originalValue === '' ? undefined : value)
-          .min(1,'El porcentaje no puede ser menor a 1%')
-          .max(100,'El porcentaje no puede ser mayor a 100%')
-          .required('Este campo es requerido'),
+          .min(1,t('newPromo.min'))
+          .max(100,t('newPromo.max'))
+          .required(t('newPromo.required')),
     descripcion: yup
           .string()
-          .required('La descripción es requerida'),
+          .required(t('newPromo.required')),
     fechaInicio: yup.date()
-          .typeError('La fecha no es valida')
-          .required('La fecha es requerida')
-          .min(new Date(), 'La fecha debe ser posterior a hoy'),
+          .required(t('newPromo.required'))
+          .typeError(t('newPromo.fechano'))
+          .min(new Date(), t('newPromo.fechaposterior')),
     fechaFinal: yup.date()
-          .typeError('La fecha no es valida')
-          .required('La fecha es requerida')
-          .min(yup.ref('fechaInicio'), 'La fecha debe ser posterior a la fecha de inicio'),
+          .required(t('newPromo.required'))
+          .typeError(t('newPromo.fechano'))
+          .min(yup.ref('fechaInicio'), t('newPromo.fechaposterior2')),
     aplicaA: yup
           .string()
-          .required('Seleccione una categoria de la lista')
+          .required(t('newPromo.required'))
   });
   const {
     control, //register
@@ -76,8 +79,6 @@ export function CreatePromocion() {
       AplicaA: DataForm.aplicaA,
       Cantidad: DataForm.cantidad
     };
-    console.log('Formulario:');
-    console.log(payload);
     //Llamar al API
     try {
        if(promoSchema.isValid()){
@@ -88,7 +89,7 @@ export function CreatePromocion() {
           //Respuesta al usuario
           if(response.data !=null){
             toast.success(
-              `Promoción nueva creada #${response.data.IdPromocion} - ${response.data.Nombre}`,
+              `${t('newPromo.toast')} ${response.data.IdPromocion} - ${response.data.Nombre}`,
               {duration: 4000,position:'top-center'}) 
             return navigate('/Paginas/ListPromociones/')
             }
@@ -132,18 +133,18 @@ export function CreatePromocion() {
       <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
         <Grid container spacing={1}>
           {/*titulo de la pagina*/}
-          <Grid size={12}> <Typography variant="h5" gutterBottom>Crear Nueva Promoción</Typography> </Grid>
+          <Grid size={12}> <Typography variant="h5" gutterBottom>{t('newPromo.title')}</Typography> </Grid>
           <Grid xs={12} md={6}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name='nombre' control={control}
-              render={({field})=>( <TextField {...field} id="nombre" label="Nombre" error={Boolean(errors.nombre)} />)}
+              render={({field})=>( <TextField {...field} id="nombre" label={t('newPromo.nombre')} error={Boolean(errors.nombre)} />)}
             /><FormHelperText sx={{color: '#d32f2f'}}> {errors.nombre ? errors.nombre.message : ' '} </FormHelperText>
             </FormControl>
           </Grid>
           <Grid md={12} xs={12}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name='cantidad' control={control}
-                render={({field})=>( <TextField {...field} id="cantidad" label="Cantidad a descontar" type='number'inputProps={{min:1, max:100}}
+                render={({field})=>( <TextField {...field} id="cantidad" label={t('newPromo.cantidad')} type='number'inputProps={{min:1, max:100}}
                 error={Boolean(errors.nombre)} />)}
             /><FormHelperText sx={{color: '#d32f2f'}}> {errors.cantidad ? errors.cantidad.message : ' '} </FormHelperText>
             </FormControl>
@@ -151,14 +152,14 @@ export function CreatePromocion() {
           <Grid size={12}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="descripcion" control={control}
-                render={({ field }) => ( <TextField {...field} id="descripcion" label="Descripción" error={Boolean(errors.descripcion)} multiline/> )}
+                render={({ field }) => ( <TextField {...field} id="descripcion" label={t('newPromo.descr')} error={Boolean(errors.descripcion)} multiline/> )}
             />
             <FormHelperText sx={{color: '#d32f2f'}}> {errors.descripcion ? errors.descripcion.message : ' '} </FormHelperText>
              </FormControl>
           </Grid>
           {/*Desplegable de Cats*/}
           <Grid size={4} sm={4}>
-            <Typography>Aplicar a:</Typography>
+            <Typography>{t('newPromo.aplica')}</Typography>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               {loadedCategoria && (
                 <Controller name='aplicaA' control={control} defaultValue=""
@@ -172,7 +173,7 @@ export function CreatePromocion() {
           <Grid md={6} xs={12}>
                 <Box>
                     <Grid xs={12}>
-                    <Typography>Fecha de aplicación:</Typography>
+                    <Typography>{t('newPromo.fechaactual')}</Typography>
                     <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
                     <Controller name='fechaInicio' control={control}
                         render={({ field })=>(<input {...field} style={{fontSize: '16px',height: '55px', borderColor:"#c2c2c2",
@@ -181,7 +182,7 @@ export function CreatePromocion() {
                     </FormControl>
                 </Grid>
                 <Grid xs={12}>
-                    <Typography>Fecha de expiración:</Typography>
+                    <Typography>{t('newPromo.fechaexp')}</Typography>
                     <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
                     <Controller name='fechaFinal' control={control}
                         render={({ field })=>(<input {...field} style={{fontSize: '16px', height: '55px', borderColor:"#c2c2c2", borderRadius:'5px'}} 
@@ -192,7 +193,7 @@ export function CreatePromocion() {
                 </Box>
           </Grid>
           <Grid size={12} sm={12}>
-            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }} > Crear Promoción</Button>
+            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }}>{t('newPromo.title')}</Button>
           </Grid>
         </Grid>
       </form>

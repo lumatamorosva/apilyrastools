@@ -55,5 +55,47 @@
     "cerrar": "Close",
     "nuevo": "New Review",
     "aun": "This product doesn't has any review yet. Be the first to leave a review for this product:"
+  },
+  "crearReview": {
+    "title": "Create review for ",
+    "calificacion": "Select your qualification with the thumbs",
+    "opinion": "Your opinion here",
+    "someter":"Submit review",
+    "toast": "Succesfully created a review for ",
+    "requerido": "This field is required"
+  },
+  "updatePromo":{
+    "title":"Update promotion ",
+    "subtitle":"Change the values that you wish to modify and save the changes or return to the previous page to discard changes",
+    "nuevonombre":"New name",
+    "nombreactual":"Present name: ",
+    "cantidadactual":"Present amount to discount: ",
+    "cantidad":"New amount",
+    "descripcionactual":"Present description: ",
+    "descr":"New description",
+    "catactual":"Present category: ",
+    "catnueva":"Category",
+    "fechaactual":"Present Start Date: ",
+    "fechaexp":"Present Due Date: ",
+    "guardar":"Save Changes",
+    "min":"Percentage cannot be lower than 1%",
+    "max":"Percentage cannot be higher than 100%",
+    "toast":"Promotion updated"
+  },
+  "newPromo":{
+    "title":"Create new Promotion",
+    "nombre":"Name",
+    "cantidad":"Amount (%)",
+    "descr":"Description",
+    "aplica":"Applies to: ",
+    "fechaactual":"Start date: ",
+    "fechaexp":"Due Date: ",
+    "min":"Percentage cannot be lower than 1%",
+    "max":"Percentage cannot be higher than 100%",
+    "required":"This field is required",
+    "fechano":"Invalid date",
+    "fechaposterior":"This date cannot be set before Today",
+    "fechaposterior2":"This date cannot be set before Start Date",
+    "toast":"New promotion created #"
   }
 }
