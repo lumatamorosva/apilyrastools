@@ -19,8 +19,6 @@ import { CreatePromocion } from "./components/Paginas/CreatePromocion";
 import { UpdatePromocion } from "./components/Paginas/UpdatePromocion";
 import { UpdateProducto } from "./components/Paginas/UpdateProducto";
 import { CatalogProductos } from "./components/Paginas/CatalogProductos";
-import { UploadImagenParaProducto } from "./components/Paginas/UploadImage";
-import { CreateMovieRental } from "./components/Rental/PaginaCarritoCheckout";
 import { GraphRetal } from "./components/Rental/GraphRental";
 import UserProvider from "./components/User/UserProvider";
 import { Unauthorized } from "./components/User/Unauthorized";
@@ -91,14 +89,6 @@ const rutas=createBrowserRouter(
         {
           path: '/catalog-productos/',
           element: <CatalogProductos />,
-        },
-        {
-          path: 'movie/image/',
-          element: <UploadImagenParaProducto />
-        },
-        {
-          path: '/rental/crear/',
-          element: <CreateMovieRental />,
         },
         {
           path: '/rental/graph',
