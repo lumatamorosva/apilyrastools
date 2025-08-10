@@ -17,8 +17,12 @@ import { FormHelperText } from '@mui/material';
 import ProductoService from '../../services/ProductoService';
 import toast from 'react-hot-toast';
 import ImageService from '../../services/ImageService';
+import { useTranslation } from 'react-i18next';
 
 export function UpdateProducto() {
+      //Para la traducción
+      const { t } = useTranslation();
+
   const navigate = useNavigate();
   const routeParams = useParams();
   //Id a actualizar
@@ -44,11 +48,11 @@ export function UpdateProducto() {
     existencias: yup
           .number()
           .transform((value, originalValue) => originalValue === '' ? undefined : value)
-          .positive('Deben haber al menos 1'),
+          .positive(t('cambiarprod.min')),
     precio: yup
           .number()
           .transform((value, originalValue) => originalValue === '' ? undefined : value)
-          .positive('El precio mínimo aceptable es ₡1'),
+          .positive(t('cambiarprod.minprecio')),
     descripcion: yup
           .string()
   });
@@ -113,7 +117,7 @@ export function UpdateProducto() {
                 throw new Error('Respuesta no válida del servidor');
               }
             })
-            toast.success(`Producto #${response.data.IdProducto} - ${response.data.NombreProducto} actualizado`,
+            toast.success(`${response.data.IdProducto} - ${response.data.NombreProducto + t('cambiarprod.toast')}`,
                 {duration: 4000,position:'top-center'}) 
             return navigate('/product-table/')
             }
@@ -215,46 +219,46 @@ export function UpdateProducto() {
         <Grid container spacing={1}>
           {/*titulo de la pagina*/}
           <Grid>
-            <Grid size={12} sm={12}> <Typography variant="h5" gutterBottom>Modificación de Producto: {values.NombreProducto}</Typography> </Grid>
-            <label>Cambie los valores que desee modificar y guarde los cambios o regrese a la página anterior para descartar cambios</label>
+            <Grid size={12} sm={12}> <Typography variant="h5" gutterBottom>{t('cambiarprod.title')} {values.NombreProducto}</Typography> </Grid>
+            <label>{t('cambiarprod.subtitle')}</label>
           </Grid>
           <Grid size={12}></Grid>
           <Grid xs={12} md={4}>
-            <label style={{ fontSize: '12px' }}>Nombre actual: {values.NombreProducto}</label>
+            <label style={{ fontSize: '12px' }}>{t('cambiarprod.nombreactual')} {values.NombreProducto}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name='nombre' control={control}
-              render={({field})=>( <TextField {...field} id="nombre" label="Nombre" error={Boolean(errors.nombre)} />)}
+              render={({field})=>( <TextField {...field} id="nombre" label={t('cambiarprod.nombre')} error={Boolean(errors.nombre)} />)}
             /><FormHelperText sx={{color: '#d32f2f'}}> {errors.nombre ? errors.nombre.message : ' '} </FormHelperText>
             </FormControl>
           </Grid>
           <Grid xs={12} md={4}>
-            <label style={{ fontSize: '12px' }}>Existencias actuales: {values.Existencias}</label>
+            <label style={{ fontSize: '12px' }}>{t('cambiarprod.existenciasactuales')} {values.Existencias}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="existencias" control={control}
-                render={({ field }) => ( <TextField {...field} id="existencias" label="Existencias" error={Boolean(errors.existencias)} /> )}
+                render={({ field }) => ( <TextField {...field} id="existencias" label={t('cambiarprod.existencias')} error={Boolean(errors.existencias)} /> )}
             /><FormHelperText sx={{color: '#d32f2f'}}> {errors.existencias ? errors.existencias.message : ' '} </FormHelperText>
              </FormControl>
           </Grid>
           <Grid xs={12} md={4}>
-            <label style={{ fontSize: '12px' }}>Precio actual: ₡{Number(values.Precio).toLocaleString('en-US')}</label>
+            <label style={{ fontSize: '12px' }}>{t('cambiarprod.precioactual')} ₡{Number(values.Precio).toLocaleString('en-US')}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="precio" control={control}
-                render={({ field }) => ( <TextField {...field} id="precio" label="Precio" error={Boolean(errors.precio)} /> )}
+                render={({ field }) => ( <TextField {...field} id="precio" label={t('cambiarprod.precio')} error={Boolean(errors.precio)} /> )}
             /><FormHelperText sx={{color: '#d32f2f'}}> {errors.precio ? errors.precio.message : ' '} </FormHelperText>
              </FormControl>
           </Grid>
           <Grid size={12}>
-            <label style={{ fontSize: '12px' }}>Descripción actual: {values.Descripcion}</label>
+            <label style={{ fontSize: '12px' }}>{t('cambiarprod.descractual')} {values.Descripcion}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="descripcion" control={control}
-                render={({ field }) => ( <TextField {...field} id="descripcion" label="Descripción" error={Boolean(errors.descripcion)} multiline/> )}
+                render={({ field }) => ( <TextField {...field} id="descripcion" label={t('cambiarprod.descr')} error={Boolean(errors.descripcion)} multiline/> )}
             />
             <FormHelperText sx={{color: '#d32f2f'}}> {errors.descripcion ? errors.descripcion.message : ' '} </FormHelperText>
              </FormControl>
           </Grid>
           {/*Desplegable de Marcas*/}
           <Grid size={4} sm={4}>
-            <label style={{ fontSize: '12px' }}>Marca actual: {marcaNombre || "Cargando..."}</label>
+            <label style={{ fontSize: '12px' }}>{t('cambiarprod.marcaactual')} {marcaNombre || t('table.carga')}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               {loadedMarca && (
                 <Controller name='marca' control={control} defaultValue=""
@@ -266,7 +270,7 @@ export function UpdateProducto() {
           </Grid>
           {/*Desplegable de Cats*/}
           <Grid size={4} sm={4}>
-            <label style={{ fontSize: '12px' }}>Categoría actual: {catNombre || "Cargando..."}</label>
+            <label style={{ fontSize: '12px' }}>{t('cambiarprod.categoriaactual')}{catNombre || t('table.carga')}</label>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               {loadedCategoria && (
                 <Controller name='categoria' control={control} defaultValue=""
@@ -278,7 +282,7 @@ export function UpdateProducto() {
           </Grid>
           {/*Control de imagen del producto*/}
           <Grid size={12} sm={12}>
-            <label style={{ fontSize: '12px' }}>Imagen actual: </label>
+            <label style={{ fontSize: '12px' }}>{t('cambiarprod.imgactual')}</label>
             <img src={"http://localhost:81/apilyrastools/uploads/"+values.Imagen} alt={values.Imagen} width={200}/>
               <FormControl variant='standard' fullWidth sx={{m:1}}>
                 <Controller name='image' control={control}
@@ -287,7 +291,7 @@ export function UpdateProducto() {
               <img src={fileURL} width={300}/>
           </Grid>
           <Grid size={12} sm={12}>
-            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }} > Guardar Cambios</Button>
+            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }}>{t('cambiarprod.guardar')}</Button>
           </Grid>
         </Grid>
       </form>

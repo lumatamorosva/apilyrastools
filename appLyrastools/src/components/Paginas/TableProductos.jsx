@@ -18,9 +18,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate, Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 //Componente tabla
 export default function TableProducts() {
+      //Para la traducción
+      const { t } = useTranslation();  
   //Datos a cargar en la tabla
   const [data, setData] = useState({});
   const [error, setError] = useState("");
@@ -86,19 +89,19 @@ export default function TableProducts() {
     const handleDelete = async (id) => {
     try {
       await ProductoService.deleteProducto(id);
-      toast.success(`Producto eliminado`,{duration: 4000,position:'top-center'});
+      toast.success(`${t('table.toast')}`,{duration: 4000,position:'top-center'});
       cargarProductos();
     } catch (error) {
       console.error("Error eliminando producto:", error);
-      toast.error(`Problema al eliminar. Contacte al administrador`,{duration: 4000,position:'top-center'});
+      toast.error(`${t('table.toast1')}`,{duration: 4000,position:'top-center'});
     }
   }
   if (!loaded) return <p>Cargando...</p>;
   if (error) return <p>Error: {error.message}</p>;
   return (
     <>
-    <Typography variant="h5" gutterBottom>Listado de Herramientas
-      <Tooltip title="Crear"><IconButton component={Link} to="/Paginas/crear/" color="success"> <AddIcon/></IconButton> </Tooltip>
+    <Typography variant="h5" gutterBottom>{t('table.title')}
+      <Tooltip title={t('table.nuevo')}><IconButton component={Link} to="/Paginas/crear/" color="success"> <AddIcon/></IconButton> </Tooltip>
     </Typography>
       
       {data && (
@@ -107,16 +110,16 @@ export default function TableProducts() {
             <TableHead>
               <TableRow>
                 <TableCell align="left">
-                  <Typography variant="subtitle1" gutterBottom>Nombre</Typography>
+                  <Typography variant="subtitle1" gutterBottom>{t('table.nombre')}</Typography>
                 </TableCell>
                 <TableCell align="left">
-                  <Typography variant="subtitle1" gutterBottom>Marca</Typography>
+                  <Typography variant="subtitle1" gutterBottom>{t('table.marca')}</Typography>
                 </TableCell>
                 <TableCell align="left">
-                  <Typography variant="subtitle1" gutterBottom>Categoría</Typography>
+                  <Typography variant="subtitle1" gutterBottom>{t('table.cat')}</Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="subtitle1" gutterBottom> Acciones</Typography>
+                  <Typography variant="subtitle1" gutterBottom>{t('table.acciones')}</Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -125,14 +128,14 @@ export default function TableProducts() {
                 <TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }} >
                   {/* Contenido de la tabla */}
                   <TableCell align="left">{row.NombreProducto}</TableCell>
-                  <TableCell align="left">{loadingMarcas ? "Cargando..." : nombreMarca[row.Marca]}</TableCell>
-                  <TableCell align="left">{loadingCats ? "Cargando..." : nombreCategoria[row.Categoria]}</TableCell>
+                  <TableCell align="left">{loadingMarcas ? t('table.carga') : nombreMarca[row.Marca]}</TableCell>
+                  <TableCell align="left">{loadingCats ? t('table.carga') : nombreCategoria[row.Categoria]}</TableCell>
                   <TableCell align="right">
-                    <Tooltip title="Modificar">
+                    <Tooltip title={t('table.actualizar')}>
                       {/* función anónima */}
                       <IconButton onClick={() => update(row.IdProducto)} color="success"><EditIcon key={row.id} /></IconButton>
                     </Tooltip>
-                    <Tooltip title={'Eliminar'}>
+                    <Tooltip title={t('table.eliminar')}>
                         <IconButton color="warning" onClick={()=> handleDelete(row.IdProducto)}><DeleteIcon /></IconButton>
                       </Tooltip>
                   </TableCell>

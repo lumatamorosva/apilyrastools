@@ -17,40 +17,44 @@ import { FormHelperText } from '@mui/material';
 import ProductoService from '../../services/ProductoService';
 import toast from 'react-hot-toast';
 import ImageService from '../../services/ImageService';
+import { useTranslation } from 'react-i18next';
 
 export function CreateProducto() {
+      //Para la traducción
+      const { t } = useTranslation();
+
   const navigate = useNavigate();
   let formData=new FormData()
   // Esquema de validación
   const productoSchema = yup.object({
     nombre: yup
           .string()
-          .required('El nombre del artículo es requerido'),
+          .required(t('newprod.required')),
     existencias: yup
           .number()
           .transform((value, originalValue) => originalValue === '' ? undefined : value)
-          .positive('Deben haber al menos 1')
-          .required('Este campo es requerido'),
+          .positive(t('newprod.min'))
+          .required(t('newprod.required')),
     precio: yup
           .number()
           .transform((value, originalValue) => originalValue === '' ? undefined : value)
-          .positive('El precio mínimo aceptable es ₡1')
-          .required('El precio es requerido'),
+          .positive(t('newprod.minprecio'))
+          .required(t('newprod.required')),
     descripcion: yup
           .string()
-          .required('La descripción del artículo es requerida'),
+          .required(t('newprod.required')),
     marca: yup
           .number()
-          .required('Seleccione una marca de la lista'),
+          .required(t('newprod.required')),
     categoria: yup
           .number()
-          .required('Seleccione una categoria de la lista'),
+          .required(t('newprod.required')),
     calificacion: yup
           .number()
           .transform((value, originalValue) => originalValue === '' ? undefined : value)
-          .min(1,'No puede ser menor a 1')
-          .max(5,'No puede ser mayor a 5')
-          .required('Este campo es requerido'),
+          .min(1,t('newprod.min'))
+          .max(5,t('newprod.max'))
+          .required(t('newprod.required')),
   });
   const {
     control, //register
@@ -91,8 +95,6 @@ export function CreateProducto() {
       IdPromocion: 0,
       Calificacion: DataForm.calificacion
     };
-    console.log('Formulario:');
-    console.log(payload);
     //Llamar al API
     try {
        if(productoSchema.isValid()){
@@ -122,12 +124,8 @@ export function CreateProducto() {
                 throw new Error('Respuesta no válida del servidor');
               }
             })
-            toast.success(
-              `Producto creado satisfactoriamente #${response.data.IdProducto} - ${response.data.NombreProducto}`,
-              {
-                duration: 4000,
-                position:'top-center'
-              }
+            toast.success(`${t('newprod.toast') + response.data.IdProducto} - ${response.data.NombreProducto}`,
+              {duration: 4000,position:'top-center'}
             )
             //Redirección tabla de productos  
             return navigate('/product-table')
@@ -203,39 +201,39 @@ export function CreateProducto() {
       <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
         <Grid container spacing={1}>
           {/*titulo de la pagina*/}
-          <Grid size={12} sm={12}> <Typography variant="h5" gutterBottom> Crear Nuevo Producto </Typography> </Grid>
+          <Grid size={12} sm={12}> <Typography variant="h5" gutterBottom> {t('newprod.title')} </Typography> </Grid>
           <Grid xs={12} md={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name='nombre' control={control}
-              render={({field})=>( <TextField {...field} id="nombre" label="Nombre" error={Boolean(errors.nombre)} />)}
+              render={({field})=>( <TextField {...field} id="nombre" label={t('newprod.nombre')} error={Boolean(errors.nombre)} />)}
             /><FormHelperText sx={{color: '#d32f2f'}}> {errors.nombre ? errors.nombre.message : ' '} </FormHelperText>
             </FormControl>
           </Grid>
           <Grid xs={12} md={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="existencias" control={control}
-                render={({ field }) => ( <TextField {...field} id="existencias" label="Existencias" error={Boolean(errors.existencias)} /> )}
+                render={({ field }) => ( <TextField {...field} id="existencias" label={t('newprod.existencias')} error={Boolean(errors.existencias)} /> )}
             /><FormHelperText sx={{color: '#d32f2f'}}> {errors.existencias ? errors.existencias.message : ' '} </FormHelperText>
              </FormControl>
           </Grid>
           <Grid xs={12} md={4}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="precio" control={control}
-                render={({ field }) => ( <TextField {...field} id="precio" label="Precio" error={Boolean(errors.precio)} /> )}
+                render={({ field }) => ( <TextField {...field} id="precio" label={t('newprod.precio')} error={Boolean(errors.precio)} /> )}
             /><FormHelperText sx={{color: '#d32f2f'}}> {errors.precio ? errors.precio.message : ' '} </FormHelperText>
              </FormControl>
           </Grid>
           <Grid xs={12} md={2}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="calificacion" control={control}
-                render={({ field }) => ( <TextField {...field} id="calificacion" label="Calificación" error={Boolean(errors.precio)} /> )}
+                render={({ field }) => ( <TextField {...field} id="calificacion" label={t('newprod.calif')} error={Boolean(errors.precio)} /> )}
             /><FormHelperText sx={{color: '#d32f2f'}}> {errors.calificacion ? errors.calificacion.message : ' '} </FormHelperText>
              </FormControl>
           </Grid>
           <Grid size={12}>
             <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
               <Controller name="descripcion" control={control}
-                render={({ field }) => ( <TextField {...field} id="descripcion" label="Descripción" error={Boolean(errors.descripcion)} multiline/> )}
+                render={({ field }) => ( <TextField {...field} id="descripcion" label={t('newprod.descr')} error={Boolean(errors.descripcion)} multiline/> )}
             />
             <FormHelperText sx={{color: '#d32f2f'}}> {errors.descripcion ? errors.descripcion.message : ' '} </FormHelperText>
              </FormControl>
@@ -271,7 +269,7 @@ export function CreateProducto() {
               <img src={fileURL} width={300}/>
           </Grid>
           <Grid size={12} sm={12}>
-            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }} > Guardar </Button>
+            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }} > {t('newprod.guardar')} </Button>
           </Grid>
         </Grid>
       </form>
