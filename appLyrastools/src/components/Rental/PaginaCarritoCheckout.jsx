@@ -13,7 +13,7 @@ import UserService from '../../services/UserService';
 import { useCart } from '../../hooks/useCart';
 //https://www.npmjs.com/package/@hookform/resolvers
 
-export function CreateMovieRental() {
+export function CreateCarrito() {
   const navigate = useNavigate();
 // Obtener fecha actual en formato dd/MM/yyyy
 const currentDate = format(new Date(), 'dd/MM/yyyy');

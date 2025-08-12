@@ -96,7 +96,7 @@ export default function TableProducts() {
       toast.error(`${t('table.toast1')}`,{duration: 4000,position:'top-center'});
     }
   }
-  if (!loaded) return <p>Cargando...</p>;
+  if (!loaded) return <p>{t('table.carga')}</p>;
   if (error) return <p>Error: {error.message}</p>;
   return (
     <>

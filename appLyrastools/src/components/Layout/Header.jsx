@@ -90,7 +90,7 @@ export default function Header() {
   );
   //Menu Hamburguesa (Revisado)
   const menuPrincipalMobile = navItems.map((page, index) => (
-    <MenuItem key={index} component={Link} to={page.link}>
+    <MenuItem key={index} component={Link} to={page.link} onClick={handleClosePrincipalMenu}>
       <Typography sx={{ textAlign: "center", color:(theme) => theme.palette.getContrastText }}>{page.name}</Typography>
     </MenuItem>
   ));

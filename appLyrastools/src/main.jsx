@@ -9,13 +9,13 @@ import { createBrowserRouter } from "react-router-dom";
 import { Home } from "./components/Home/Home";
 import { RouterProvider } from "react-router";
 import { PageNotFound } from "./components/Home/PageNotFound";
-import { ListMovies } from "./components/Paginas/ListMovies";
 import TableProducts from "./components/Paginas/TableProductos";
 import {Reviews} from "./components/Paginas/Reviews";
 import ListPromociones from "./components/Paginas/ListPromociones";
 import { CreateProducto } from "./components/Paginas/CreateProducto";
 import { CreateReview } from "./components/Paginas/CreateReview";
 import { CreatePromocion } from "./components/Paginas/CreatePromocion";
+import { CreateCarrito } from "./components/Rental/PaginaCarritoCheckout";
 import { UpdatePromocion } from "./components/Paginas/UpdatePromocion";
 import { UpdateProducto } from "./components/Paginas/UpdateProducto";
 import { CatalogProductos } from "./components/Paginas/CatalogProductos";
@@ -83,16 +83,16 @@ const rutas=createBrowserRouter(
           ]
         },
         {
-          path:'/movie/',
-          element: <ListMovies />
-        },
-        {
           path: '/catalog-productos/',
           element: <CatalogProductos />,
         },
         {
           path: '/rental/graph',
           element: <GraphRetal />,
+        },
+        {
+          path: '/rental/crear/',
+          element: <CreateCarrito />,
         },
         {
           path: '/unauthorized',
