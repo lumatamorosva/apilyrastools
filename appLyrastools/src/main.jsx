@@ -12,6 +12,8 @@ import { PageNotFound } from "./components/Home/PageNotFound";
 import TableProducts from "./components/Paginas/TableProductos";
 import {Reviews} from "./components/Paginas/Reviews";
 import ListPromociones from "./components/Paginas/ListPromociones";
+import PedidosList from "./components/Paginas/PedidosList";
+import Pedido from "./components/Paginas/Pedido";
 import { CreateProducto } from "./components/Paginas/CreateProducto";
 import { CreateReview } from "./components/Paginas/CreateReview";
 import { CreatePromocion } from "./components/Paginas/CreatePromocion";
@@ -59,6 +61,14 @@ const rutas=createBrowserRouter(
             {
               path:'/Paginas/crear/',
               element: <CreateProducto />
+            },
+            {
+              path:'/Paginas/PedidosList/',
+              element: <PedidosList />
+            },
+            {
+              path:'/Paginas/Pedido/:id',
+              element: <Pedido />
             },
             {
               path:'/Paginas/crearPromocion/',

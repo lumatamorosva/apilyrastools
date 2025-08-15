@@ -24,7 +24,8 @@ export default function Header() {
   //Obtener usuario
   const {user, decodeToken,autorize}= useContext(UserContext)
   const [userData,setUserData]=useState(decodeToken())
-  useEffect(()=>{setUserData(decodeToken())},[user])
+  useEffect(()=>{setUserData(decodeToken())},[user]);
+  console.log("Usuario en Header: " , userData);
   //Cantidad de elementos en el carrito
   const {cart, getCountItems}=useCart()
   //Gestión menu usuario
@@ -67,6 +68,7 @@ export default function Header() {
     {name: t('nav.op1'), link: "/catalog-productos/", roles:null },
     {name: t('nav.op2'), link: "/Paginas/ListPromociones/", roles:null },
     {name: t('nav.op3'), link: "/Paginas/Reviews/", roles:null },
+    {name: t('nav.op7'), link: "/Paginas/PedidosList/", roles:[1] },
     {name: t('nav.op4'), link: "/product-table/", roles:[1,2] },
   ];
   //Identificador menu principal

@@ -18,6 +18,7 @@
     "op4":"Mantenimiento Productos",
     "op5":"Notificaciones",
     "op6":"Compras",
+    "op7":"Pedidos",
     "login":"Ingresar",
     "register":"Registrarse",
     "logout":"Cerrar sesión"
@@ -148,5 +149,17 @@
     "toast":" modificado exitosamente",
     "min":"No puede ser menor a 1",
     "minprecio":"El precio mínimo aceptable es ₡1"
+  },
+  "tableP":{
+    "id":"No. Factura",
+    "fechaI":"Fecha Creación",
+    "fechaC":"Fecha Pago",
+    "estado":"Estado",
+    "total":"Total",
+    "title":"Pedidos:",
+    "select":"Ver detalles",
+    "abierta":"Abierta",
+    "pagada":"Pagada",
+    "cancelada":"Cancelada"
   }
 }
