@@ -1,0 +1,21 @@
+import axios from 'axios';
+//http://localhost:81/apilyrastools/producto/
+const BASE_URL = import.meta.env.VITE_BASE_URL + 'pedido';
+class PedidoService {
+  //Definición para Llamar al API y obtener el listado
+  getPedidos() {
+    return axios.get(BASE_URL);
+  }
+  //Obtener por usuario
+  getPedidosUsuario(Id){
+    return axios.get(BASE_URL+'/'+Id);
+  }
+  //Obtener pedido único
+  getPedido(Id){
+    return axios.get(BASE_URL+'/getPedido/'+Id);
+  }
+  createProducto(Pedido) {
+    return axios.post(BASE_URL, JSON.stringify(Pedido));
+  }
+}
+export default new PedidoService();
