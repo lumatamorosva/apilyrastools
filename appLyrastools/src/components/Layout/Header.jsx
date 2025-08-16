@@ -188,7 +188,7 @@ export default function Header() {
     </Menu>
   );
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, '@media print': { display: 'none' } }}>
       <AppBar
         position="static"
         color="primaryLight"

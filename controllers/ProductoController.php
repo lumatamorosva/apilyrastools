@@ -28,6 +28,19 @@ class producto
             handleException($e);
         }
     }
+    //Traer nombre producto
+    public function getNombre($param)
+    {
+        try {
+            $response = new Response();
+            $nameP = new ProductoModel();
+            $result = $nameP->getNombre($param);
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
     //Traerlos filtrados por marca
     public function productoByMarca($param)
     {

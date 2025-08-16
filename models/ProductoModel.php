@@ -163,4 +163,22 @@ class ProductoModel
             throw new Exception("Fallo eliminación: " . $e->getMessage());
         }
     }
+     /**
+     * Consultar nombre del producto
+     * @param $IdProducto producto a buscar
+     * @return $this->get($IdProducto) - Objeto
+     */
+    //
+    public function getNombre($IdProducto)
+    {
+        try {
+            //Consulta sql
+            $sql = "select NombreProducto from producto where IdProducto = $IdProducto;";
+            //Ejecutar el sql
+            $vResultado = $this->enlace->executeSQL_DML_last($sql);
+            return $vResultado;
+        } catch (Exception $e) {
+            throw new Exception("Producto no encontrado" . $e->getMessage());
+        }
+    }
 }

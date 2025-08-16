@@ -155,11 +155,27 @@
     "fechaI":"Creation Date",
     "fechaC":"Payment Date",
     "estado":"Status",
+    "estadoDetalle":"Status of the order:  ",
     "total":"Total",
     "title":"Orders:",
     "select":"Check details",
     "abierta":"Pending",
     "pagada":"Payed",
-    "cancelada":"Canceled"
+    "cancelada":"Canceled",
+    "noData":"Login to see your orders",
+    "title2":"Order Details",
+    "idD":"Line No.",
+    "prod":"Product",
+    "cant":"Ammount",
+    "individual":"Price (Colones)",
+    "col":"Subtotal (Colones)",
+    "dol":"Subtotal (Dolars)",
+    "imp":"Tax",
+    "desc":"Discount",
+    "cliente":"Customer",
+    "direccion":"Delivery Address: ",
+    "boton":"RETURN",
+    "boton3":"PRINT",
+    "boton2":"PAYMENT"
   }
 }

@@ -33,8 +33,8 @@ class pedido
     {
         try {
             $response = new Response();
-            $marca = new PedidoModel();
-            $result = $marca->getPedido($param);
+            $pedido = new PedidoModel();
+            $result = $pedido->getPedido($param);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {
@@ -53,6 +53,33 @@ class pedido
             $prod = new PedidoModel();
             //Acción del modelo a ejecutar
             $result = $prod->create($inputJSON);
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+    //Traerlos todos los detalles
+    public function allDetalles($id)
+    {
+        try {
+            $response = new Response();
+            //Obtener el listado del Modelo
+            $res = new PedidoModel();
+            $result = $res->allDetalles($id);
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+        //Traer uno específico
+    public function getDireccion($param)
+    {
+        try {
+            $response = new Response();
+            $pedido = new PedidoModel();
+            $result = $pedido->getDireccion($param);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {

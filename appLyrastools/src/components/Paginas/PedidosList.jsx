@@ -17,6 +17,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import PedidoService from "../../services/PedidoService";
+import '../../App.css';
 
 export default function PedidosList() {
     //Para la traducción
@@ -54,6 +55,15 @@ export default function PedidosList() {
     //Para la descripción del estado
     const estadoSelect = (id) =>  id==1?t('tableP.abierta'):id==2?t('tableP.pagada'):t('tableP.cancelada');
 
+        //Estilo de la fecha
+        const formatDate = (fecha) => {
+        if (!fecha) return '';
+        const date = new Date(fecha);
+        const day = String(date.getDate()).padStart(2, '0');       
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+        };
     return (
         <><Typography variant="h5" gutterBottom>{t('tableP.title')}</Typography>
             {data && (
@@ -65,7 +75,7 @@ export default function PedidosList() {
                             <TableCell align="left"><Typography variant="subtitle1" gutterBottom>{t('tableP.fechaI')}</Typography></TableCell>
                             <TableCell align="left"><Typography variant="subtitle1" gutterBottom>{t('tableP.fechaC')}</Typography></TableCell>
                             <TableCell align="left"><Typography variant="subtitle1" gutterBottom>{t('tableP.estado')}</Typography></TableCell>
-                            <TableCell align="left"><Typography variant="subtitle1" gutterBottom>{t('tableP.total')}</Typography></TableCell>
+                            <TableCell align="right"><Typography variant="subtitle1" gutterBottom>{t('tableP.total')}</Typography></TableCell>
                             <TableCell align="right"><Typography variant="subtitle1" gutterBottom>{t('tableP.select')}</Typography></TableCell>
                         </TableRow>
                     </TableHead>
@@ -73,13 +83,13 @@ export default function PedidosList() {
                     {data.map((row) => (<TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }} >
                         {/* Contenido de la tabla */}
                         <TableCell align="left">{row.idFactura}</TableCell>
-                        <TableCell align="left">{row.fechaCreacion}</TableCell>
-                        <TableCell align="left">{row.fechaPago}</TableCell>
+                        <TableCell align="left">{formatDate(row.fechaCreacion)}</TableCell>
+                        <TableCell align="left">{formatDate(row.fechaPago)}</TableCell>
                         <TableCell align="left">{estadoSelect(row.estado)}</TableCell>
-                        <TableCell align="right">{row.total}</TableCell>
+                        <TableCell align="right">₡{Number(row.total).toLocaleString('en-US')}</TableCell>
                         <TableCell align="right"><Tooltip title={t('tableP.select')}>
                             {/* función anónima */}
-                                <IconButton onClick={() => seeDetails(row.IdProducto)} color="success"><FormatListNumberedIcon key={row.id} /></IconButton>
+                                <IconButton onClick={() => seeDetails(row.idFactura)} color="success"><FormatListNumberedIcon key={row.id} /></IconButton>
                             </Tooltip>
                         </TableCell>
                         {/* Contenido de la tabla */}

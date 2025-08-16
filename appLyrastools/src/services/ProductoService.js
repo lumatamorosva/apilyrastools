@@ -27,5 +27,8 @@ class ProductoService {
     console.log('Eliminando producto:', Id);
     return axios.delete(BASE_URL + '/delete/' + Id);
   }
+    getNombre(Id){
+    return axios.get(BASE_URL+'/getNombre/'+Id);
+  }
 }
 export default new ProductoService();

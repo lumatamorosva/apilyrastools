@@ -74,4 +74,35 @@ class PedidoModel
             handleException($e);
         }
     }
+    /*Listar detalles*/
+    public function allDetalles($id){
+        try {
+            //Consulta sql
+			$vSql = "SELECT * FROM detallefactura where IdFact = $id;";
+            //Ejecutar la consulta
+			$vResultado = $this->enlace->ExecuteSQL ($vSql);
+			// Retornar el objeto
+			return $vResultado;
+		} catch (Exception $e) {
+            handleException($e);
+        }
+    }
+        /*Obtener una pedido*/
+    public function getDireccion($id)
+    {
+        try {
+            //Consulta sql
+			$vSql = "SELECT * FROM direccion where idDireccion=$id";
+            //Ejecutar la consulta
+			$vResultado = $this->enlace->ExecuteSQL ( $vSql);
+			// Retornar el objeto
+            if ($vResultado && count($vResultado) > 0) {
+                return $vResultado;
+            } else {
+                throw new Exception("$id no encontrado");
+            }
+		} catch (Exception $e) {
+            handleException($e);
+        }
+    }
 }

@@ -67,7 +67,7 @@ const rutas=createBrowserRouter(
               element: <PedidosList />
             },
             {
-              path:'/Paginas/Pedido/:id',
+              path:'/Paginas/Pedido/:idPedido',
               element: <Pedido />
             },
             {

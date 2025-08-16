@@ -10,6 +10,7 @@ export function Footer({ t, changeLanguage} = useTranslation()) {
   return ( 
     <Toolbar 
       sx={{ 
+      '@media print': { display: 'none' },
         px: 2, 
         position: "fixed", 
         bottom: 0, 

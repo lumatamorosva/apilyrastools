@@ -11,7 +11,7 @@ Layout.propTypes = { children: PropTypes.node.isRequired };
 export function Layout({ t, changeLanguage, children }) { 
   return ( 
     <> 
-      <Header /> 
+      <Header className="print-hide"/> 
       <Container 
         maxWidth="xl" 
         style={{ paddingTop: '1rem', paddingBottom: '4.5rem' }} 
@@ -19,7 +19,7 @@ export function Layout({ t, changeLanguage, children }) {
       <Toaster position='bottom-right' />
         {children} 
       </Container> 
-      <Footer t={t} changeLanguage={changeLanguage} /> 
+      <Footer t={t} changeLanguage={changeLanguage} className="print-hide"/> 
     </> 
   ); 
 } 
