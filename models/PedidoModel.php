@@ -88,6 +88,26 @@ class PedidoModel
             handleException($e);
         }
     }
+    /**
+     * Actualizar 
+     * @param $objeto a actualizar
+     * @return $this->get($idProducto) - Objeto producto
+     */
+    //
+    public function update($objeto)
+    {
+        try {
+            //Consulta sql
+            $sql = "Update factura SET fechaPago='$objeto->Fecha',estado='$objeto->Estado'
+                    Where idFactura='$objeto->IdPedido'";
+            //Ejecutar la consulta
+            $cResults = $this->enlace->executeSQL_DML($sql);
+            //Retornar
+            return $this->get($objeto->IdPedido);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
     /*Listar detalles*/
     public function allDetalles($id){
         try {

@@ -30,8 +30,8 @@ export function Footer({ t, changeLanguage} = useTranslation()) {
           </div>
           <div style={{ padding: '20px' }}>
             <div style={{ display: 'flex', marginBottom: '3px', alignItems:'right' }}>
-              <img className="imageButton" src='images/us.png' onClick={() => changeLanguage('en')} ></img>
-              <img className="imageButton" src='images/es.png' onClick={() => changeLanguage('es')}></img>
+              <img className="imageButton" src='/images/us.png' onClick={() => changeLanguage('en')} ></img>
+              <img className="imageButton" src='/images/es.png' onClick={() => changeLanguage('es')}></img>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-//http://localhost:81/apilyrastools/producto/
+//http://localhost:81/apilyrastools/pedido/
 const BASE_URL = import.meta.env.VITE_BASE_URL + 'pedido';
 class PedidoService {
   //Definición para Llamar al API y obtener el listado
@@ -27,6 +27,10 @@ class PedidoService {
   }
   create(Pedido) {
     return axios.post(BASE_URL, JSON.stringify(Pedido));
+  }
+    updatePedido(Pedido) {
+    console.log('Actualizando pedido:', Pedido.IdPedido);
+    return axios.patch(BASE_URL + '/patch/'+ Pedido.IdPedido, JSON.stringify(Pedido));
   }
 }
 export default new PedidoService();

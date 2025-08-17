@@ -55,7 +55,7 @@ export function ListCardProductos({ data, isShopping }) {
     const {addItem} = useCart();
     async function  agregarElemento(item, cantidad) {
       if(cantidad>item.Existencias){
-      toast.error("De este producto solo quedan " + item.Existencias + " unidades en Stock");
+      toast.error(t('catalog.deeste') + item.Existencias + t('catalog.unidades'));
       }else{
          addItem(item,cantidad);
       }
@@ -121,8 +121,8 @@ export function ListCardProductos({ data, isShopping }) {
        <FormControl sx={{ m: 1, minWidth: "20%"}} size="small">
         <InputLabel sx={{color: 'white', '&.Mui-focused': { color: 'white'}}} id="ordenDropDown">{t('catalog.order')}</InputLabel>
           <Select sx={{ color: 'white' }} labelId="ordenDropDown" id="ordenDropDown" value={orden} label="ordenDropDown" onChange={handleChange}>
-            <MenuItem value={'descendente'}>Mayor a menor</MenuItem>
-            <MenuItem value={'ascendente'}>Menor a mayor</MenuItem>
+            <MenuItem value={'descendente'}>{t('catalog.mayor')}</MenuItem>
+            <MenuItem value={'ascendente'}>{t('catalog.menor')}</MenuItem>
           </Select>
         </FormControl>
         <FormControl sx={{ m: 1, minWidth: "20%"}} size="small" color='white'>

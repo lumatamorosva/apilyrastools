@@ -64,6 +64,24 @@ class pedido
             handleException($e);
         }
     }
+        //PATCH actualizar
+    public function update()
+    {
+        try {
+            $request = new Request();
+            $response = new Response();
+            //Obtener json enviado
+            $inputJSON = $request->getJSON();
+            //Instancia del modelo
+            $objeto = new PedidoModel();
+            //Acción del modelo a ejecutar
+            $result = $objeto->update($inputJSON);
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
     //Traerlos todos los detalles
     public function allDetalles($id)
     {

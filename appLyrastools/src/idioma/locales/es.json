@@ -8,6 +8,10 @@
     "search": "Buscar...",
     "categories": "Categorías: ",
     "brands": "Marcas: ",
+    "deeste": "De este producto solo quedan ",
+    "unidades": " unidades en existencia",
+    "mayor": "Mayor a menor",
+    "menor": "Menor a mayor",
     "promoon": "¡Artículo en Promoción!"
   },
   "nav":{
@@ -190,5 +194,21 @@
     "eliminado": " fue eliminado del carrito",
     "annadido": " fue añadido al carrito",
     "vaciado": "Carrito vaciado"
+  },
+  "pago": {
+    "title": "Pantalla de pago",
+    "select": "Seleccione su método de pago",
+    "opcion": "Métodos disponibles",
+    "tarjeta":"Tarjeta",
+    "efectivo": "Efectivo",
+    "no": "No. de tarjeta",
+    "mes": "Mes de expiración",
+    "anno": "Año de expiración",
+    "cod": "Código de seguridad",
+    "nombre": "Nombre del tarjetahabiente",
+    "monto": "Monto de pago: ",
+    "proceder": "Procesar pago",
+    "toast": "Pago completado ¡Muchas gracias por su compra!",
+    "toast2": "¡Muchas gracias por su compra! Su vuelto es de: "
   }
 }

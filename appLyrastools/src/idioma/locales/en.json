@@ -8,6 +8,10 @@
     "search": "Search...",
     "categories": "Categories: ",
     "brands": "Brands: ",
+    "deeste": "Of this product, there are only ",
+    "unidades": " units left in Stock",
+    "mayor": "Highest to lowest",
+    "menor": "Lowest to highest",
     "promoon": "Promotional Item!"
   },
   "nav":{
@@ -190,5 +194,21 @@
     "eliminado": " was deleted from the cart",
     "annadido": " was added to the cart",
     "vaciado": "Cart cleaned"
+  },
+  "pago": {
+    "title": "Payment screen",
+    "select": "Select your payment method",
+    "opcion": "Available methods",
+    "tarjeta":"Card",
+    "efectivo": "Cash",
+    "no": "Card No.",
+    "mes": "Expiration month",
+    "anno": "Expiration year",
+    "cod": "Security code",
+    "nombre": "Cardholder name",
+    "monto": "Payment amount: ",
+    "proceder": "Proceed with payment",
+    "toast": "Payment completed ¡Thanks for your purchase!",
+    "toast2": "¡Thanks for your purchase! Your cashback is: "
   }
 }

@@ -17,6 +17,7 @@ import { styled } from '@mui/material/styles';
 import TableFooter from '@mui/material/TableFooter';
 import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
+import EmergentePago from './EmergentePago';
 
 //Estilo de Tabla
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -37,7 +38,17 @@ export default function Pedido() {
         const [loaded, setLoaded] = useState(false);
     //Enlaces o redireccionar
          const navigate = useNavigate();
-
+        //Funcion para Mostrar Emergente
+        const [open, setOpen] = useState(false);
+        const [productoActivo, setProductoActivo] = useState(null);
+        async function abrirPopup() {
+            setProductoActivo();
+            setOpen(true);
+        }
+        const cerrarPopup = () => {
+            setOpen(false);
+            setProductoActivo(null);
+        };
           
         //Carga de todos los detalles:
           const cargar = async () => {
@@ -116,8 +127,7 @@ function NombreProductoCell({ id }) {
             try {
                 if(factura?.idEntrega){
                     const res = await fetch(`http://localhost:81/apilyrastools/pedido/getDireccion/${factura?.idEntrega}`);
-                    const result = await res.json();  
-                    console.log("Direcciones:" , result);
+                    const result = await res.json();
                     setDireccion(result[0].Provincia + ", " + result[0].Canton+ ", " + result[0].Distrito + ". [" + result[0].Sennas + "].");
                 }
             } catch (e) {
@@ -218,9 +228,10 @@ const formatDate = (fecha) => {
             )}
             <Grid size={12} sm={12}>
                 <Button onClick={() => regresar()} type="submit" variant="contained" color="secondary" sx={{ m: 1 }}>{t('tableP.boton')}</Button>
-                {factura?.estado == 1 && (<Button onClick={() => pagar()} type="submit" variant="contained" color="secondary" sx={{ m: 1 }}>{t('tableP.boton2')}</Button>)}
+                {factura?.estado == 1 && (<Button onClick={abrirPopup} type="submit" variant="contained" color="secondary" sx={{ m: 1 }}>{t('tableP.boton2')}</Button>)}
                 <Button onClick={() => window.print()} type="submit" variant="contained" color="secondary" sx={{ m: 1 }}>{t('tableP.boton3')}</Button>
             </Grid>
+            <EmergentePago lang={t} pago={calcularSubtotalTotal()} id={idPedido} open={open} onClose={cerrarPopup}/>
         </>
     )
 }
