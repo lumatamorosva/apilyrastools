@@ -177,5 +177,18 @@
     "boton":"RETURN",
     "boton3":"PRINT",
     "boton2":"PAYMENT"
+  },
+  "carrito": {
+    "title": "Items in the cart",
+    "producto": "Product",
+    "precio": "Price",
+    "cantidad":"Quantity",
+    "subtotal": "Subtotal",
+    "eliminar": "Delete ",
+    "limpiar": "Clean cart",
+    "generar": "GENERATE ORDER",
+    "eliminado": " was deleted from the cart",
+    "annadido": " was added to the cart",
+    "vaciado": "Cart cleaned"
   }
 }

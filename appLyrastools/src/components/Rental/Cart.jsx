@@ -15,6 +15,8 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { useCart } from '../../hooks/useCart';
+import { useTranslation } from 'react-i18next';
+
 CartItem.propTypes = {
   item: PropTypes.object,
   removeItem: PropTypes.func,
@@ -41,6 +43,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({'&:nth-of-type(odd)': {
   '&:last-child td, &:last-child th': {border: 0,},
 }));
 function CartItem({item, removeItem}) {
+  //Para la traducción
+  const { t } = useTranslation();
   return (
     <StyledTableRow key={item.IdProducto} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
       <StyledTableCell component="th" scope="row"> {item.NombreProducto} </StyledTableCell>
@@ -48,8 +52,8 @@ function CartItem({item, removeItem}) {
       <StyledTableCell align="center">{item.cantidad}</StyledTableCell>
       <StyledTableCell>₡{Number(item.subtotal).toLocaleString('en-US')}</StyledTableCell>
       <StyledTableCell align="right">
-        <Tooltip title={'Remover ' + item.NombreProducto}>
-          <IconButton color="warning" onClick={() => removeItem(item)} aria-label={'Borrar '+item.NombreProducto}>
+        <Tooltip title={t('carrito.eliminar') + item.NombreProducto}>
+          <IconButton color="warning" onClick={() => removeItem(item)} aria-label={t('carrito.eliminar')+item.NombreProducto}>
           <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -60,21 +64,23 @@ function CartItem({item, removeItem}) {
 
 //Detalle Compra
 export function Cart() {
+    //Para la traducción
+  const { t } = useTranslation();
   const {cart, removeItem, cleanCart, getTotal}=useCart()
   return (
     <>
-      <Tooltip title="Limpiar Carrito">
+      <Tooltip title={t('carrito.title')}>
         <IconButton color="error" onClick={()=>cleanCart()} > <RemoveShoppingCartIcon /> </IconButton>
       </Tooltip>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead >
             <TableRow>
-              <StyledTableCell>Producto</StyledTableCell>
-              <StyledTableCell>Precio</StyledTableCell>
-              <StyledTableCell>Cantidad</StyledTableCell>
-              <StyledTableCell>Subtotal</StyledTableCell>
-              <StyledTableCell align="right">Eliminar</StyledTableCell>
+              <StyledTableCell>{t('carrito.producto')}</StyledTableCell>
+              <StyledTableCell>{t('carrito.precio')}</StyledTableCell>
+              <StyledTableCell>{t('carrito.cantidad')}</StyledTableCell>
+              <StyledTableCell>{t('carrito.subtotal')}</StyledTableCell>
+              <StyledTableCell align="right">{t('carrito.eliminar')}</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

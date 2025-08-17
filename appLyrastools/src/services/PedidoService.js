@@ -25,5 +25,8 @@ class PedidoService {
   getDireccion(Id){
     return axios.get(BASE_URL+'/getDireccion/'+Id);
   }
+  create(Pedido) {
+    return axios.post(BASE_URL, JSON.stringify(Pedido));
+  }
 }
 export default new PedidoService();

@@ -177,5 +177,18 @@
     "boton":"REGRESAR",
     "boton3":"IMPRIMIR",
     "boton2":"PAGAR"
+  },
+  "carrito": {
+    "title": "Artículos en el carrito",
+    "producto": "Producto",
+    "precio": "Precio",
+    "cantidad":"Cantidad",
+    "subtotal": "Subtotal",
+    "eliminar": "Eliminar ",
+    "limpiar": "Limpiar carrito",
+    "generar": "GENERAR ORDEN",
+    "eliminado": " fue eliminado del carrito",
+    "annadido": " fue añadido al carrito",
+    "vaciado": "Carrito vaciado"
   }
 }

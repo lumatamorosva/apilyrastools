@@ -154,10 +154,9 @@ function NombreProductoCell({ id }) {
     const calcularSubtotalTotal = () => {
     return data.reduce((acc, row) => {
         const cantidad = parseFloat(row.Cantidad) || 0;
-        const precio = parseFloat(row.PrecioColones) || 1;
-        const descuento = parseFloat(row.Descuento) || 0;
-        const impuesto = 0.13 || 0;
-        return acc + (((cantidad - descuento) * precio) + (((cantidad - descuento) * precio) * impuesto));
+        const precio = parseFloat(row.PrecioIndividual) || 1;
+        const impuesto = 13;
+        return acc + ((cantidad * precio) + ((cantidad * precio) * (impuesto/100)));
     }, 0);
     };
     
@@ -191,7 +190,6 @@ const formatDate = (fecha) => {
                             <TableCell align="right"><Typography variant="subtitle1" gutterBottom>{t('tableP.col')}</Typography></TableCell>
                             <TableCell align="right"><Typography variant="subtitle1" gutterBottom>{t('tableP.dol')}</Typography></TableCell>
                             <TableCell align="right"><Typography variant="subtitle1" gutterBottom>{t('tableP.imp')}</Typography></TableCell>
-                            <TableCell align="right"><Typography variant="subtitle1" gutterBottom>{t('tableP.desc')}</Typography></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -204,7 +202,6 @@ const formatDate = (fecha) => {
                             <TableCell align="right">₡{Number(row.PrecioColones).toLocaleString('en-US')}</TableCell>
                             <TableCell align="right">${Number(row.PrecioDolares).toLocaleString('en-US')}</TableCell>
                             <TableCell align="right"><ImpuestoCell id={row.IdImpuesto}/></TableCell>
-                            <TableCell align="right">₡{Number(row.Descuento).toLocaleString('en-US')}</TableCell>
                         </TableRow>
                     ))}
                     </TableBody>

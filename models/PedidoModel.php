@@ -24,6 +24,8 @@ class PedidoModel
     {
         try {
             //Consulta sql
+            $id = intval($id);
+            if (is_numeric($id)){
 			$vSql = "SELECT * FROM factura where idCliente=$id";
             //Ejecutar la consulta
 			$vResultado = $this->enlace->ExecuteSQL ( $vSql);
@@ -32,7 +34,7 @@ class PedidoModel
                 return $vResultado;
             } else {
                 throw new Exception("Cliente $id no cuenta con pedidos");
-            }
+            }}
 		} catch (Exception $e) {
             handleException($e);
         }
@@ -60,16 +62,28 @@ class PedidoModel
      * @param $objeto
      */
     //
-    public function create($objeto)
+    public function create($objeto,$detalles)
     {
         try {
             //Consulta sql
-            $sql = "insert into factura (idFactura,idCliente,fecha,estado,total)".
-                    " values ('$objeto->idFactura','$objeto->idCliente','$objeto->fecha','$objeto->estado','$objeto->total')";
+            $sql = "insert into factura (idCliente,fechaCreacion,estado,total,idEntrega)".
+                    " values ('$objeto->idCliente','$objeto->fechaCreacion','$objeto->estado','$objeto->total','$objeto->idEntrega')";
             //Ejecutar la consulta
             $Id=$this->enlace->executeSQL_DML_last($sql);
+            //Generar detalles
+            error_log("Detalles recibidos: " . print_r($detalles, true));
+            if($this->getPedido($Id)){
+                for($i = 0; $i < count($detalles); $i++){
+                    $item = $detalles[$i];
+                    $precioC = $item->cantidad * $item->Precio;
+                    $precioD = $precioC / 500;
+                    $sql = "insert into detallefactura (IdFact,IdProducto,Cantidad,PrecioIndividual,PrecioColones,PrecioDolares,IdImpuesto)".
+                    " values ('$Id','{$item->IdProducto}','{$item->cantidad}','{$item->Precio}','$precioC','$precioD','1')";
+                    $Insertado=$this->enlace->executeSQL_DML_last($sql);
+                }
             //Retornar
-            return $this->getReview($Id);
+            return $this->getPedido($Id);
+            }
         } catch (Exception $e) {
             handleException($e);
         }

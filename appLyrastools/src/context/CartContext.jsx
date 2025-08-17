@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+import { useTranslation } from 'react-i18next';
 
 //Traer la promoción
  async function promocionDetalle(id) {
@@ -37,19 +38,21 @@ async function checkPromotion(producto){
 }
 //Función principal para las funciones del carrito
 export function CartProvider({ children }) {
+    //Para la traducción
+    const { t } = useTranslation();
   const [state, dispatch] = useReducer(cartReducer, cartInitialState);
   const addItem = async (producto, cantidad) =>{
     const adjust = await checkPromotion(producto);
     dispatch({ type: CART_ACTION.ADD_ITEM, payload: { ...adjust, cantidad }, });
-    toast.success(`${producto.NombreProducto} fue añadido al carrito`)
+    toast.success(`${producto.NombreProducto + t('carrito.annadido')}`)
   }
   const removeItem = (producto) =>{
     dispatch({ type: CART_ACTION.REMOVE_ITEM, payload: producto, });
-    toast(`${producto.NombreProducto} fue eliminado del carrito`, {icon: <RemoveShoppingCartIcon color='warning' />} )
+    toast(`${producto.NombreProducto + t('carrito.eliminado')}`, {icon: <RemoveShoppingCartIcon color='warning' />} )
   }
   const cleanCart = () =>{
     dispatch({ type: CART_ACTION.CLEAN_CART, });
-    toast(`Carrito vaciado`, { icon: <DeleteIcon color='warning' /> }  )
+    toast(`${t('carrito.vaciado')}`)
   }
   return (
     <CartContext.Provider value={{ cart: state, addItem, removeItem, cleanCart, getTotal, getCountItems, }}>

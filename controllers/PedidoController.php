@@ -49,10 +49,15 @@ class pedido
             $response = new Response();
             //Obtener json enviado
             $inputJSON = $request->getJSON();
+            if (!isset($inputJSON->pedido) || !isset($inputJSON->detalles)) {
+                throw new Exception("JSON inválido: faltan 'pedido' o 'detalles'");
+            }
+            $pedido = $inputJSON->pedido;
+            $detalles = $inputJSON->detalles;
             //Instancia del modelo
             $prod = new PedidoModel();
             //Acción del modelo a ejecutar
-            $result = $prod->create($inputJSON);
+            $result = $prod->create($pedido,$detalles);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {
