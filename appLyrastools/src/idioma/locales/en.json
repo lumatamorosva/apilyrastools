@@ -1,7 +1,9 @@
 {
   "home": {
     "title": "All the multeity and quality of tools for your industrial or residential projects",
-    "subtitle": "Top 10 best qualified:"
+    "subtitle": "Top 10 best qualified:",
+    "auth": "AUTHORIZATION!",
+    "auth1": "User not authorized!"
   },
   "catalog": {
     "order": "Order",
@@ -114,7 +116,8 @@
     "eliminar":"Delete product permanently",
     "toast":"Deleted product",
     "toast1":"Problem to delete it. Contact the administrator",
-    "carga":"Loading..."
+    "carga":"Loading...",
+    "sin":"No orders to show"
   },
   "newprod":{
     "title":"Create New product",

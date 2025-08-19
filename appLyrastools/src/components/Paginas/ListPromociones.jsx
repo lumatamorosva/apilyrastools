@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 //https://mui.com/material-ui/react-table/#sorting-amp-selecting
-import React, { useState } from 'react';
+import React from 'react';
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../context/UserContext";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -12,7 +14,6 @@ import Paper from "@mui/material/Paper";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { useEffect } from "react";
 import PromocionService from "../../services/PromocionesService";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate, Link } from "react-router-dom";
@@ -27,6 +28,15 @@ import { useTranslation } from 'react-i18next';
 export default function ListPromociones() {
     //Para la traducción
     const { t } = useTranslation();
+    //Obtener usuario
+    const {user, decodeToken,autorize}= useContext(UserContext);
+    const [userData,setUserData]=useState(decodeToken()); 
+    useEffect(()=>{setUserData(decodeToken())},[user]);
+    if(user == null){
+          console.log("Usuario null" , user);
+    }else{
+      console.log("Usuario not null" , userData);
+    }
   //Formato de la fecha
   const formatDate = (date) => {
     const day = date.getDate().toString().padStart(2, '0');
@@ -84,7 +94,7 @@ export default function ListPromociones() {
   return (
     <>
     <Typography variant="h5" gutterBottom>{t('promos.title')}
-      <Tooltip title={t('promos.nueva')}><IconButton component={RouterLink} to="/Paginas/crearPromocion/" color="success"> <AddIcon/></IconButton></Tooltip>
+      {!isNaN(Number(userData?.rol)) && Number(userData.rol) < 5 &&(<Tooltip title={t('promos.nueva')}><IconButton component={RouterLink} to="/Paginas/crearPromocion/" color="success"> <AddIcon/></IconButton></Tooltip>)}
     </Typography>
       <Box>
         <Typography fontSize="small">{t('promos.estado')}</Typography>
@@ -118,7 +128,7 @@ export default function ListPromociones() {
                   <Typography variant="subtitle1" color="primary" gutterBottom>{t('promos.aplicaa')}</Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="subtitle1" color="primary" gutterBottom>{t('promos.acciones')}</Typography>
+                  {!isNaN(Number(userData?.rol)) && Number(userData.rol) < 5 && (<Typography variant="subtitle1" color="primary" gutterBottom>{t('promos.acciones')}</Typography>)}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -134,7 +144,7 @@ export default function ListPromociones() {
                   <TableCell sx={{fontWeight:'bold'}} align="center">{row.Cantidad}%</TableCell>
                   <TableCell sx={{fontWeight:'bold'}} align="left">{row.AplicaA}</TableCell>
                   <TableCell sx={{fontWeight:'bold'}} align="right">
-                    <Box display="flex" justifyContent="flex-end">
+                    {!isNaN(Number(userData?.rol)) && Number(userData.rol) < 5 && (<Box display="flex" justifyContent="flex-end">
                       <Tooltip title={t('promos.actualizar')}>
                         {/* función anónima */}
                         <IconButton onClick={() => update(row.IdPromocion)} color="success">
@@ -144,7 +154,7 @@ export default function ListPromociones() {
                       <Tooltip title={t('promos.eliminar')}>
                         <IconButton color="warning" onClick={()=> handleDelete(row.IdPromocion)}><DeleteIcon /></IconButton>
                       </Tooltip>
-                    </Box>
+                    </Box>)}
                   </TableCell>
                   {/* Contenido de la tabla */}
                 </TableRow>

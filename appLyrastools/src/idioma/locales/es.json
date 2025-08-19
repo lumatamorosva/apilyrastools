@@ -1,7 +1,9 @@
 {
   "home": {
     "title": "Todo en Calidad y variedad de herramientas para tus proyectos industriales o residenciales.",
-    "subtitle": "Top 10 mejor calificados:"
+    "subtitle": "Top 10 mejor calificados:",
+    "auth": "¡AUTORIZACIÓN!",
+    "auth1": "¡Usuario no autorizado!"
   },
   "catalog": {
     "order": "Orden",
@@ -114,7 +116,8 @@
     "eliminar":"Eliminar producto definitivamente",
     "toast":"Producto eliminado",
     "toast1":"Problema al eliminar. Contacte al administrador",
-    "carga":"Cargando..."
+    "carga":"Cargando...",
+    "sin":"No hay pedidos para mostrar"
   },
   "newprod":{
     "title":"Crear Nuevo Producto",

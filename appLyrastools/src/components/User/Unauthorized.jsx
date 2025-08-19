@@ -1,7 +1,10 @@
 import React from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import { useTranslation } from 'react-i18next';
 export function Unauthorized() {
+  //Para la traducción
+  const { t } = useTranslation();
   return (
     <Container sx={{ p: 2 }} maxWidth="sm">
       <Typography
@@ -10,12 +13,8 @@ export function Unauthorized() {
         align="center"
         color="text.primary"
         gutterBottom
-      >
-        Autorizacion
-      </Typography>
-      <Typography variant="h5" align="center" color="text.secondary" paragraph>
-        Usuario no autorizado
-      </Typography>
+      >{t('home.auth')}</Typography>
+      <Typography variant="h5" align="center" color="text.secondary" paragraph>{t('home.auth1')}</Typography>
     </Container>
   );
 }

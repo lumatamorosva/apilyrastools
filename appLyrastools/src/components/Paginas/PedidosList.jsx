@@ -48,7 +48,7 @@ export default function PedidosList() {
         }};
     //Obtener lista del API
       useEffect(() => {cargar();}, []);
-    if (!loaded) return <p>{t('table.carga')}</p>;
+    if (!loaded) return <p>{t('table.sin')}</p>;
     if (error) return <p>Error: {error.message}</p>;
     //Para la función ver detalles
     const seeDetails = (id) => {return navigate(`/Paginas/Pedido/${id}`);};

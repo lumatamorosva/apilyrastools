@@ -27,7 +27,8 @@ import { Unauthorized } from "./components/User/Unauthorized";
 import { Login } from "./components/User/Login";
 import { Logout } from "./components/User/Logout";
 import { Signup } from "./components/User/Signup";
-import {CartProvider} from "./context/CartContext"
+import {CartProvider} from "./context/CartContext";
+import { Auth } from "./components/User/Auth";
 const rutas=createBrowserRouter(
   [
     {
@@ -48,27 +49,15 @@ const rutas=createBrowserRouter(
         {
           //Grupo 1
           path:'/',
-          //element: <Auth requiredRoles={['Cliente']} />,
+          element: <Auth requiredRoles={['1']}/>,
           children:[
             {
               path:'/product-table',
               element: <TableProducts />
             },
             {
-              path:'/Paginas/Reviews/',
-              element: <Reviews />
-            },
-            {
               path:'/Paginas/crear/',
               element: <CreateProducto />
-            },
-            {
-              path:'/Paginas/PedidosList/',
-              element: <PedidosList />
-            },
-            {
-              path:'/Paginas/Pedido/:idPedido',
-              element: <Pedido />
             },
             {
               path:'/Paginas/crearPromocion/',
@@ -77,10 +66,6 @@ const rutas=createBrowserRouter(
             {
               path:'/Paginas/crearReseña/:id/:name/',
               element: <CreateReview />
-            },
-            {
-              path:'/Paginas/ListPromociones/',
-              element: <ListPromociones />
             },
             {
               path:'/Paginas/updateProducto/:id',
@@ -93,8 +78,16 @@ const rutas=createBrowserRouter(
           ]
         },
         {
+          path:'/Paginas/Reviews/',
+          element: <Reviews />
+        },
+        {
           path: '/catalog-productos/',
           element: <CatalogProductos />,
+        },
+        {
+          path:'/Paginas/ListPromociones/',
+          element: <ListPromociones />
         },
         {
           path: '/rental/graph',
@@ -103,6 +96,14 @@ const rutas=createBrowserRouter(
         {
           path: '/rental/crear/',
           element: <CreateCarrito />,
+        },
+        {
+          path:'/Paginas/PedidosList/',
+          element: <PedidosList />
+        },
+        {
+          path:'/Paginas/Pedido/:idPedido',
+          element: <Pedido />
         },
         {
           path: '/unauthorized',
