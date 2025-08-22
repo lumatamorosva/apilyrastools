@@ -69,7 +69,8 @@ export default function Header() {
     {name: t('nav.op2'), link: "/Paginas/ListPromociones/", roles:null },
     {name: t('nav.op3'), link: "/Paginas/Reviews/", roles:null },
     {name: t('nav.op7'), link: "/Paginas/PedidosList/", roles:[1] },
-    {name: t('nav.op4'), link: "/product-table/", roles:[1,2] },
+    {name: t('nav.op8'), link: "/Paginas/Dashboard/", roles:[1] },
+    {name: t('nav.op4'), link: "/product-table/", roles:[1] },
   ];
   //Identificador menu principal
   const menuIdPrincipal = "menu-appbar";

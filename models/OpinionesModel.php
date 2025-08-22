@@ -19,6 +19,19 @@ class OpinionesModel
             handleException($e);
         }
     }
+        /*Obtener 3 más recientes */
+    public function getRecientes(){
+        try {
+            //Consulta sql
+			$vSql = "SELECT * FROM opiniones ORDER BY Fecha DESC LIMIT 3;";
+            //Ejecutar la consulta
+			$vResultado = $this->enlace->ExecuteSQL ($vSql);
+			// Retornar el objeto
+			return $vResultado;
+		} catch (Exception $e) {
+            handleException($e);
+        }
+    }
     /*Obtener reviews de un Producto*/
     public function get($id)
     {

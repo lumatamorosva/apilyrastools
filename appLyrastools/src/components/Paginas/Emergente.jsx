@@ -80,7 +80,7 @@ import { useTranslation } from 'react-i18next';
       if(opiniones){
         return opiniones;
       }
-    }
+ }
 
 //Traer la promoción
  function promocionDetalle(id,precio) {

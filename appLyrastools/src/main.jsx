@@ -14,6 +14,7 @@ import {Reviews} from "./components/Paginas/Reviews";
 import ListPromociones from "./components/Paginas/ListPromociones";
 import PedidosList from "./components/Paginas/PedidosList";
 import Pedido from "./components/Paginas/Pedido";
+import Dashboard from "./components/Paginas/Dashboard";
 import { CreateProducto } from "./components/Paginas/CreateProducto";
 import { CreateReview } from "./components/Paginas/CreateReview";
 import { CreatePromocion } from "./components/Paginas/CreatePromocion";
@@ -54,6 +55,10 @@ const rutas=createBrowserRouter(
             {
               path:'/product-table',
               element: <TableProducts />
+            },
+            {
+              path:'/Paginas/Dashboard/',
+              element: <Dashboard />
             },
             {
               path:'/Paginas/crear/',

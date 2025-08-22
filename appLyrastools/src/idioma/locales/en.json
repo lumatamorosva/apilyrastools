@@ -25,6 +25,7 @@
     "op5":"Notifications",
     "op6":"Shopping",
     "op7":"Orders",
+    "op8":"Dashboard",
     "login":"Login",
     "register":"Register",
     "logout":"Logout"

@@ -8,7 +8,7 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { useTranslation } from 'react-i18next';
 
-ReviewCard.propTypes = {data: PropTypes.array,field: PropTypes.object};
+ReviewCard.propTypes = {data: PropTypes.object,field: PropTypes.any};
       
 export function ReviewCard({data}) {
     //Para la traducción

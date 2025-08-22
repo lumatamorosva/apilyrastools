@@ -10,6 +10,21 @@ class PedidoService {
   getPedidosUsuario(Id){
     return axios.get(BASE_URL+'/'+Id);
   }
+  getVendidos() {
+    return axios.get(BASE_URL+'/getVendidos/');
+  }
+  getVendidosHoy() {
+    return axios.get(BASE_URL+'/getVendidosHoy/');
+  }
+  getTotalHoy() {
+    return axios.get(BASE_URL+'/getTotalHoy/');
+  }
+  getEstados() {
+    return axios.get(BASE_URL+'/getEstados/');
+  }
+  getTop3() {
+    return axios.get(BASE_URL+'/getTop3/');
+  }
   //Obtener pedido único
   getPedido(Id){
     return axios.get(BASE_URL+'/getPedido/'+Id);

@@ -6,6 +6,9 @@ class ReviewService {
   getOpiniones() {
     return axios.get(BASE_URL);
   }
+  getRecientes() {
+    return axios.get(BASE_URL+'/getRecientes/');
+  }
   //Obtener opiniones de un producto
   getById(ProductoId){
     return axios.get(BASE_URL+'/'+ProductoId);

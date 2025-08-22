@@ -15,6 +15,20 @@ class opiniones
             handleException($e);
         }
     }
+        //Traerlos las 3 más recientes
+    public function getRecientes()
+    {
+        try {
+            $response = new Response();
+            //Obtener el listado del Modelo
+            $genero = new OpinionesModel();
+            $result = $genero->getRecientes();
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
     //Traer de un producto
     public function get($param)
     {

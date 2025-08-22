@@ -3,7 +3,6 @@ import React from "react";
 import { Container, IconButton, Typography } from "@mui/material"; 
 import Grid from "@mui/material/Grid2"; 
 import Toolbar from "@mui/material/Toolbar"; 
-import TranslateIcon from '@mui/icons-material/Translate';
 import { useTranslation } from 'react-i18next';
 
 export function Footer({ t, changeLanguage} = useTranslation()) { 

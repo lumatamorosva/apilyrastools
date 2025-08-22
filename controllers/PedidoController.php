@@ -15,6 +15,76 @@ class pedido
             handleException($e);
         }
     }
+    //Traerlos vendidos
+    public function getVendidos()
+    {
+        try {
+            $response = new Response();
+            //Obtener el listado del Modelo
+            $res = new PedidoModel();
+            $result = $res->getVendidos();
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+        //Traerlos vendidos
+    public function getVendidosHoy()
+    {
+        try {
+            $response = new Response();
+            //Obtener el listado del Modelo
+            $res = new PedidoModel();
+            $result = $res->getVendidosHoy();
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+    //Traerlos total del día
+    public function getTotalHoy()
+    {
+        try {
+            $response = new Response();
+            //Obtener el listado del Modelo
+            $res = new PedidoModel();
+            $result = $res->getTotalHoy();
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+    //Traerlos estados de las facturas
+    public function getEstados()
+    {
+        try {
+            $response = new Response();
+            //Obtener el listado del Modelo
+            $res = new PedidoModel();
+            $result = $res->getEstados();
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+    //Traer Top3
+    public function gettop3()
+    {
+        try {
+            $response = new Response();
+            //Obtener el listado del Modelo
+            $res = new PedidoModel();
+            $result = $res->getTop();
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
     //Traer por usuario
     public function get($param)
     {

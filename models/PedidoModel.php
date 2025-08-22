@@ -39,6 +39,100 @@ class PedidoModel
             handleException($e);
         }
     }
+    /*Obtener pedidos vendidos*/
+    public function getVendidos()
+    {
+        try {
+            //Consulta sql
+			$vSql = "SELECT p.NombreProducto,COUNT(df.IdProducto) AS Cantidad FROM producto p
+                        JOIN detallefactura df ON p.IdProducto = df.IdProducto JOIN factura f ON df.IdFact = f.idFactura
+                        WHERE f.estado = 2 GROUP BY p.NombreProducto;";
+            //Ejecutar la consulta
+			$vResultado = $this->enlace->ExecuteSQL ( $vSql);
+			// Retornar el objeto
+            if ($vResultado && count($vResultado) > 0) {
+                return $vResultado;
+            } else {
+                throw new Exception("No se ha vendido ningún producto");}
+		} catch (Exception $e) {
+            handleException($e);
+        }
+    }
+    /*Obtener pedidos vendidos de hoy*/
+    public function getVendidosHoy()
+    {
+        try {
+            //Consulta sql
+			$vSql = "SELECT p.NombreProducto,COUNT(df.IdProducto) AS Cantidad FROM producto p
+                        JOIN detallefactura df ON p.IdProducto = df.IdProducto JOIN factura f ON df.IdFact = f.idFactura
+                        WHERE f.estado = 2 AND DATE(f.fechaPago) = CURDATE() GROUP BY p.NombreProducto;";
+            //Ejecutar la consulta
+			$vResultado = $this->enlace->ExecuteSQL ( $vSql);
+			// Retornar el objeto
+            if ($vResultado && count($vResultado) > 0) {
+                return $vResultado;
+            } else {
+                return [];}
+		} catch (Exception $e) {
+            handleException($e);
+        }
+    }
+        /*Obtener Top 3*/
+    public function getTop()
+    {
+        try {
+            //Consulta sql
+			$vSql = "SELECT p.NombreProducto,COUNT(df.IdProducto) AS CantidadVendida
+                        FROM producto p JOIN detallefactura df ON p.IdProducto = df.IdProducto
+                        GROUP BY p.IdProducto, p.NombreProducto ORDER BY CantidadVendida DESC
+                        LIMIT 3;";
+            //Ejecutar la consulta
+			$vResultado = $this->enlace->ExecuteSQL ( $vSql);
+			// Retornar el objeto
+            if ($vResultado && count($vResultado) > 0) {
+                return $vResultado;
+            } else {
+                return [];}
+		} catch (Exception $e) {
+            handleException($e);
+        }
+    }
+     /*Obtener pedidos de hoy por precio*/
+    public function getTotalHoy()
+    {
+        try {
+            //Consulta sql
+			$vSql = "SELECT f.idFactura,SUM(f.total) AS TotalFactura
+                    FROM factura f JOIN detallefactura df ON f.idFactura = df.IdFact
+                    WHERE f.estado = 2 AND f.fechaPago = CURDATE() GROUP BY f.idFactura;";
+            //Ejecutar la consulta
+			$vResultado = $this->enlace->ExecuteSQL ( $vSql);
+			// Retornar el objeto
+            if ($vResultado && count($vResultado) > 0) {
+                return $vResultado;
+            } else {
+                return [];}
+		} catch (Exception $e) {
+            handleException($e);
+        }
+    }
+         /*Obtener pedidos de hoy por precio*/
+    public function getEstados()
+    {
+        try {
+            //Consulta sql
+			$vSql = "SELECT estado, COUNT(*) AS cantidad FROM factura GROUP BY estado;";
+            //Ejecutar la consulta
+			$vResultado = $this->enlace->ExecuteSQL ( $vSql);
+			// Retornar el objeto
+            if ($vResultado && count($vResultado) > 0) {
+                return $vResultado;
+            } else {
+                throw new Exception("No hay facturas");}
+		} catch (Exception $e) {
+            handleException($e);
+        }
+    }
     /*Obtener una pedido*/
     public function getPedido($id)
     {
