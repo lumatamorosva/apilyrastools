@@ -31,7 +31,7 @@ export default function Dashboard() {
     const [vendidosHoy, setVendidosHoy]= useState({});
     const [totalHoy, setTotalHoy]= useState({});
     const [estados, setEstados]= useState({});
-    const estadosMap = {'0': 'Cancelado','1': 'Abierto','2': 'Pagado',};
+    const estadosMap = {'0': t('tableP.cancelada'),'1': t('tableP.abierta'),'2': t('tableP.pagada'),};
     const [top, setTop]= useState({});
     const [error, setError] = useState("");
     const [loaded, setLoaded] = useState(false);
@@ -65,17 +65,17 @@ export default function Dashboard() {
     if (error) return <p>Error: {error.message}</p>;
     return (
         <>
-            <Typography variant="h6" gutterBottom>{t('review.title')}</Typography>
+            <Typography variant="h6" gutterBottom>{t('dashboard.title')}</Typography>
             <Grid item spacing={1}>
                 <Grid item xs={12} md={6} >
                     <Paper elevation={3} style={{ padding: '1rem' }}>
-                    <Typography variant="h6">Productos vendidos por unidad:</Typography>
+                    <Typography variant="h6">{t('dashboard.vendidos')}</Typography>
                         <ResponsiveContainer width="100%" height={300}>
                             <BarChart data={vendidos}>
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="NombreProducto" />
                                 <YAxis />
-                                <Tooltip />
+                                <Tooltip formatter={(value, name) => [value, t('dashboard.cant')]}/>
                                 <Bar dataKey="Cantidad" fill="#498B97" />
                             </BarChart>
                         </ResponsiveContainer>
@@ -85,45 +85,45 @@ export default function Dashboard() {
                     {/* Columna izquierda */}
                     <Grid item xs={12} md={6}>
                         <Paper elevation={3} style={{ padding: '1rem' }}>
-                            <Typography variant="h6">Productos vendidos hoy:</Typography>
+                            <Typography variant="h6">{t('dashboard.vendidoshoy')}</Typography>
                             {vendidosHoy && vendidosHoy.length > 0? (<ResponsiveContainer width="100%" height={300} spacing={2}>
                                 <BarChart data={vendidosHoy}>
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey="NombreProducto" />
                                     <YAxis />
-                                    <Tooltip />
+                                    <Tooltip formatter={(value, name) => [value, t('dashboard.cant')]}/>
                                     <Bar dataKey="Cantidad" fill="#498B97" />
                                 </BarChart>
                             </ResponsiveContainer>): (<>
-                                <Typography variant="body1" align="center">No hay productos vendidos hoy.</Typography></>)}
+                                <Typography variant="body1" align="center">{t('dashboard.sin')}</Typography></>)}
                         </Paper>
                     </Grid>
                     {/* Columna derecha */}
                     <Grid item xs={12} md={6}>
                         <Paper elevation={3} style={{ padding: '1rem' }}>
-                            <Typography variant="h6">Facturas del día:</Typography>
+                            <Typography variant="h6">{t('dashboard.facts')}</Typography>
                             {totalHoy && totalHoy.lenght > 0 ? (<ResponsiveContainer width="100%" height={300}>
                                 <BarChart data={totalHoy}>
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey="idFactura" />
                                     <YAxis />
-                                    <Tooltip />
+                                    <Tooltip formatter={(value, name) => [value, t('dashboard.cant')]}/>
                                     <Bar dataKey="TotalFactura" fill="#498B97" />
                                 </BarChart>
                             </ResponsiveContainer>): (<>
-                            <Typography variant="body1" align="center">No hay productos vendidos hoy.</Typography></>)}
+                            <Typography variant="body1" align="center">{t('dashboard.sin')}</Typography></>)}
                         </Paper>
                     </Grid>
                 </Grid>
                 <Grid item xs={12} md={6} sx={{ mt: 3 }}>
                     <Paper elevation={3} style={{ padding: '1rem' }}>
-                    <Typography variant="h6">Estado de los pedidos:</Typography>
+                    <Typography variant="h6">{t('dashboard.estado')}</Typography>
                         <ResponsiveContainer width="100%" height={300}>
                             <BarChart data={estados}>
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="estado" />
                                 <YAxis />
-                                <Tooltip />
+                                <Tooltip formatter={(value, name) => [value, t('dashboard.cant')]}/>
                                 <Bar dataKey="cantidad" fill="#498B97" />
                             </BarChart>
                         </ResponsiveContainer>
@@ -134,13 +134,13 @@ export default function Dashboard() {
                     {/* Columna izquierda */}
                     <Grid item xs={12} md={6}>
                         <Paper elevation={3} style={{ padding: '1rem' }}>
-                            <Typography variant="h6">Top 3 productos más vendidos:</Typography>
+                            <Typography variant="h6">{t('dashboard.top3')}</Typography>
                             {top && (<ResponsiveContainer width="100%" height={300} spacing={2}>
                                 <BarChart data={top}>
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey="NombreProducto" />
                                     <YAxis />
-                                    <Tooltip />
+                                    <Tooltip formatter={(value, name) => [value, t('dashboard.cant')]}/>
                                     <Bar dataKey="CantidadVendida" fill="#498B97" />
                                 </BarChart>
                             </ResponsiveContainer>)}
@@ -149,7 +149,7 @@ export default function Dashboard() {
                     {/* Columna derecha */}
                     <Grid item xs={12} md={6}>
                         <Paper elevation={3} style={{ padding: '1rem' }}>
-                            <Typography variant="h6">últimas 3 reseñas:</Typography>
+                            <Typography variant="h6">{t('dashboard.ultimas')}</Typography>
                             <Box display="flex" sx={{maxHeight: '300px', overflowY:"auto", width:'100%'}} >
                                 <Grid display="block" sx={{width:'100%'}}>
                                     {opiniones1 && (opiniones1.map((item1) => (

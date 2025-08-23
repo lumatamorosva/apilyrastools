@@ -12,20 +12,27 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import UserService from '../../services/UserService';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useTranslation } from 'react-i18next';
+import { Paper } from '@mui/material';
 
 export function Signup() {
+    //Para la traducción
+    const { t } = useTranslation();
   const navigate = useNavigate();
   // Esquema de validación
   const loginSchema = yup.object({
-    id: yup.number().required('Se requiere una identificación'),
-    nombre: yup.string().required('El nombre es requerido'),
-    apellido: yup.string().required('El apellido es requerido'),
+    id: yup.number(t('registro.id1yup')).required(t('registro.idyup')),
+    nombre: yup.string().required(t('registro.nombreyup')),
+    apellido: yup.string().required(t('registro.apellidoyup')),
     fechaNacimiento: yup.date()
-              .typeError('La fecha no es valida')
-              .required('La fecha es requerida')
-              .max(new Date(), 'Fecha no permitida'),
-    userName: yup.string().required('El nombre de usuario es requerido'),
-    password: yup.string().required('La contraseña es requerida')
+              .typeError(t('registro.fechayup'))
+              .required(t('registro.fechayup2'))
+              .max(new Date(), t('registro.fechayup3')),
+    userName: yup.string().required(t('registro.useryup')),
+    password: yup.string().required(t('registro.useryup1'))
+              .min(8, t('registro.useryup2'))
+              .matches(/[A-Z]/, t('registro.useryup3'))
+              .matches(/\d/, t('registro.useryup4')),
   });
   const {
     control,
@@ -48,7 +55,7 @@ export function Signup() {
 
   const [error, setError] = useState(null);
   const notify = () =>
-    toast.success('Usuario registrado', {
+    toast.success(t('registro.toast'), {
       duration: 4000,
       position: 'top-center',
     });
@@ -64,18 +71,14 @@ export function Signup() {
       Password: DataForm.password
     };
     try {
-      console.log("Submitting: ");
-      console.log(payload);
       //Registrar usuario
       UserService.createUser(payload)
         .then((response) => {
-          console.log(response);
           notify();
           return navigate('/user/login/');
         })
         .catch((error) => {
           if (error instanceof SyntaxError) {
-            console.log(error);
             setError(error);
             throw new Error('Respuesta no válida del servidor');
           }
@@ -89,66 +92,77 @@ export function Signup() {
   const onError = (errors, e) => console.log(errors, e);
 
   if (error) return <p>Error: {error.message}</p>;
+
+    //Para la función regresar
+    const regresar = () => {return navigate('/user/login');};
+
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
         <Grid container spacing={1}>
           <Grid size={12} sm={12}>
-            <Typography variant="h5" gutterBottom>
-              Registrar Usuario
-            </Typography>
-          </Grid>
-          <Grid size={12} sm={12}>
-            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller name="id" control={control} render={({ field }) => (
-                  <TextField {...field} id="id" label="Número de indentificación:" error={Boolean(errors.id)} helperText={errors.id ? errors.id.message : ' '}/>
-                )}
-              />
-            </FormControl>
-          </Grid>
-          <Grid size={12} sm={6}>
-            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller name="nombre" control={control} render={({ field }) => (
-                  <TextField {...field} id="nombre" label="Nombre" error={Boolean(errors.nombre)} helperText={errors.nombre ? errors.nombre.message : ' '}/>
-                )}
-              />
-            </FormControl>
-          </Grid>
-          <Grid size={12} sm={6}>
-            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller name="apellido" control={control} render={({ field }) => (
-                  <TextField {...field} id="apellido" label="Apellido" error={Boolean(errors.apellido)} helperText={errors.apellido ? errors.apellido.message : ' '}/>
-                )}
-              />
-            </FormControl>
-          </Grid>
-          <Grid size={12} sm={6}>
-            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller name="fechaNacimiento" control={control} render={({ field }) => (
-                <TextField {...field} id="fechaNacimiento" label="Fecha de nacimiento" type="date"
-                  error={Boolean(errors.fechaNacimiento)} helperText={errors.fechaNacimiento?.message || ' '} />)}
-              />
-            </FormControl>
-          </Grid>
-          <Grid size={12} sm={6}>
-            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller name="userName" control={control} render={({ field }) => (
-                  <TextField {...field} id="userName" label="Nombre de usuario" error={Boolean(errors.userName)} helperText={errors.userName ? errors.userName.message : ' '}/>
-                )}
-              />
-            </FormControl>
-          </Grid>
-          <Grid size={12} sm={6}>
-            <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
-              <Controller name="password" control={control} render={({ field }) => (
-                  <TextField {...field} id="password" label="Contraseña" type="Password" error={Boolean(errors.password)}
-                    helperText={errors.password ? errors.password.message : ' '}/>
-                )}
-              />
-            </FormControl>
-          </Grid>
-          <Grid size={12} sm={12}>
-            <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }}>Crear usuario</Button>
+            <Typography variant="h5" gutterBottom>{t('registro.title')}</Typography>
+            <Grid container justifyContent="center" alignItems="center">
+              <Paper elevation={3} style={{ padding: 20 }}>
+                <Grid size={12} sm={12}>
+                  <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+                    <Controller name="id" control={control} render={({ field }) => (
+                        <TextField {...field} id="id" label={t('registro.id')} error={Boolean(errors.id)} helperText={errors.id ? errors.id.message : ' '}/>
+                      )}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid size={12} sm={6}>
+                  <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+                    <Controller name="nombre" control={control} render={({ field }) => (
+                        <TextField {...field} id="nombre" label={t('registro.nombre')} error={Boolean(errors.nombre)} helperText={errors.nombre ? errors.nombre.message : ' '}/>
+                      )}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid size={12} sm={6}>
+                  <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+                    <Controller name="apellido" control={control} render={({ field }) => (
+                        <TextField {...field} id="apellido" label={t('registro.apellido')} error={Boolean(errors.apellido)} helperText={errors.apellido ? errors.apellido.message : ' '}/>
+                      )}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid size={12} sm={6}>
+                  <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+                    <Controller name="fechaNacimiento" control={control} render={({ field }) => (
+                      <TextField {...field} id="fechaNacimiento" label={t('registro.fecha')} type="date"
+                        error={Boolean(errors.fechaNacimiento)} helperText={errors.fechaNacimiento?.message || ' '} />)}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid size={12} sm={6}>
+                  <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+                    <Controller name="userName" control={control} render={({ field }) => (
+                        <TextField {...field} id="userName" label={t('registro.user')} error={Boolean(errors.userName)} helperText={errors.userName ? errors.userName.message : ' '}/>
+                      )}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid size={12} sm={6}>
+                  <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+                    <Controller name="password" control={control} render={({ field }) => (
+                        <TextField {...field} id="password" label={t('registro.pass')} type="Password" error={Boolean(errors.password)}
+                          helperText={errors.password ? errors.password.message : ' '}/>
+                      )}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid container size={12} sm={12} justifyContent="center">
+                  <Button type="submit" variant="contained" color="secondary" sx={{ m: 1 }}>{t('registro.boton')}</Button>
+                </Grid>
+                <Grid container direction="column" alignItems="flex-end" marginTop={'25px'}>
+                  <Typography variant="standard" gutterBottom>{t('registro.title4')}</Typography>
+                  <Button onClick={() => regresar()} type="submit" variant="contained" color="secondary" sx={{ m: 1 }}>{t('registro.title2')}</Button>
+                </Grid>
+              </Paper>
+            </Grid>
           </Grid>
         </Grid>
       </form>

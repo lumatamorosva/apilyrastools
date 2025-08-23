@@ -22,7 +22,7 @@ export default function Header() {
   //Para la traducción
   const { t } = useTranslation();
   //Obtener usuario
-  const {user, decodeToken,autorize}= useContext(UserContext)
+  const {user, decodeToken}= useContext(UserContext)
   const [userData,setUserData]=useState(decodeToken())
   useEffect(()=>{setUserData(decodeToken())},[user]);
   console.log("Usuario en Header: " , userData);
