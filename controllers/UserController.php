@@ -66,4 +66,23 @@ class user
         //Dar respuesta
         $response->toJSON($result);
     }
+    //Para cambiar la contraseña
+    public function update()
+    {
+        try {
+            $request = new Request();
+            $inputJSON = $request->getJSON();
+            $usuario = new UserModel();
+            $result = $usuario->changePass($inputJSON);
+            $response = new Response();
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            error_log("❌ Excepción en el controlador: " . $e->getMessage());
+            http_response_code(500);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Error interno del servidor',
+            ]);
+        }
+    }
 }

@@ -24,15 +24,17 @@ export function Signup() {
     id: yup.number(t('registro.id1yup')).required(t('registro.idyup')),
     nombre: yup.string().required(t('registro.nombreyup')),
     apellido: yup.string().required(t('registro.apellidoyup')),
+    mail: yup.string().email(t('registro.apellidoyup')).required(t('registro.mailyup')),
     fechaNacimiento: yup.date()
               .typeError(t('registro.fechayup'))
               .required(t('registro.fechayup2'))
               .max(new Date(), t('registro.fechayup3')),
     userName: yup.string().required(t('registro.useryup')),
-    password: yup.string().required(t('registro.useryup1'))
-              .min(8, t('registro.useryup2'))
-              .matches(/[A-Z]/, t('registro.useryup3'))
-              .matches(/\d/, t('registro.useryup4')),
+    password: yup.string().required(t('registro.passyup1'))
+              .min(8, t('registro.passyup2'))
+              .matches(/[A-Z]/, t('registro.passyup3'))
+              .matches(/\d/, t('registro.passyup4'))
+              .matches(/[!@#$%^&*(),.?:{}|<>]/, t('registro.passyup5')),
   });
   const {
     control,
@@ -45,6 +47,7 @@ export function Signup() {
       id: '',
       nombre: '',
       apellido: '',
+      mail: '',
       fechaNacimiento: '',
       userName: '',
       password: ''
@@ -66,6 +69,7 @@ export function Signup() {
       Nombre: DataForm.nombre,
       Apellido: DataForm.apellido,
       FechaNacimiento: new Date(DataForm.fechaNacimiento).toISOString().split('T')[0],
+      Email: DataForm.mail,
       Tipo: 5,
       UserName: DataForm.userName,
       Password: DataForm.password
@@ -134,6 +138,14 @@ export function Signup() {
                     <Controller name="fechaNacimiento" control={control} render={({ field }) => (
                       <TextField {...field} id="fechaNacimiento" label={t('registro.fecha')} type="date"
                         error={Boolean(errors.fechaNacimiento)} helperText={errors.fechaNacimiento?.message || ' '} />)}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid size={12} sm={6}>
+                  <FormControl variant="standard" fullWidth sx={{ m: 1 }}>
+                    <Controller name="mail" control={control} render={({ field }) => (
+                        <TextField {...field} id="mail" label={t('registro.mail')} error={Boolean(errors.mail)} helperText={errors.mail ? errors.mail.message : ' '}/>
+                      )}
                     />
                   </FormControl>
                 </Grid>

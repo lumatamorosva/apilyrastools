@@ -17,6 +17,11 @@ class UserService {
   createUser(User) {
     return axios.post(BASE_URL, JSON.stringify(User));
   }
+  changing(User) {
+    console.log('Actualizando usuario:', User.password);
+    console.log(`${BASE_URL}/patch/${User.Id}`);
+    return axios.patch(BASE_URL + '/patch/'+ User.Id, JSON.stringify(User));
+  }
   loginUser(User) {
     return axios.post(BASE_URL + '/login/', JSON.stringify(User));
   }

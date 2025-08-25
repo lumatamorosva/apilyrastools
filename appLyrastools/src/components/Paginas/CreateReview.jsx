@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useContext, useEffect} from 'react';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
@@ -17,14 +17,18 @@ import Box from '@mui/material/Box';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { useTranslation } from 'react-i18next';
+import { UserContext } from '../../context/UserContext';
 
 export function CreateReview() {
     //Para la traducción
     const { t } = useTranslation();
+  //Obtener usuario
+  const {user, decodeToken}= useContext(UserContext)
+  const [userData,setUserData]=useState(decodeToken())
+  useEffect(()=>{setUserData(decodeToken())},[user]);
 
     const {id,name} = useParams();
     const navigate = useNavigate();
-    let formData=new FormData()
   // Esquema de validación
   const reviewSchema = yup.object({
     calificacion: yup
@@ -58,7 +62,7 @@ export function CreateReview() {
     //Para cambiar los nombres enviados en el Json
     const payload ={
       IdProducto: id,
-      IdCliente:  1, //Cambiar cuando haya login
+      IdCliente:  userData.id,
       Opinion: DataForm.opinion,
       Calificacion: DataForm.calificacion,
       Fecha: new Date().toISOString().split('T')[0]

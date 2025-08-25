@@ -61,6 +61,7 @@ export default function Header() {
   const userItems = [
     { name: t('nav.login'), link: "/user/login", login: false },
     { name: t('nav.register'), link: "/user/create", login: false },
+    { name: t('nav.pass'), link: "/user/change", login: true },
     { name: t('nav.logout'), link: "/user/logout", login: true },
   ];
   //Lista enlaces menu principal
@@ -68,7 +69,7 @@ export default function Header() {
     {name: t('nav.op1'), link: "/catalog-productos/", roles:null },
     {name: t('nav.op2'), link: "/Paginas/ListPromociones/", roles:null },
     {name: t('nav.op3'), link: "/Paginas/Reviews/", roles:null },
-    {name: t('nav.op7'), link: "/Paginas/PedidosList/", roles:[1] },
+    {name: t('nav.op7'), link: "/Paginas/PedidosList/", roles:[1,5] },
     {name: t('nav.op8'), link: "/Paginas/Dashboard/", roles:[1] },
     {name: t('nav.op4'), link: "/product-table/", roles:[1] },
   ];
@@ -92,11 +93,15 @@ export default function Header() {
     </Box>
   );
   //Menu Hamburguesa (Revisado)
-  const menuPrincipalMobile = navItems.map((page, index) => (
+const menuPrincipalMobile = navItems
+  .filter(page => page.roles === null || page.roles.includes(parseInt(userData?.rol)))
+  .map((page, index) => (
     <MenuItem key={index} component={Link} to={page.link} onClick={handleClosePrincipalMenu}>
-      <Typography sx={{ textAlign: "center", color:(theme) => theme.palette.getContrastText }}>{page.name}</Typography>
+      <Typography sx={{ textAlign: "center", color: (theme) => theme.palette.getContrastText }}>
+        {page.name}
+      </Typography>
     </MenuItem>
-  ));
+));
   //Identificador menu usuario
   const userMenuId = "user-menu";
   //Menu Usuario
@@ -120,23 +125,21 @@ export default function Header() {
         onClose={handleUserMenuClose}
       >
         {userData &&(
-          <MenuItem>
-            <Typography variant="subtitle1" gutterBottom>
-              {userData?.email}
-            </Typography>
+          <MenuItem onClick={handleUserMenuClose}>
+            <Typography variant="subtitle1" gutterBottom>{userData?.userName} </Typography>
           </MenuItem>
        )}
 
         {userItems.map((setting, index) =>  {
           //Verificar las opciones del usuario 
           if(setting.login && userData && Object.keys(userData).length >0){
-            return (<MenuItem key={index} component={Link} to={setting.link}>
-              <Typography sx={{ textAlign: 'center' }}>
+            return (<MenuItem key={index} component={Link} to={setting.link} onClick={handleUserMenuClose}>
+              <Typography sx={{ textAlign: 'center' }} >
                 {setting.name}
               </Typography>
             </MenuItem>)
           }else if(!setting.login && Object.keys(userData).length==0){
-            return (<MenuItem key={index} component={Link} to={setting.link}>
+            return (<MenuItem key={index} component={Link} to={setting.link} onClick={handleUserMenuClose}>
               <Typography sx={{ textAlign: 'center' }}>
                 {setting.name}
               </Typography>
@@ -167,24 +170,9 @@ export default function Header() {
     >
       <MenuItem>
         <IconButton size="large" color="inherit">
-          <Badge
-            badgeContent={getCountItems(cart)}
-            color="primary"
-            component={Link}
-            to="/rental/crear/"
-          >
-            <ShoppingCartIcon />
+          <Badge badgeContent={getCountItems(cart)} color="primary" component={Link} to="/rental/crear/" > <ShoppingCartIcon />
           </Badge>
         </IconButton>
-        <p>{t('nav.op6')}</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton size="large" color="inherit">
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>{t('nav.op5')}</p>
       </MenuItem>
     </Menu>
   );
@@ -235,16 +223,11 @@ export default function Header() {
           {/* Iconos */}
           <Box sx={{ display: 'flex', alignItems: "center", gap: 1 }} />
             <Box sx={{ display: { xs: "flex", md: "flex" } }}>
-              <IconButton >
+              {userData && (userData.rol == 1 || userData.rol == 5) && (<IconButton >
                 <Badge badgeContent={getCountItems(cart)}color="primary"component={Link}to="/rental/crear/"
                   ><ShoppingCartIcon sx={{color:(theme) => theme.palette.common.white}}/>
                 </Badge>
-              </IconButton>
-              <IconButton size="large" color="inherit">
-                <Badge badgeContent={1} sx={{color:(theme) => theme.palette.common.white}}>
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
+              </IconButton>)}
             </Box>
           <div>{userMenu}</div>
         </Toolbar>

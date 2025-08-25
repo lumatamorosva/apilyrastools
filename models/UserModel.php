@@ -107,8 +107,8 @@ class UserModel
 				$objeto->Password = $crypt;
 			}
 			//Consulta sql            
-			$vSql = "insert into usuario (IdUsuario,Nombre,Apellido,Tipo,FechaNacimiento,UserName,Password)" .
-				" values ($objeto->IdUsuario,'$objeto->Nombre','$objeto->Apellido',$objeto->Tipo,'$objeto->FechaNacimiento','$objeto->UserName','$objeto->Password')";
+			$vSql = "insert into usuario (IdUsuario,Nombre,Apellido,Correo,Tipo,FechaNacimiento,UserName,Password)" .
+				" values ($objeto->IdUsuario,'$objeto->Nombre','$objeto->Apellido','$objeto->Email',$objeto->Tipo,'$objeto->FechaNacimiento','$objeto->UserName','$objeto->Password')";
 				//Ejecutar la consulta
 			$vResultado = $this->enlace->executeSQL_DML_last($vSql);
 			error_log("Resultado de executeSQL_DML_last: " . print_r($vResultado, true));
@@ -116,6 +116,27 @@ class UserModel
 			return $this->get($vResultado);
 		} catch (Exception $e) {
 			handleException($e);
+		}
+	}
+//Cambiar password
+		public function changePass($objeto)
+	{
+		try {
+			if (isset($objeto->password) && $objeto->password != null) {
+				$crypt = password_hash($objeto->password, PASSWORD_BCRYPT);
+				$objeto->password = $crypt;
+			}
+			//Consulta sql            
+			$vSql = "update usuario set Password = '$objeto->password' where IdUsuario='$objeto->Id';";
+			var_dump($objeto);
+            echo $vSql; 
+			//Ejecutar la consulta
+			$vResultado = $this->enlace->executeSQL_DML_last($vSql);
+			// Retornar el objeto creado
+			return $this->get($objeto->Id);
+		} catch (Exception $e) {
+			error_log("❌ Excepción en UserModel: " . $e->getMessage());
+        throw $e;
 		}
 	}
 }

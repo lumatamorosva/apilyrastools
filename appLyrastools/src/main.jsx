@@ -26,6 +26,7 @@ import { GraphRetal } from "./components/Rental/GraphRental";
 import UserProvider from "./components/User/UserProvider";
 import { Unauthorized } from "./components/User/Unauthorized";
 import { Login } from "./components/User/Login";
+import { Change } from "./components/User/Change";
 import { Logout } from "./components/User/Logout";
 import { Signup } from "./components/User/Signup";
 import {CartProvider} from "./context/CartContext";
@@ -69,16 +70,22 @@ const rutas=createBrowserRouter(
               element: <CreatePromocion />
             },
             {
-              path:'/Paginas/crearReseña/:id/:name/',
-              element: <CreateReview />
-            },
-            {
               path:'/Paginas/updateProducto/:id',
               element: <UpdateProducto />
             },
             {
               path:'/Paginas/updatePromocion/:id',
               element: <UpdatePromocion />
+            },
+          ]
+        },
+        {
+          path:'/',
+          element: <Auth requiredRoles={['1','5']}/>,
+          children:[
+            {
+              path:'/Paginas/crearReseña/:id/:name/',
+              element: <CreateReview />
             },
           ]
         },
@@ -113,6 +120,10 @@ const rutas=createBrowserRouter(
         {
           path: '/unauthorized',
           element: <Unauthorized />
+        },
+        {
+          path: '/user/change',
+          element: <Change />
         },
         {
           path: '/user/login',
